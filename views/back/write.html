@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>文章调教</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Cononicoの文艺复兴" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+
+    <meta name="description" itemprop="description" content="Cononicoの个人博客" />
+    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/stylesheets/libs/bootstrap.min.css" />
+    <!--external css-->
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css" />
+    <!-- ueditor -->
+    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/bootstrap.min.js"></script>
+
+    <link rel='stylesheet' href='/stylesheets/back.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+
+</head>
+
+<body>
+    <div class="wirte-content">
+        <form action="/admin/pblog" method="post" id="blog-form">
+            <div class="wirte-div">
+                <div class="blog-title-div">
+                    <h1>文章调教</h1>
+                    <input id="blog-title-ipt" name="blog_title">
+                </div>
+                <script id="editor" type="text/plain" style="width:100%;height:600px;"></script>
+                <script>
+                    var ue = UE.getEditor('editor',{
+                    toolbars:[
+                        ['fullscreen', 'source', 'undo', 'redo','inserttitle','horizontal','simpleupload','insertimage','music','emotion',
+                        'spechars','backcolor','time','date','print','preview','help'],
+                        ['fontsize','bold', 'italic','forecolor','underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 
+                        'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',  'backcolor', 'insertorderedlist', 'insertunorderedlist', 'imagecenter',
+                        'lineheight','selectall', 'cleardoc','insertcode','paragraph'],
+                        ['formatmatch','insertframe','autotypeset','charts','inserttable','map','gmap','attachment','deleterow','deletecol', 
+                        'splittorows','splittocols','insertparagraphbeforetable']
+                    ],
+                    autoHeightEnabled: false,
+                    autoFloatEnabled: true
+                });
+                </script>
+            </div>
+            <div class="write-bar">
+                <div class="publish-opt-div">
+                    <div class="publish-opt-title-div">
+                        <h2>发布</h2>
+                    </div>
+                    <div class="publish-opt-btn-div">
+                        <button class="btn btn-default" type="button"   id="save-btn">保存草稿</button>
+                        <button class="btn  btn-primary" type="button" id="publish-btn">发布文章</button>
+                        <% if(edit) {%>
+                        <button class="btn  btn-primary" type="button" id="edit-btn">更新文章</button>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="publish-opt-div">
+                    <div class="publish-opt-title-div">
+                        <h2>分类</h2>
+                    </div>
+                    <div class="publish-opt-title-div">
+                        <ul class="classify-ul" id="classify-ul">
+                            <% for(var i = 0; i < classify.length; i++){ %>
+                            <li class="classify-li"><input class="classify-ipt" name="classify" type="radio" <% if(i==0) {%>checked<% } %> value="<%=classify[i].id %>" data-name="<%=classify[i].classify %>"/><span><%=classify[i].classify %></span></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <div class="publish-opt-btn-div">
+                        <div class="input-group">
+                            <input id="add-classify-ipt" type="text" class="form-control" placeholder="添加分类">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="add-classify" type="button">添加</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publish-opt-div">
+                    <div class="publish-opt-title-div">
+                        <h2>标签</h2>
+                    </div>
+                    <div class="publish-opt-btn-div">
+                        <div class="input-group">
+                            <input id="tags-ipt" type="text" class="form-control" placeholder="添加标签">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="add-tags" type="button">添加</button>
+                            </span>
+                        </div>
+                        <div class="tips-div">
+                            <p class="tips-p">多个标签请用英文逗号（,）分开</p>
+                        </div>
+                        <div id="tags-div"></div>                       
+                    </div>
+                </div>
+
+                <div class="publish-opt-div">
+                    <div class="publish-opt-title-div">
+                        <h2>文章特色图片</h2>
+                    </div>
+                     <div class="publish-opt-btn-div">
+                         <a>选择图片</a>
+                         <a>上传图片</a>
+                     </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+    
+    <script type="text/javascript" src="/javascripts/back/write.js"></script>
+</body>
+</html>

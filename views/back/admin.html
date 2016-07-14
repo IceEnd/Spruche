@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>站点调教</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Cononicoの文艺复兴" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+
+    <meta name="description" itemprop="description" content="Cononicoの个人博客" />
+    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+    
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/stylesheets/libs/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/libs/bootstrap-reset.css">
+    <!--external css-->
+    <link rel="stylesheet"  href="/assets/font-awesome/css/font-awesome.css"  />
+    
+    <link rel='stylesheet' href='/stylesheets/back.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+
+</head>
+
+<body>
+    <div id="container">
+        <header class="header white-bg">
+            <div class="sidebar-toggle-box">
+                <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+            </div>
+            <!--logo start-->
+            <a href="#" class="logo">Spru<span>Che</span></a>
+            <!--logo end-->
+            
+             <div class="top-nav ">
+                 <ul class="nav pull-right top-menu">
+                     <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <% if(user.headming){ %>
+                            <img alt="头像" src="<%=user.head_img %>">
+                            <% }else{ %> 
+                            <img alt="头像" src="/images/pic/head.jpg">
+                            <% } %>
+                            
+                            <span class="username"><%=user.username %></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li><a href="#"><i class=" icon-suitcase"></i>个人信息</a></li>
+                            <li><a href="#"><i class="icon-cog"></i> 设置</a></li>
+                            <li><a href="#"><i class="icon-bell-alt"></i> 消息</a></li>
+                            <li><a href="#"><i class="icon-key"></i> 登出</a></li>
+                        </ul>
+                    </li>
+                 </ul>
+             </div>
+        </header>
+        
+        <aside>
+            <div id="sidebar"  class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu">
+                  <li class="active menu-li menu-index" data-src="index">
+                      <a href="javascript:;">
+                          <i class="icon-dashboard"></i>
+                          <span>Dashboard</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;">
+                          <i class="icon-book"></i>
+                          <span>文章</span>
+                          <span class="arrow"></span>
+                      </a>
+                      <ul class="sub">
+                          <li class="sub-menu-li menu-allblog" data-src="allblog"><a>所有文章</a></li>
+                          <% if(user.type == 0){ %>
+                          <li class="sub-menu-li menu-write" data-src="write"><a>写文章</a></li>
+                          <% } %>
+                      </ul>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;">
+                          <i class="icon-music"></i>
+                          <span>多媒体</span>
+                          <span class="arrow"></span>
+                      </a>
+                      <ul class="sub">
+                          <li class="sub-menu-li menu-media" data-src="media"><a>媒体库</a></li>
+                          <% if(user.type == 0){ %>
+                          <li class="sub-menu-li medu-addmedia" data-src="addmedia"><a>添加</a></li>
+                          <% } %>
+                      </ul>
+                  </li>
+                  <% if(user.type == 0) { %>
+                  <li class="sub-menu">
+                      <a href="javascript:;">
+                          <i class="icon-comments-alt"></i>
+                          <span>评论</span>
+                          <span class="arrow"></span>
+                      </a>
+                      <ul class="sub">
+                          <li class="sub-menu-li menu-pcomments"  data-src="pcomments"><a>待审核评论</a></li>
+                          <li class="sub-menu-li menu-allcomments"  data-src="allcomments"><a>全部评论</a></li>
+                      </ul>
+                  </li>
+                  <% } %>
+                  <li class="sub-menu">
+                      <a href="javascript:;">
+                          <i class="icon-user"></i>
+                          <span>用户管理</span>
+                          <span class="arrow"></span>
+                      </a>
+                      <ul class="sub">
+                          <% if(user.type == 0) {%>
+                          <li class="sub-menu-li menu-userlist"  data-src="userlist"><a>用户列表</a></li>
+                          <% } %>
+                          <li class="sub-menu-li menu-userconfig"  data-src="userconfig"><a>个人设置</a></li>
+                      </ul>
+                  </li>
+                  <% if(user.type == 0) {%>
+                  <li class="menu-li menu-wsconfig"  data-src="wsconfig">
+                      <a class="javascripts:;">
+                          <i class="icon-cogs"></i>
+                          <span>站点设置</span>
+                      </a>
+                  </li>
+                  <% } %>
+              </ul>
+              <!-- sidebar menu end-->
+             </div>
+        </aside>
+
+        <div id="main-content">
+            <div class="wrapper" id="wrapper" onLoad="iframeHeight()">
+                <iframe id="content-iframe" frameborder="0" scrolling="no" src="">
+                   
+                </iframe>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.scrollTo.min.js"></script>
+    <script src="/javascripts/libs/bootstrap.min.js"></script>
+    <script src="/javascripts/back/admin.js"></script>
+</body>
+
+</html>

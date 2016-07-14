@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= title %></title>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Cononicoの文艺复兴"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+    
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.cookie.js"></script>
+  
+  </head>
+  <body>
+      <% include header.html %>
+      
+      <div class="login-main">
+          <div id="login-div">
+              <div class="login-form-div">
+                  <form class="login-form" id="login-form">   
+                     <div class="login-form-d login-form-d-f">
+                        <span class="login-username-icon"></span> 
+                        <input class="login-form-ipt" type="text" placeholder="用户名" name="username" id="username">
+                     </div>
+                     <div class="login-form-d login-form-d-f">
+                        <span class="login-password-icon"></span> 
+                        <input class="login-form-ipt" type="password" placeholder="密码" name="password" id="password">
+                     </div>
+                     <div class="login-form-d login-form-d-f">
+                         <input type="checkbox" name="remember" id="remember" class="remember"/>
+                         <h1 class="remember-h1">记住我</h1>
+                     </div>
+                      <div class="login-form-d">
+                         <button class="sure_btn" id="sure_btn">确认</button>
+                     </div>                
+                </form>
+              </div>
+          </div>
+      </div>
+      
+      <% include alert.html %>
+      <script type="text/javascript" src="/javascripts/common/util.js"></script>
+      <script type="text/javascript" src="/javascripts/front/login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= website.name %></title>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Cononicoの文艺复兴"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+    
+    <meta name="description" itemprop="description" content="Cononicoの个人博客" />
+    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+    
+  </head>
+  <body>
+    <% include header.html %>
+    <div class="page">
+        <section id="content" class="page-content">
+          <ul class="article-ul">
+            <!--文章列表-->
+            <% for(var i = 0; i < blogs.length; i++) { %>
+            <li class="article-li">
+              <article>
+                <div class="article-info-div">
+                  <div class="article-user-img-div float-left">
+                    <img src="<%=blogs[i].head_img %>">
+                  </div>
+                  <div class="vertical-line-div float-left">
+                    <div class="vertical-line"></div>
+                  </div>
+                  <div class="article-info float-left">
+                    <h3 class="article-title-h">
+                      <a href="/article/av<%=blogs[i].id %>"><%=blogs[i].title %></a>
+                    </h3>
+                    <div class="article-other-info">
+                      <span>
+                        <a class="article-author"><%= blogs[i].username %></a>
+                      </span>
+                      <span>
+                        <a class="article-comment-num"><%= blogs[i].comment_num %></a>
+                      </span>
+                      <span>
+                        <a class="article-view-num"><%= blogs[i].view_num %></a>
+                      </span>
+                      <span>
+                        <a class="article-date"><%= blogs[i].publish_date.getFullYear()+'-'+(blogs[i].publish_date.getMonth()+1)+'-'+blogs[i].publish_date.getDate() %></a>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <% if(blogs[i].img != ''){ %>
+                <div class="article-img-div">
+                  <img src="<%= blogs[i].img %>">
+                </div>
+                <% } %>  
+                <div class="article-summary-div">
+                  <p class="article-summary-p"><%=blogs[i].summary %></p>
+                </div>
+                <% if(blogs[i].tags != '') {%>
+                <div class="article-tags-div">
+                  <% var tags = blogs[i].tags.split(',') %>
+                  <% for(var tag = 0;tag < tags.length; tag++) { %>
+                  <a><%= tags[tag] %></a>
+                  <% }%>
+                </div>
+                <% } %>
+              </article>
+            </li>
+            <% } %>
+          </ul>
+        </section>
+    </div>
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/javascripts/front/index.js"></script>
+  </body>
+</html>
