@@ -22,7 +22,7 @@
     <% include header.html %>
     <div class="page">
         <section id="content" class="page-content">
-          <ul class="article-ul">
+          <ul class="article-ul" id="article-ul">
             <!--文章列表-->
             <% for(var i = 0; i < blogs.length; i++) { %>
             <li class="article-li">
@@ -36,19 +36,17 @@
                   </div>
                   <div class="article-info float-left">
                     <h3 class="article-title-h">
+                      <span class="shine-font-span"></span>
                       <a href="/article/av<%=blogs[i].id %>"><%=blogs[i].title %></a>
                     </h3>
                     <div class="article-other-info">
                       <span>
                         <a class="article-author"><%= blogs[i].username %></a>
-                      </span>
-                      <span>
-                        <a class="article-comment-num"><%= blogs[i].comment_num %></a>
-                      </span>
-                      <span>
-                        <a class="article-view-num"><%= blogs[i].view_num %></a>
-                      </span>
-                      <span>
+                      </span><span>
+                        <a class="article-comments-num" href="https://localhost/article/av<%= blogs[i].id %>#disqus_thread">0 Comment</a>
+                      </span><span>
+                        <a class="article-view-num"><%= blogs[i].view_num %> Views</a>
+                      </span><span>
                         <a class="article-date"><%= blogs[i].publish_date.getFullYear()+'-'+(blogs[i].publish_date.getMonth()+1)+'-'+blogs[i].publish_date.getDate() %></a>
                       </span>
                     </div>
@@ -61,7 +59,9 @@
                 </div>
                 <% } %>  
                 <div class="article-summary-div">
-                  <p class="article-summary-p"><%=blogs[i].summary %></p>
+                  <a href="/article/av<%=blogs[i].id %>">
+                    <p class="article-summary-p"><%=blogs[i].summary %></p>
+                  </a>
                 </div>
                 <% if(blogs[i].tags != '') {%>
                 <div class="article-tags-div">
@@ -71,13 +71,32 @@
                   <% }%>
                 </div>
                 <% } %>
+                <div class="horizontal-line-div">
+                  <div class="vertical-line"></div>
+                </div>
               </article>
             </li>
             <% } %>
           </ul>
+          <% if(blogs.length == 10){%>
+          <div class="load-more-btn-div">
+            <div class="load-more-btn-div-cnt" id="load-more-btn-div-cnt">
+              <span class="lode-more-shine load-more-shine-left"></span>
+              <span class="load-line"></span>
+              <a class="load-more-a" id="load-more-a">More</a>
+              <span class="load-line"></span>
+              <span class="lode-more-shine load-more-shine-right"></span>
+            </div>
+            <% include loading.html %>
+          </div>
+          <% } %>
         </section>
+        <% include alert.html %>
     </div>
+    <% include footer.html %>
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/javascripts/common/util.js"></script>
     <script type="text/javascript" src="/javascripts/front/index.js"></script>
+    <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>
   </body>
 </html>

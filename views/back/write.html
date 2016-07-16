@@ -29,6 +29,12 @@
     <link rel='stylesheet' href='/stylesheets/back.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
 
+    <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+    </script>
+
 </head>
 
 <body>
@@ -43,7 +49,7 @@
                 <script>
                     var ue = UE.getEditor('editor',{
                     toolbars:[
-                        ['fullscreen', 'source', 'undo', 'redo','inserttitle','horizontal','simpleupload','insertimage','music','emotion',
+                        ['fullscreen', 'source', 'undo', 'redo','inserttitle','horizontal','simpleupload','link','insertimage','music','emotion',
                         'spechars','backcolor','time','date','print','preview','help'],
                         ['fontsize','bold', 'italic','forecolor','underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 
                         'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|',  'backcolor', 'insertorderedlist', 'insertunorderedlist', 'imagecenter',

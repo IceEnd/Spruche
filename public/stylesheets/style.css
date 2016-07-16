@@ -114,6 +114,7 @@ html,body{
   height: 80px;
   margin: 0 auto;
   line-height: 80px;
+  cursor: pointer;
 }
 
 .head_logo{
@@ -125,6 +126,10 @@ html,body{
   border-right-color: #36c;
   border-bottom-color: #36c;
   box-sizing: border-box;
+  -webkit-transition: all ease 0.8s;
+  -moz-transition: all ease 0.8s;
+  -ms-transition: all ease 0.8s;
+  transition: all ease 0.8s;
 }
 
 .motto{
@@ -174,6 +179,31 @@ html,body{
   line-height: 36px;
   text-align: center;
   color: #e7e7e7;
+}
+
+.head_nav_div {
+  position: absolute;
+  display: none;
+  width: 50%;
+  right: 0;
+  height: 80px;
+  line-height: 80px;
+  top: 0;
+}
+
+.head_nav {
+  margin: 0 auto;
+}
+
+.head_nav ul li {
+  float: left;
+  margin-right: 55px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav_li_on {
+  color: red;
 }
 
 /* style of login */
@@ -357,11 +387,11 @@ html,body{
   max-width: 1170px;
   width: 70%;
   margin: 0 auto;
+  padding: 25px 35px;
 }
 
 .article-ul{
   overflow: hidden;
-  padding: 25px 35px;
 }
 
 .article-user-img-div{
@@ -425,15 +455,50 @@ html,body{
 }
 
 .article-title-h{
+  position: relative;
   padding-top: 8px;
   font-size: 24px;
   font-weight: normal;
   color: #232425;
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all ease-in-out 0.2s;
+  -moz-transition: all ease-in-out 0.2s;
+  -ms-transition: all ease-in-out 0.2s;
+}
+
+.shine-font-span{
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+  width: 10px;
+  left: -10px;
+  background-color: #ffffff;
+  transition: all 0.8s ease-in-out;
+  -webkit-transition: all ease-in-out 0.8s;
+  -moz-transition: all ease-in-out 0.8s;
+  -ms-transition: all ease-in-out 0.8s;
+}
+
+.article-title-h:hover{
+  letter-spacing:0.1em;
+}
+
+.article-title-h:hover .shine-font-span{
+  left: 100%;
 }
 
 .article-other-info{
   padding-top: 8px;
   padding-left: 5px;
+}
+
+.article-other-info span{
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.article-other-info span:last-child{
+  margin-right: 0;
 }
 
 .article-other-info span a{
@@ -473,7 +538,7 @@ html,body{
   content: '\f133';
 }
 
-.article-other-info span .article-comment-num::before{
+.article-other-info span .article-comments-num::before{
   content: '\f086';
 }
 
@@ -492,16 +557,13 @@ html,body{
 }
 
 .article-summary-div{
-  padding:20px 15px 5px 15px
+  padding:20px 15px 10px 15px
 }
 
 .article-summary-p{
   color: #666666;
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  line-height: 1.6;
 }
 
 .article-tags-div{
@@ -535,5 +597,194 @@ article-tags-div a:nth-child(3n+0){
 }
 
 .article-li{
-  margin-top: 40px;
+  margin-top: 50px;
+  position: relative;
+  -webkit-transition: all ease-out 0.8s;
+  -moz-transition: all ease-out 0.8s;
+  -ms-transition: all ease-out 0.8s;
+  transition: all ease-out 0.8s;
+}
+
+.article-li:first-child{
+  margin-top: 10px;
+}
+
+.article-li:nth-child(odd){
+  left: -100%;
+}
+
+.article-li:nth-child(even){
+  left: 200%;
+}
+
+.horizontal-line-div{
+  padding:30px 15px 0 15px;
+}
+
+.horizontal-line-div .vertical-line{
+  width: 100%;
+  height: 1px;
+  background: #D7d7d7;
+}
+
+.load-more-btn-div{
+  margin-top: 15px;
+  position: relative;
+  text-align: center;
+  line-height: 30px;
+  height: 110px;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt{
+  position: relative;
+  display: inline-block;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt .lode-more-shine{
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #ffffff;
+  transition: all 0.5s ease-in-out;
+  -webkit-transition: all ease-in-out 0.5s;
+  -moz-transition: all ease-in-out 0.5s;
+  -ms-transition: all ease-in-out 0.5s;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt .load-more-shine-left{
+  left: -3px;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt .load-more-shine-right{
+  right: -3px;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt .load-line{
+  position: relative;
+  top: -4px;
+  display: inline-block;
+  height: 1px;
+  width: 30px; 
+  background: #666666;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt .load-more-a{
+  margin: 0 5px;
+  font-size: 22px;
+  font-variant: small-caps;
+  cursor: pointer;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt:hover .load-more-shine-left{
+  left: 100%;
+}
+
+.load-more-btn-div .load-more-btn-div-cnt:hover .load-more-shine-right{
+  right: 100%;
+}
+
+.foot {
+    width: 100%;
+    background: #fff;
+    position: relative;
+    display: block;
+}
+
+.foot_power {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.foot_power h3 {
+    display: inline-block;
+    font-size: 16px;
+    color: #999;
+    font-weight: 400;
+}
+
+.foot_power h3 a {
+    color: #999;
+    font-weight: 400;
+}
+
+.article-content{
+  max-width: 1170px;
+  width: 70%;
+  margin: 0 auto;
+  padding: 25px 35px;
+}
+
+/*文章页面标签样式*/
+.article-content-div{
+  padding: 2em 0 1em 0;
+  line-height: 2em;
+  font-size:18px;
+  color: #444;
+}
+
+.article-content-div div{
+	margin:0 auto;
+}
+
+.article-content-div p,.article-content-div h1,.article-content-div h2,.article-content-div h3,.article-content-div h4,.article-content-div h5,.article-content-div h6{
+    margin: 1em 0;
+}	
+
+.article-content-div .wp-caption-text{
+    text-align: center;
+    color:cadetblue;
+}
+
+.article-content-div a{
+    color: blueviolet;
+    text-decoration: underline;
+}
+
+.article-content-div a:hover{
+    color: darkblue;
+}
+
+.article-content-div a:visited{
+    color: dimgrey;
+}
+
+.post-nav {
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.post-nav>div{
+  margin-bottom: 10px;
+}
+
+.post-nav .post-nav-prev-span,.post-nav .post-nav-next-span{
+  font-family: fontawesome;
+  line-height: 1.5em;
+  background-color: rgb(45, 154, 140);
+  color: #ffffff;
+  padding: 0.2em 0.3em;
+  cursor: pointer;
+  -webkit-transition: all ease 0.2s;
+  -moz-transition: all ease 0.2s;
+  -ms-transition: all ease 0.2s;
+  transition: all ease 0.2s;
+}
+
+.post-nav-prev-span::before{
+  content: '\f106';
+}
+
+.post-nav-next-span::before{
+  content: '\f107';
+}
+
+.post-nav-prev-span:hover,.post-nav-next-span:hover{
+  background-color: #e7e7e7;
+  color: #000000;
+}
+
+.post-nav .post-nav-a{
+  margin-left: 15px;
 }

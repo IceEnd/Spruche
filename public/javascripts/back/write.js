@@ -142,7 +142,7 @@
         blog.content = arr.join('\n');
         arr = [];
         arr.push(UE.getEditor('editor').getPlainTxt());
-        blog.summary = arr.join('\n');
+        blog.summary = (arr.join('\n')).substr(0,210) + '...';
         blog.tags = tags;
         blog.classify_name = $('.classify-ipt:checked').attr('data-name');
         blog.classify_id = $('.classify-ipt:checked').val();
