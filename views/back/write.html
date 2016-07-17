@@ -38,14 +38,22 @@
 </head>
 
 <body>
-    <div class="wirte-content">
+    <div class="wirte-content" id="write-content" data-type="<%=edit%>" <% if(edit){ %>data-id="<%=blog.id%>"<% } %>>
         <form action="/admin/pblog" method="post" id="blog-form">
             <div class="wirte-div">
                 <div class="blog-title-div">
                     <h1>文章调教</h1>
-                    <input id="blog-title-ipt" name="blog_title">
+                    <% if(edit){ %>
+                    <input id="blog-title-ipt" name="blog_title" value="<%=blog.title%>" > 
+                    <% }else{ %>
+                    <input id="blog-title-ipt" name="blog_title" > 
+                    <% } %>
                 </div>
+                <% if(edit){ %>
+                <textarea name="editor"  id="editor" style="width:100%;height:600px;"><%-blog.content%></textarea>
+                <% } else {%>
                 <script id="editor" type="text/plain" style="width:100%;height:600px;"></script>
+                <% } %>
                 <script>
                     var ue = UE.getEditor('editor',{
                     toolbars:[
@@ -58,8 +66,8 @@
                         'splittorows','splittocols','insertparagraphbeforetable']
                     ],
                     autoHeightEnabled: false,
-                    autoFloatEnabled: true
-                });
+                    autoFloatEnabled: true,
+                });   
                 </script>
             </div>
             <div class="write-bar">
@@ -68,10 +76,11 @@
                         <h2>发布</h2>
                     </div>
                     <div class="publish-opt-btn-div">
+                        <% if(edit) {%>
+                        <button class="btn  btn-primary" type="button" id="alter-btn">更新文章</button>
+                        <% } else {%>
                         <button class="btn btn-default" type="button"   id="save-btn">保存草稿</button>
                         <button class="btn  btn-primary" type="button" id="publish-btn">发布文章</button>
-                        <% if(edit) {%>
-                        <button class="btn  btn-primary" type="button" id="edit-btn">更新文章</button>
                         <% } %>
                     </div>
                 </div>
@@ -83,7 +92,11 @@
                     <div class="publish-opt-title-div">
                         <ul class="classify-ul" id="classify-ul">
                             <% for(var i = 0; i < classify.length; i++){ %>
+                            <% if(edit){ %>
+                            <li class="classify-li"><input class="classify-ipt" name="classify" type="radio" <% if((i+1) == blog.classify_id) {%>checked<% } %> value="<%=classify[i].id %>" data-name="<%=classify[i].classify %>"/><span><%=classify[i].classify %></span></li>
+                            <% } else {%>
                             <li class="classify-li"><input class="classify-ipt" name="classify" type="radio" <% if(i==0) {%>checked<% } %> value="<%=classify[i].id %>" data-name="<%=classify[i].classify %>"/><span><%=classify[i].classify %></span></li>
+                            <% } %>
                             <% } %>
                         </ul>
                     </div>
@@ -111,7 +124,14 @@
                         <div class="tips-div">
                             <p class="tips-p">多个标签请用英文逗号（,）分开</p>
                         </div>
-                        <div id="tags-div"></div>                       
+                        <div id="tags-div" <%if(edit){%> data-tags="<%=blog.tags%>" <%}%> >
+                            <%if(edit && blog.tags != ''){%>
+                            <%var tags = blog.tags.split(',');%>
+                            <% for(var t in tags){ %>
+                            <a class="tags-a"><span class="glyphicon glyphicon-remove remove-tags"></span><span class="tags-span"><%=tags[t]%></span></a>
+                            <% } %>
+                            <%}%>
+                        </div>                       
                     </div>
                 </div>
 

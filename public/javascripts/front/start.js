@@ -5,6 +5,8 @@
         $password = $('#password'),
         $rePassword = $('#rpassword'),
         $btn = $('#sure_btn');
+    
+    var domain = location.protocol + '//'+ location.hostname;
 
     $btn.bind('click', function () {
         if ($website.val() == '' || $username.val() == '' || $email.val() == '' || $password.val() == '' || $rePassword.val() == '') {
@@ -29,7 +31,8 @@
                     "website":$website.val(),
                     "username":$username.val(),
                     "email":$email.val(),
-                    "password":$password.val()
+                    "password":$password.val(),
+                    'domain':domain
                 },
                 success: function (data) {
                     if(data){

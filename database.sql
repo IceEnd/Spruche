@@ -102,6 +102,7 @@ CREATE TABLE website(
     email varchar(200),
     create_date DATETIME,
     state int not null,
+    domain varchar(500),
     PRIMARY KEY (id)
 )engine=innodb default CHARSET=utf8;
 

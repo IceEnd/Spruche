@@ -27,10 +27,10 @@ function getWebSite() {
 /**
  * 开通站点
  */
-function startWebSite(website,email,date) {
+function startWebSite(website,email,date,domain) {
     var defer = Q.defer();
     pool.getConnection(function (err,connection) {
-        connection.query('UPDATE website set name ="'+website+'",email = "'+email+'",create_date = "'+date+'",state = 1 where id = 1',function (err,result) {
+        connection.query('UPDATE website set name ="'+website+'",email = "'+email+'",create_date = "'+date+'", domain = "'+domain+'" ,state = 1 where id = 1',function (err,result) {
             if(!err){
                 defer.resolve(true);
             }

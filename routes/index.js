@@ -120,7 +120,7 @@ router.get('/login', function (req, res, next) {
 router.post('/start', function (req, res, next) {
   var date = util.formatDate(new Date());
   var img = '/images/pic/head.jpg';
-  websiteDao.startWebSite(req.body.website, req.body.email, date)
+  websiteDao.startWebSite(req.body.website, req.body.email, date, req.body.domain)
     .then(function (result) {
       if (result) {
         return usersDao.regUser(req.body.username, req.body.password, req.body.email, img, date, 0, 0);

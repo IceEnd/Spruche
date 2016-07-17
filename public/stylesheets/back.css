@@ -455,6 +455,68 @@ ul.sidebar-menu li ul.sub li a:hover, ul.sidebar-menu li ul.sub li.active a {
     padding: 2px 3px;
 }
 
+.article-other-info span {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.article-other-info span a {
+    margin: 2px 0;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.article-other-info span a::before {
+    font-family: fontawesome;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    margin: 0 5px 0 0;
+    background-color: #666666;
+    -webkit-background-size: 18px;
+    -moz-background-size: 18px;
+    background-size: 18px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-radius: 100px;
+    -webkit-transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -ms-transition: 0.2s ease all;
+    transition: 0.2s ease all;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.article-other-info span .article-author::before {
+    content: '\f007';
+}
+
+.article-other-info span .article-comments-num::before {
+    content: '\f086';
+}
+
+.article-other-info span .article-view-num::before {
+    content: '\f06e';
+}
+
+.article-other-info span .article-date::before {
+    content: '\f133';
+}
+
+.article-other-info span .article_edit::before {
+    content: '\f044';
+}
+
+.article-other-info span .article_delete::before {
+    content: "\f014";
+}
+
+.article-other-info span a:hover::before{
+  background-color: #DADADA;
+  color: #232425;
+}
 
 @media screen and (-webkit-min-device-pixel-ratio: 0){
     .dropdown-menu.extended {

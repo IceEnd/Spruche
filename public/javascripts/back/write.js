@@ -10,13 +10,30 @@
     var blog_form = $('#blog-form');
     var classify_ul = $('#classify-ul');
 
-    var save_btn = $('#save-btn');
-    var publish_btn = $('#publish-btn');
+    var save_btn = $('#save-btn'),
+        publish_btn = $('#publish-btn'),
+        alter_btn = $('#alter-btn');
 
+    var edit = false;
 
     var tags = [];
 
     var reg = /^,|,$/gi;
+
+    //初始化
+    function init() {
+        if($('#write-content').attr('data-type') == 'true'){
+            edit = true;
+        }
+        if(edit){
+            if($('#tags-div').attr('data-tags') != ''){
+                tags = $('#tags-div').attr('data-tags').split(',');
+            }
+        }
+        console.log(tags);
+    }
+
+    init();
 
     //添加标签
     add_tags.bind('click', function () {
@@ -109,6 +126,20 @@
         saveBlog(blog);
     })
 
+    //修改博客
+    alter_btn.bind('click',function () {
+        if (blog_title_ipt.val() == '') {
+            alert('请输入文章标题');
+            return;
+        }
+        var blog = getContent();
+        if (blog.content == '') {
+            alert('请输入文章内容');
+            return;
+        }
+        alterBlog(blog);
+    })
+
     //save博客
     function saveBlog(blog) {
         $.ajax({
@@ -133,6 +164,30 @@
         });
     }
 
+    //修改内容
+    function alterBlog(blog) {
+        $.ajax({
+            type:'POST',
+            url: '/admin/write/ablog',
+            dataType:'json',
+            traditional: true,
+            data: {
+                blog: JSON.stringify(blog)
+            },
+            success: function (data) {
+                if (data.type) {
+                    parent.location.reload();
+                }
+                else {
+                    alert('网络繁忙，请稍后再试...');
+                }
+            },
+            error: function (xhr, errorType, error) {
+                alert('网络繁忙，请稍后再试...');
+            }
+        });
+    }
+
     //封装博客内容
     function getContent() {
         var blog = {};
@@ -143,10 +198,15 @@
         arr = [];
         arr.push(UE.getEditor('editor').getPlainTxt());
         blog.summary = (arr.join('\n')).substr(0,210) + '...';
+        blog.summary = blog.summary.replace(/'/g,'&#39;');
+        blog.summary = blog.summary.replace(/"/g,'&#quot;');
         blog.tags = tags;
         blog.classify_name = $('.classify-ipt:checked').attr('data-name');
         blog.classify_id = $('.classify-ipt:checked').val();
         blog.img = '';
+        if(edit){
+            blog.id = $('#write-content').attr('data-id');
+        }
         return blog;
     }
 
