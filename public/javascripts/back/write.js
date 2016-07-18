@@ -197,15 +197,14 @@
         blog.content = arr.join('\n');
         arr = [];
         arr.push(UE.getEditor('editor').getPlainTxt());
-        blog.summary = (arr.join('\n')).substr(0,210) + '...';
-        blog.summary = blog.summary.replace(/'/g,'&#39;');
-        blog.summary = blog.summary.replace(/"/g,'&#quot;');
+        blog.summary = htmlspecialchars((arr.join('\n')).substr(0,210) + '...');
         blog.tags = tags;
         blog.classify_name = $('.classify-ipt:checked').attr('data-name');
         blog.classify_id = $('.classify-ipt:checked').val();
         blog.img = '';
         if(edit){
             blog.id = $('#write-content').attr('data-id');
+            blog.content = blog.content.replace(/\\/g,'/');
         }
         return blog;
     }
@@ -238,5 +237,15 @@
         }
         tags.splice(i, 1);
     }
+
+    function htmlspecialchars(str)    
+    {    
+        str = str.replace(/&/g, '&amp;');  
+        str = str.replace(/</g, '&lt;');  
+        str = str.replace(/>/g, '&gt;');  
+        str = str.replace(/"/g, '&quot;');  
+        str = str.replace(/'/g, '&#039;');  
+        return str;  
+    } 
 
 })($);

@@ -148,7 +148,7 @@ function getNext(id) {
  * 修改文章
  */
 function alterBlog(blog) {
-    var defer = Q.defer();
+    var defer = Q.defer();   
     var query = 'UPDATE blogs set title = "' + blog.title + '", content= \'' + blog.content + '\', summary = "' + blog.summary + '", tags = "' +
             (blog.tags.join(',')) + '", classify_name = "' + blog.classify_name + '", classify_id = ' + blog.classify_id + ', img = "' + blog.img + '" where id = '+blog.id;
     pool.getConnection(function (err, connection) {
