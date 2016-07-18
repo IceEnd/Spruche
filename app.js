@@ -15,8 +15,8 @@ var admin = require('./routes/admin');
 var ue = require('./routes/ueditor');
 
 var app = express();
-var accessLogStream = fs.createWriteStream('./logs/access.log', {flags: 'a'});
-var errorLogfile = fs.createWriteStream('./logs/error.log', {flags: 'a'});
+// var accessLogStream = fs.createWriteStream('./logs/access.log', {flags: 'a'});
+// var errorLogfile = fs.createWriteStream('./logs/error.log', {flags: 'a'});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +26,7 @@ app.engine('.html',require('ejs').__express);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(logger('combined', {stream: accessLogStream}));
+//app.use(logger('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -62,7 +62,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   var meta = '[' + new Date() + '] ' + req.url + '\n';
-  errorLogfile.write(meta + err.stack + '\n');
+//  errorLogfile.write(meta + err.stack + '\n');
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
