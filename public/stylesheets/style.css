@@ -457,6 +457,7 @@ html,body{
 
 .article-title-h{
   position: relative;
+  display: inline-block;
   padding-top: 8px;
   font-size: 24px;
   font-weight: normal;
@@ -626,6 +627,14 @@ article-tags-div a:nth-child(3n+0){
   width: 100%;
   height: 1px;
   background: #D7d7d7;
+  transition: all 0.2s ease;
+  -webkit-transition: all ease 0.5s;
+  -moz-transition: all ease 0.5s;
+  -ms-transition: all ease 0.5s;
+}
+
+.article-li:hover .horizontal-line-div .vertical-line{
+  background: #000000;
 }
 
 .load-more-btn-div{
