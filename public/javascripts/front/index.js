@@ -136,7 +136,7 @@
         }
 
         if(flag){
-            $('#head_logo_div').animate({'margin-left':'15%'},800,function () {
+            $('#head_logo_div').animate({'left':'20%'},800,function () {
                 $('#head_nav_div').fadeIn(500);
             });
             $('#head_logo').css({'top':'5px','width':'70px','height':'70px','border-width':'2px','transform':'rotate(360deg)'});
