@@ -93,8 +93,6 @@ router.get('/article/av*', function (req, res, next) {
           throw new Error('404');
         }
         else{
-          console.log(prev);
-          console.log(next);
           res.render('front/article', { website: website, blog: result[0], blogs:blogs,prev:prev,next:next });
         }
       })

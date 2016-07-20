@@ -47,7 +47,7 @@
                             '<h3 class="article-title-h"><span class="shine-font-span"></span><a href="/article/av'+blogs[b].id+'">'+blogs[b].title+'</a>'+
                             '</h3> <div class="article-other-info"><span><a class="article-author">'+blogs[b].username+'</a></span><span><a class="article-comments-num disqus-comment-count" data-disqus-url="'+PATH+
                             blogs[b].id+'" href="'+PATH+blogs[b].id+'#disqus_thread">0 Comment</a></span><span><a class="article-view-num">'+blogs[b].view_num+' Views</a></span><span><a class="article-date">'+
-                            (new Date(blogs[b].publish_date)).getFullYear()+'-'+((new Date(blogs[b].publish_date)).getMonth()+1)+'-'+(new Date(blogs[1].publish_date)).getDate()+'</a></span></div></div>'+
+                            (new Date(blogs[b].publish_date)).getFullYear()+'-'+((new Date(blogs[b].publish_date)).getMonth()+1)+'-'+(new Date(blogs[b].publish_date)).getDate()+'</a></span></div></div>'+
                             '<div class="clearfix"></div></div>';
 
 
