@@ -91,6 +91,10 @@ html,body{
   box-shadow: 0 0 5px 0 #333;
 }
 
+.mobile-head-main{
+  display: none;
+}
+
 .loading-div{
   position: fixed;
   top: 0;
@@ -797,4 +801,95 @@ article-tags-div a:nth-child(3n+0){
 
 .post-nav .post-nav-a{
   margin-left: 15px;
+}
+
+
+@media(max-width:  768px){
+  .head-main{
+    display: none;
+  }
+
+  .mobile-head-main{
+    display: block;
+  }
+
+  .mobile-menu{
+    z-index: 100;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #e5e5e5;
+    color: #5c5c5c;
+  }
+
+  .get-menu-icon,.home-menu-icon{
+    position: absolute;
+    font-family: fontawesome;
+    line-height: 50px;
+    font-weight: lighter;
+    color: #666666;
+  }
+
+  .get-menu-icon{
+    font-size: 20px;
+    left:4%;
+  }
+
+  .home-menu-icon{
+    font-size: 25px;
+    right: 4%;
+  }
+
+  .get-menu-icon::before{
+    content: '\f0c9';
+  }
+
+  .home-menu-icon::before{
+    content:'\f015';
+  }
+
+  .website-h3{
+    display: inline-block;
+    line-height: 50px;
+    font-weight: lighter;
+  }
+
+  .mobile-nav{
+    z-index: 101;
+    position: fixed;
+    left: -60%;
+    width: 60%;
+    height: 100%;
+    padding-top: 10px;
+    background-color: #3d454d;
+  }
+
+  .mobile-head-logo{
+    display: block;
+    width: 50%;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 3px solid #f93;
+    border-right-color: #36c;
+    border-bottom-color: #36c;
+  }
+
+  .motto-h5{
+    text-align: center;
+    margin-top: 10px;
+    color: #d7d7d7;
+    font-size: 10px;
+    font-weight: lighter;
+  }
+
+  .mobile-head-nav-div{
+    margin-top: 16px;
+  }
+
+  .mobile-nav-ul li{
+    text-align: center;
+    color: #e7e7e7;
+  }
 }

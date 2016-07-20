@@ -49,13 +49,12 @@ router.get('/', function (req, res, next) {
 /* 加载更多文章 */
 router.post('/loadmoreav', function (req, res, next) {
   var page = parseInt(req.body.page);
-  var blogs;
   blogsDao.getBlogByPage(page * 10, 10)
     .then(function (result) {
       res.send({ type: true, blogs: result });
     })
     .catch(function (error) {
-      res.send({ type: false })
+      res.send({ type: false, error:error })
     })
 });
 
