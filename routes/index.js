@@ -54,7 +54,7 @@ router.post('/loadmoreav', function (req, res, next) {
       res.send({ type: true, blogs: result });
     })
     .catch(function (error) {
-      res.send({ type: false, error:error })
+      res.send({ type: false, error: error })
     })
 });
 
@@ -62,7 +62,7 @@ router.post('/loadmoreav', function (req, res, next) {
 router.get('/article/av*', function (req, res, next) {
   var reg = /\/article\/av\d+/gi;
   var flag = true;
-  var url = req.originalUrl, article_id, website,blogs,prev,next;
+  var url = req.originalUrl, article_id, website, blogs, prev, next;
   article_id = reg.exec(url);
   if (article_id) {
     article_id = article_id[0].substr(11);
@@ -89,11 +89,11 @@ router.get('/article/av*', function (req, res, next) {
         return blogsDao.getBlogByID(article_id);
       })
       .then(function (result) {
-        if(result.length == 0){
+        if (result.length == 0) {
           throw new Error('404');
         }
-        else{
-          res.renderPjax('front/article', { website: website, blog: result[0], blogs:blogs,prev:prev,next:next });
+        else {
+          res.renderPjax('front/article', { website: website, blog: result[0], blogs: blogs, prev: prev, next: next });
         }
       })
       .catch(function (error) {
@@ -110,7 +110,10 @@ router.get('/article/av*', function (req, res, next) {
 
 /* login */
 router.get('/login', function (req, res, next) {
-  res.render('front/login', { title: 'Login' });
+  websiteDao.getWebSite()
+    .then(function (result) {
+      res.render('front/login', { title: 'Login', website: result[0] });
+    })
 });
 
 /* 开通站点 */

@@ -12,4 +12,5 @@ $(document).on('pjax:end', function() {
   $('#progress-bar').animate({'width': '100%'},function () {
     $('#progress-bar').css({'width':'0'});
   });
+  SyntaxHighlighter.highlight();
 });
