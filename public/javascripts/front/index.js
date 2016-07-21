@@ -1,4 +1,5 @@
 (function ($) {
+
     var loadMoreBtn = $('#load-more-a'),
         loadMoreBtnDiv = $('#load-more-btn-div-cnt'),
         loading = $('#loding-div'),
@@ -23,9 +24,12 @@
     init();
 
     //点击加载更多
-    loadMoreBtn.bind('click',function () {
-        loadMoreBtnDiv.css("display","none");
-        loading.css('display','block');
+//    loadMoreBtn.bind('click',function () {
+    $('#container').on('click','#load-more-a',function () {
+        //loadMoreBtnDiv.css("display","none");
+        $('#load-more-btn-div-cnt').css("display","none");
+        //loading.css('display','block');
+        $('#loding-div').css("display","block");
         $.ajax({
             type: 'POST',
             url: '/loadmoreav',
@@ -38,14 +42,15 @@
                 if(data.type){
                     var blogs = data.blogs;
                     page++;
-                    loading.css('display','none');
+                    //loading.css('display','none');
+                    $('#loding-div').css('display','none');
                     var htmlStr = '';
                     for(var b in blogs){
                         htmlStr += '<li class="article-li"><article><div class="article-info-div"><div class="article-user-img-div float-left"><img src="'+
                             blogs[b].head_img+'"></div><div class="vertical-line-div float-left"><div class="vertical-line"></div></div><div class="article-info float-left">'+
-                            '<h3 class="article-title-h"><span class="shine-font-span"></span><a href="/article/av'+blogs[b].id+'">'+blogs[b].title+'</a>'+
+                            '<h3 class="article-title-h"><span class="shine-font-span"></span><a href="/article/av'+blogs[b].id+'" data-pjax="true">'+blogs[b].title+'</a>'+
                             '</h3> <div class="article-other-info"><span><a class="article-author">'+blogs[b].username+'</a></span><span><a class="article-comments-num disqus-comment-count" data-disqus-url="'+PATH+
-                            blogs[b].id+'" href="'+PATH+blogs[b].id+'#disqus_thread">0 Comment</a></span><span><a class="article-view-num">'+blogs[b].view_num+' Views</a></span><span><a class="article-date">'+
+                            blogs[b].id+'" href="'+PATH+blogs[b].id+'#disqus_thread" data-pjax="true">0 Comments</a></span><span><a class="article-view-num">'+blogs[b].view_num+' Views</a></span><span><a class="article-date">'+
                             (new Date(blogs[b].publish_date)).getFullYear()+'-'+((new Date(blogs[b].publish_date)).getMonth()+1)+'-'+(new Date(blogs[b].publish_date)).getDate()+'</a></span></div></div>'+
                             '<div class="clearfix"></div></div>';
 
@@ -54,7 +59,7 @@
                             htmlStr += '<div class="article-img-div"><img src="'+blogs[b].img+'"></div>';
                         }
 
-                        htmlStr += '<div class="article-summary-div"><a href="/article/av'+blogs[b].id+'"><p class="article-summary-p">'+
+                        htmlStr += '<div class="article-summary-div"><a href="/article/av'+blogs[b].id+'" data-pjax="true"><p class="article-summary-p">'+
                             blogs[b].summary+'</p></a></div>';
 
                         if(blogs[b].tags != ''){
@@ -68,24 +73,29 @@
 
                         htmlStr += '<div class="horizontal-line-div"><div class="vertical-line"></div></div></article></li>';
                     }  
-                    article_ul.append(htmlStr);
-
+                    //article_ul.append(htmlStr);
+                    $('#article-ul').append(htmlStr);
                     if(blogs.length == 10){
-                        loadMoreBtnDiv.css('display','inline-block');
+                        //loadMoreBtnDiv.css('display','inline-block');
+                        $('#load-more-btn-div-cnt').css('display','inline-block');
                     }
                     article_li = $('.article-li');
                     getCommentCount();
                 }
                 else{
                     myAlert('网络繁忙，请稍后再试...');
-                    loading.css('display','none');
-                    loadMoreBtnDiv.css('display','inline-block');
+                    //loading.css('display','none');
+                    $('#loding-div').css('display','none');
+                    //loadMoreBtnDiv.css('display','inline-block');
+                    $('#load-more-btn-div-cnt').css('display','inline-block');
                 }
             },
             error: function (xhr, errorType, error) {
                 myAlert('网络繁忙，请稍后再试...');
-                loading.css('display','none');
-                loadMoreBtnDiv.css('display','inline-block');
+                //loading.css('display','none');
+                 $('#loding-div').css('display','none');
+                //loadMoreBtnDiv.css('display','inline-block');
+                $('#load-more-btn-div-cnt').css('display','inline-block');
             }
         });
     });
@@ -123,8 +133,9 @@
     // //IE/Opera/Chrome
     // window.onmousewheel=document.onmousewheel=scrollFunc; 
 
-    $(window).bind("scroll", function(){ 
+    $(window).on("scroll", function(){ 
         //当滚动条滚动时
+        article_li = $('.article-li');
         h = window.innerHeight;
         for(var i in article_li){             
             s_top=$(document).scrollTop();

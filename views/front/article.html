@@ -39,13 +39,13 @@
                       <div class="article-info float-left">
                         <h3 class="article-title-h">
                           <span class="shine-font-span"></span>
-                          <a href="/article/av<%=blog.id %>"><%=blog.title %></a>
+                          <a href="/article/av<%=blog.id %>" data-pjax="true"><%=blog.title %></a>
                         </h3>
                         <div class="article-other-info">
                           <span>
-                             <a class="article-author"><%= blog.username %></a>
+                             <a class="article-author" data-pjax="true"><%= blog.username %></a>
                           </span><span>
-                            <a class="article-comments-num" href="/article/av<%=blog.id%>#disqus_thread">0 Comments</a>
+                            <a class="article-comments-num" href="/article/av<%=blog.id%>#disqus_thread" data-pjax="true">0 Comments</a>
                           </span><span>
                             <a class="article-view-num"><%= blog.view_num %> Views</a>
                           </span><span>
@@ -62,13 +62,13 @@
                        <% if(prev.length != 0){ %>
                        <div>
                            <span class="post-nav-prev-span">上一篇</span>
-                           <a class="post-nav-a" href="/article/av<%= prev[0].id %>"><%= prev[0].title %></a>
+                           <a class="post-nav-a" href="/article/av<%= prev[0].id %>" data-pjax="true"><%= prev[0].title %></a>
                        </div>
                        <% } %>
                        <% if(next.length != 0){ %>
                        <div>
                            <span class="post-nav-next-span">下一篇</span>
-                           <a class="post-nav-a" href="/article/av<%= next[0].id %>"><%= next[0].title %></a>
+                           <a class="post-nav-a" href="/article/av<%= next[0].id %>" data-pjax="true"><%= next[0].title %></a>
                        </div>
                        <% } %>
                     </nav>

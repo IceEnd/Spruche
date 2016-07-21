@@ -1,4 +1,4 @@
-$(document).pjax('a[href!="/"]', '#container',{fragment:'#container'});
+$(document).pjax('a[data-pjax="true"]', '#container',{fragment:'#container'});
 $(document).on('pjax:beforeSend', function(){
   $('#progress-bar').animate({'width':'20%'});
 });

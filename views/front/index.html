@@ -16,9 +16,9 @@
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
-    
   </head>
   <body>
+
     <% include header.html %>
     <div id="container">
       <div class="page">
@@ -38,13 +38,13 @@
                     <div class="article-info float-left">
                       <h3 class="article-title-h">
                         <span class="shine-font-span"></span>
-                        <a href="/article/av<%=blogs[i].id %>"><%=blogs[i].title %></a>
+                        <a href="/article/av<%=blogs[i].id %>" data-pjax="true"><%=blogs[i].title %></a>
                       </h3>
                       <div class="article-other-info">
                         <span>
                           <a class="article-author"><%= blogs[i].username %></a>
                         </span><span>
-                          <a class="article-comments-num" href="/article/av<%= blogs[i].id %>#disqus_thread">0 Comment</a>
+                          <a class="article-comments-num" href="/article/av<%= blogs[i].id %>#disqus_thread" data-pjax="true">0 Comment</a>
                         </span><span>
                           <a class="article-view-num"><%= blogs[i].view_num %> Views</a>
                         </span><span>
@@ -60,7 +60,7 @@
                   </div>
                   <% } %>
                   <div class="article-summary-div">
-                    <a href="/article/av<%=blogs[i].id %>">
+                    <a href="/article/av<%=blogs[i].id %>" data-pjax="true">
                       <p class="article-summary-p"><%=blogs[i].summary %></p>
                     </a>
                   </div>
@@ -97,10 +97,10 @@
     <% include alert.html %>
     <% include footer.html %> 
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
-    <script src="/javascripts/libs/jquery.pjax.js"></script>
-    <script src="/javascripts/front/pjax-loading.js"></script>
     <script type="text/javascript" src="/javascripts/common/util.js"></script>
     <script type="text/javascript" src="/javascripts/front/index.js"></script>
     <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>
+    <script src="/javascripts/libs/jquery.pjax.js"></script>
+    <script src="/javascripts/front/pjax-loading.js"></script>
   </body>
 </html>
