@@ -17,6 +17,7 @@
     "mysql": "latest",
     "q": "latest",
     "crypto": "latest",
-    "ueditor": "latest"
+    "ueditor": "latest",
+    "express-pjax":"latest"
   }
 }

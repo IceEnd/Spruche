@@ -20,81 +20,85 @@
   </head>
   <body>
     <% include header.html %>
-    <div class="page">
-        <section id="content" class="page-content">
-          <ul class="article-ul" id="article-ul">
-            <!--文章列表-->
-            <% for(var i = 0; i < blogs.length; i++) { %>
-            <li class="article-li">
-              <article>
-                <div class="article-info-div">
-                  <div class="article-user-img-div float-left">
-                    <img src="<%=blogs[i].head_img %>">
+    <div id="container">
+      <div class="page">
+          <section id="content" class="page-content">
+            <ul class="article-ul" id="article-ul">
+              <!--文章列表-->
+              <% for(var i = 0; i < blogs.length; i++) { %>
+              <li class="article-li">
+                <article>
+                  <div class="article-info-div">
+                    <div class="article-user-img-div float-left">
+                      <img src="<%=blogs[i].head_img %>">
+                    </div>
+                    <div class="vertical-line-div float-left">
+                      <div class="vertical-line"></div>
+                    </div>
+                    <div class="article-info float-left">
+                      <h3 class="article-title-h">
+                        <span class="shine-font-span"></span>
+                        <a href="/article/av<%=blogs[i].id %>"><%=blogs[i].title %></a>
+                      </h3>
+                      <div class="article-other-info">
+                        <span>
+                          <a class="article-author"><%= blogs[i].username %></a>
+                        </span><span>
+                          <a class="article-comments-num" href="/article/av<%= blogs[i].id %>#disqus_thread">0 Comment</a>
+                        </span><span>
+                          <a class="article-view-num"><%= blogs[i].view_num %> Views</a>
+                        </span><span>
+                          <a class="article-date"><%= blogs[i].publish_date.getFullYear()+'-'+(blogs[i].publish_date.getMonth()+1)+'-'+blogs[i].publish_date.getDate() %></a>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
                   </div>
-                  <div class="vertical-line-div float-left">
+                  <% if(blogs[i].img != ''){ %>
+                  <div class="article-img-div">
+                    <img src="<%= blogs[i].img %>">
+                  </div>
+                  <% } %>
+                  <div class="article-summary-div">
+                    <a href="/article/av<%=blogs[i].id %>">
+                      <p class="article-summary-p"><%=blogs[i].summary %></p>
+                    </a>
+                  </div>
+                  <% if(blogs[i].tags != '') {%>
+                  <div class="article-tags-div">
+                    <% var tags = blogs[i].tags.split(',') %>
+                    <% for(var tag = 0;tag < tags.length; tag++) { %>
+                    <a><%= tags[tag] %></a>
+                    <% }%>
+                  </div>
+                  <% } %>
+                  <div class="horizontal-line-div">
                     <div class="vertical-line"></div>
                   </div>
-                  <div class="article-info float-left">
-                    <h3 class="article-title-h">
-                      <span class="shine-font-span"></span>
-                      <a href="/article/av<%=blogs[i].id %>"><%=blogs[i].title %></a>
-                    </h3>
-                    <div class="article-other-info">
-                      <span>
-                        <a class="article-author"><%= blogs[i].username %></a>
-                      </span><span>
-                        <a class="article-comments-num" href="/article/av<%= blogs[i].id %>#disqus_thread">0 Comment</a>
-                      </span><span>
-                        <a class="article-view-num"><%= blogs[i].view_num %> Views</a>
-                      </span><span>
-                        <a class="article-date"><%= blogs[i].publish_date.getFullYear()+'-'+(blogs[i].publish_date.getMonth()+1)+'-'+blogs[i].publish_date.getDate() %></a>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-                <% if(blogs[i].img != ''){ %>
-                <div class="article-img-div">
-                  <img src="<%= blogs[i].img %>">
-                </div>
-                <% } %>  
-                <div class="article-summary-div">
-                  <a href="/article/av<%=blogs[i].id %>">
-                    <p class="article-summary-p"><%=blogs[i].summary %></p>
-                  </a>
-                </div>
-                <% if(blogs[i].tags != '') {%>
-                <div class="article-tags-div">
-                  <% var tags = blogs[i].tags.split(',') %>
-                  <% for(var tag = 0;tag < tags.length; tag++) { %>
-                  <a><%= tags[tag] %></a>
-                  <% }%>
-                </div>
-                <% } %>
-                <div class="horizontal-line-div">
-                  <div class="vertical-line"></div>
-                </div>
-              </article>
-            </li>
-            <% } %>
-          </ul>
-          <% if(blogs.length == 10){%>
-          <div class="load-more-btn-div">
-            <div class="load-more-btn-div-cnt" id="load-more-btn-div-cnt">
-              <span class="lode-more-shine load-more-shine-left"></span>
-              <span class="load-line"></span>
-              <a class="load-more-a" id="load-more-a">More</a>
-              <span class="load-line"></span>
-              <span class="lode-more-shine load-more-shine-right"></span>
+                </article>
+              </li>
+              <% } %>
+            </ul>
+            <% if(blogs.length == 10){%>
+            <div class="load-more-btn-div">
+              <div class="load-more-btn-div-cnt" id="load-more-btn-div-cnt">
+                <span class="lode-more-shine load-more-shine-left"></span>
+                <span class="load-line"></span>
+                <a class="load-more-a" id="load-more-a">More</a>
+                <span class="load-line"></span>
+                <span class="lode-more-shine load-more-shine-right"></span>
+              </div>
+              <% include loading.html %>
             </div>
-            <% include loading.html %>
-          </div>
-          <% } %>
-        </section>
-        <% include alert.html %>
+            <% } %>
+          </section>
+      </div>
     </div>
+    <% include alert.html %>
     <% include footer.html %> 
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.pjax.js"></script>
+    <script src="/javascripts/front/pjax-loading.js"></script>
     <script type="text/javascript" src="/javascripts/common/util.js"></script>
     <script type="text/javascript" src="/javascripts/front/index.js"></script>
     <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>

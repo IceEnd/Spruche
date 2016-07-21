@@ -60,12 +60,12 @@ router.post('/loadmoreav', function (req, res, next) {
 
 /* 获取文章 */
 router.get('/article/av*', function (req, res, next) {
-  var reg = /av\d+$/gi;
+  var reg = /\/article\/av\d+/gi;
   var flag = true;
   var url = req.originalUrl, article_id, website,blogs,prev,next;
   article_id = reg.exec(url);
   if (article_id) {
-    article_id = article_id[0].substr(2);
+    article_id = article_id[0].substr(11);
   }
   else {
     flag = false;
@@ -93,7 +93,7 @@ router.get('/article/av*', function (req, res, next) {
           throw new Error('404');
         }
         else{
-          res.render('front/article', { website: website, blog: result[0], blogs:blogs,prev:prev,next:next });
+          res.renderPjax('front/article', { website: website, blog: result[0], blogs:blogs,prev:prev,next:next });
         }
       })
       .catch(function (error) {

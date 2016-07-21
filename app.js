@@ -8,6 +8,7 @@ var mysql = require('mysql');
 var fs = require('fs');
 var crypto = require('crypto');
 var ueditor = require("ueditor");
+var pjax = require("express-pjax");
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -31,6 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(pjax());
 
 app.use('/', routes);
 app.use('/users', users);

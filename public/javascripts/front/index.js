@@ -21,7 +21,6 @@
         }
     }
     init();
-    
 
     //点击加载更多
     loadMoreBtn.bind('click',function () {
