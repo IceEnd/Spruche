@@ -96,6 +96,7 @@ html,body{
 }
 
 .loading-div{
+  z-index: 999;
   position: fixed;
   width: 100%;
   top: 0;
@@ -107,7 +108,7 @@ html,body{
   top: 0;
   left: 0;
   height: 2px;
-  background: #77b6ff;
+  background: #FF66FF;
   box-shadow: 0 0 10px rgba(119,182,255,0.7);
 }
 
@@ -890,7 +891,7 @@ article-tags-div a:nth-child(3n+0){
   }
 
   .mobile-nav-ul li{
-    text-align: center;
     color: #e7e7e7;
+    padding: 5px 0 5px 20%;
   }
 }

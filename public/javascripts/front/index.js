@@ -14,7 +14,7 @@
     function init(){
         h = window.innerHeight;
         s_top=document.documentElement.scrollTop;
-        for(var i in article_li){
+        for(var i = 0; i < article_li.length; i++){
             t = article_li[i].offsetTop - s_top;
             if((t-h) < -50){
                 article_li[i].style.left = '0';
@@ -79,7 +79,7 @@
                         //loadMoreBtnDiv.css('display','inline-block');
                         $('#load-more-btn-div-cnt').css('display','inline-block');
                     }
-                    article_li = $('.article-li');
+                    showArticle();
                     getCommentCount();
                 }
                 else{
@@ -135,15 +135,7 @@
 
     $(window).on("scroll", function(){ 
         //当滚动条滚动时
-        article_li = $('.article-li');
-        h = window.innerHeight;
-        for(var i in article_li){             
-            s_top=$(document).scrollTop();
-            t = article_li[i].offsetTop - s_top;
-            if((t-h) < -50){
-                article_li[i].style.left = '0';
-            }
-        }
+        showArticle();
 
         if(flag){
             $('#head_logo_div').animate({'left':'20%'},800,function () {
@@ -155,6 +147,18 @@
             flag = false;
         }
     });
+
+    function showArticle() {
+        article_li = $('.article-li');
+        h = window.innerHeight;
+        for(var i = 0; i < article_li.length; i++){             
+            s_top=$(document).scrollTop();
+            t = article_li[i].offsetTop - s_top;
+            if((t-h) < -50){
+                article_li[i].style.left = '0';
+            }
+        }
+    }
 
     //获取DISQUS评论个数
     function getCommentCount() {

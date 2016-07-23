@@ -18,10 +18,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
 
     <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
-    <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
-    <script type="text/javascript">
-          SyntaxHighlighter.all();
-    </script>
   </head>
   <body>
       <% include header.html %>
@@ -101,5 +97,19 @@
       <script type="text/javascript" src="/javascripts/common/util.js"></script>
       <script type="text/javascript" src="/javascripts/front/index.js"></script>
       <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>
+      <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+      <script type="text/javascript">
+          SyntaxHighlighter.highlight();
+          $("table.syntaxhighlighter").each(function () {
+            if (!$(this).hasClass("nogutter")) {
+                var $gutter = $($(this).find(".gutter")[0]);
+                var $codeLines = $($(this).find(".code .line"));
+                $gutter.find(".line").each(function (i) {
+                    $(this).height($($codeLines[i]).height());
+                    $($codeLines[i]).height($($codeLines[i]).height());
+                });
+            }
+        });
+    </script>
   </body>
 </html>
