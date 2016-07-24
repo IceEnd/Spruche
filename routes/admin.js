@@ -30,6 +30,27 @@ router.get('/', function (req, res, next) {
     }
 });
 
+router.get('/index', function (req, res, next) {
+    var user, type = 0;
+    if (req.cookies.uid && req.cookies.type == 0) {
+        usersDao.getUserById(req.cookies.uid)
+            .then(function (result) {
+                if (result.length != 0) {
+                    user = result[0];
+                    if (user.type == 0) {
+                        res.render('back/index', { user: user });
+                    }
+                }
+                else {
+                    res.redirect('../login');
+                }
+            });
+    }
+    else {
+        res.redirect('../login');
+    }
+});
+
 /* 写博客 */
 router.get('/write', function (req, res, next) {
     var user, type = 0;

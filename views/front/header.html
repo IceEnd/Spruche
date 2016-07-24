@@ -10,7 +10,9 @@
   <div class="head_nav_div" id="head_nav_div">
       <nav class="head_nav">
         <ul id="nav_ul">
-            <li class="nav_li_on nav_ul_li">Home</li>
+            <a href="/">
+                <li class="nav_li_on nav_ul_li">Home</li>
+            </a>
             <li class="nav_ul_li">Article</li> 
             <li class="nav_ul_li">Q&A</li>
             <li class="nav_ul_li">About</li>
@@ -25,12 +27,12 @@
 
 <header class="mobile-head-main">
     <div class="mobile-menu">
-        <a class="get-menu-icon"></a>
+        <a class="get-menu-icon" id="get-menu-icon"></a>
         <h3 class="website-h3"><%=website.name%></h3>
         <a class="home-menu-icon" href="/"></a>
     </div>
 
-    <div class="mobile-nav">
+    <div class="mobile-nav" id="mobile-nav">
         <div class="mobile-head-logo-div">
             <img class="mobile-head-logo" src="/images/pic/head.jpg">
             <h5 class="motto-h5">千里之行,始于足下</h5>

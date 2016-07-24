@@ -1,15 +1,11 @@
 (function ($) {
 
-    var loadMoreBtn = $('#load-more-a'),
-        loadMoreBtnDiv = $('#load-more-btn-div-cnt'),
-        loading = $('#loding-div'),
-        article_ul = $('#article-ul'),
-        article_li = $('.article-li');
+    var article_li = $('.article-li');
 
     var PATH = location.protocol + '//' + location.hostname + '/article/av';
 
     var page = 1,h,t,s_top;
-    var flag = true;
+    var flag = true,menu_none = true;
     //初始化
     function init(){
         h = window.innerHeight;
@@ -24,11 +20,8 @@
     init();
 
     //点击加载更多
-//    loadMoreBtn.bind('click',function () {
     $('#container').on('click','#load-more-a',function () {
-        //loadMoreBtnDiv.css("display","none");
         $('#load-more-btn-div-cnt').css("display","none");
-        //loading.css('display','block');
         $('#loding-div').css("display","block");
         $.ajax({
             type: 'POST',
@@ -42,7 +35,6 @@
                 if(data.type){
                     var blogs = data.blogs;
                     page++;
-                    //loading.css('display','none');
                     $('#loding-div').css('display','none');
                     var htmlStr = '';
                     for(var b in blogs){
@@ -73,10 +65,8 @@
 
                         htmlStr += '<div class="horizontal-line-div"><div class="vertical-line"></div></div></article></li>';
                     }  
-                    //article_ul.append(htmlStr);
                     $('#article-ul').append(htmlStr);
                     if(blogs.length == 10){
-                        //loadMoreBtnDiv.css('display','inline-block');
                         $('#load-more-btn-div-cnt').css('display','inline-block');
                     }
                     showArticle();
@@ -84,17 +74,13 @@
                 }
                 else{
                     myAlert('网络繁忙，请稍后再试...');
-                    //loading.css('display','none');
                     $('#loding-div').css('display','none');
-                    //loadMoreBtnDiv.css('display','inline-block');
                     $('#load-more-btn-div-cnt').css('display','inline-block');
                 }
             },
             error: function (xhr, errorType, error) {
                 myAlert('网络繁忙，请稍后再试...');
-                //loading.css('display','none');
                  $('#loding-div').css('display','none');
-                //loadMoreBtnDiv.css('display','inline-block');
                 $('#load-more-btn-div-cnt').css('display','inline-block');
             }
         });
@@ -159,6 +145,38 @@
             }
         }
     }
+
+    //菜单弹出
+    function showMenu(){
+        $('#mobile-nav').stop(true.false).animate({'left':'0'},200);    
+    }
+    function hiddenMenu(){
+        $('#mobile-nav').stop(true.false).animate({'left':'-60%'},200);         
+    }
+
+    $('#get-menu-icon').bind('click',function (e) {
+        stopPropagation(e); 
+        if(menu_none){
+            showMenu();
+            menu_none = false;
+        } 
+    });
+
+    $(document).bind('click', function() {  
+        hiddenMenu(); 
+        menu_none = true; 
+    });
+
+    $('#mobile-nav').bind('click', function(e) {  
+        stopPropagation(e);   
+    });
+
+    function stopPropagation(e) {  
+        if (e.stopPropagation)  
+            e.stopPropagation();  
+        else  
+            e.cancelBubble = true;  
+    }  
 
     //获取DISQUS评论个数
     function getCommentCount() {
