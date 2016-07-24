@@ -161,4 +161,16 @@ router.post('/ulogin', function (req, res, next) {
     });
 });
 
+/* 留言板 */
+router.get('/messageboard', function (req, res, next) {
+  websiteDao.getWebSite()
+    .then(function (result) {
+      res.render('front/messageboard',{website: result});
+    })
+    .catch(function (error) {
+      res.render('error', { message: 404, error: error });
+    })
+
+})
+
 module.exports = router;

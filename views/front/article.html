@@ -25,31 +25,31 @@
           <div class="page article-page">
               <section id="content" class="article-content">
                   <article>
-                      <div class="article-info-div">
-                      <div class="article-user-img-div float-left">
-                        <img src="<%=blog.head_img %>">
-                      </div>
-                      <div class="vertical-line-div float-left">
-                        <div class="vertical-line"></div>
-                      </div>
-                      <div class="article-info float-left">
-                        <h3 class="article-title-h">
-                          <span class="shine-font-span"></span>
-                          <a href="/article/av<%=blog.id %>" data-pjax="true"><%=blog.title %></a>
-                        </h3>
-                        <div class="article-other-info">
-                          <span>
-                             <a class="article-author" data-pjax="true"><%= blog.username %></a>
-                          </span><span>
-                            <a class="article-comments-num" href="/article/av<%=blog.id%>#disqus_thread" data-pjax="true">0 Comments</a>
-                          </span><span>
-                            <a class="article-view-num"><%= blog.view_num %> Views</a>
-                          </span><span>
-                            <a class="article-date"><%= blog.publish_date.getFullYear()+'-'+(blog.publish_date.getMonth()+1)+'-'+blog.publish_date.getDate() %></a>
-                          </span>
+                    <div class="article-info-div">
+                        <div class="article-user-img-div float-left">
+                          <img src="<%=blog.head_img %>">
                         </div>
-                      </div>
-                      <div class="clearfix"></div>
+                        <div class="vertical-line-div float-left">
+                          <div class="vertical-line"></div>
+                        </div>
+                        <div class="article-info float-left">
+                          <h3 class="article-title-h">
+                            <span class="shine-font-span"></span>
+                            <a href="/article/av<%=blog.id %>" data-pjax="true"><%=blog.title %></a>
+                          </h3>
+                          <div class="article-other-info">
+                            <span>
+                              <a class="article-author" data-pjax="true"><%= blog.username %></a>
+                            </span><span>
+                              <a class="article-comments-num" href="/article/av<%=blog.id%>#disqus_thread" data-pjax="true">0 Comments</a>
+                            </span><span>
+                              <a class="article-view-num"><%= blog.view_num %> Views</a>
+                            </span><span>
+                              <a class="article-date"><%= blog.publish_date.getFullYear()+'-'+(blog.publish_date.getMonth()+1)+'-'+blog.publish_date.getDate() %></a>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="article-content-div">
                         <%- blog.content %>
