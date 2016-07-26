@@ -14,9 +14,9 @@ var privateKey  = fs.readFileSync('./ssl/node.key', 'utf8');
 var certificate = fs.readFileSync('./ssl/node.crt', 'utf8');
 
 var credentials = {
-  key: privateKey, 
-  cert: certificate,
-  passphrase: 'mdf1994108'
+  key: privateKey,                 //key
+  cert: certificate,               //cert
+  passphrase: '**********'         //password
 };
 
 /**
