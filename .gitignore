@@ -3,3 +3,5 @@
 /typings/
 /public/upload/images/
 /.idea/
+/database/
+/bin/www
