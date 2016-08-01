@@ -192,7 +192,7 @@ html,body{
   position: absolute;
   display: none;
   width: 50%;
-  right: 0;
+  right: 12%;
   height: 80px;
   line-height: 80px;
   top: 0;
@@ -203,7 +203,7 @@ html,body{
 }
 
 .head_nav ul li {
-  float: left;
+  float: right;
   margin-right: 55px;
   cursor: pointer;
   font-size: 16px;
@@ -807,6 +807,12 @@ article-tags-div a:nth-child(3n+0){
   margin-left: 15px;
 }
 
+@media(max-width: 1080px){
+  .head_nav_div{
+    width: 70%;
+    right: 5%;
+  }
+}
 
 @media(max-width:  768px){
   .head-main{

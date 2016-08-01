@@ -1,6 +1,7 @@
 (function ($) {
 
     var article_li = $('.article-li');
+    var nav_ul_li = $('.nav_ul_li');
 
     var PATH = location.protocol + '//' + location.hostname + '/article/av';
 
@@ -86,38 +87,7 @@
         });
     });
 
-     closeAlert();
-
-    //  var scrollFunc=function(e){ 
-    //     h = window.innerHeight;
-    //     e=e || window.event;
-    //     if(e.wheelDelta){
-    //         //IE/Opera/Chrome     
-    //         for(var i in article_li){
-    //             s_top=document.body.scrollTop;
-    //             t = article_li[i].offsetTop - s_top;
-    //             if((t-h) < -200){
-    //                 article_li[i].style.left = '0';
-    //             }
-    //         }
-    //     }else if(e.detail){
-    //         //Firefox 
-    //         for(var i in article_li){
-    //             s_top=document.documentElement.scrollTop;
-    //             t = article_li[i].offsetTop - s_top;
-    //             if((t-h) < -200){ 
-    //                 article_li[i].style.left = '0';
-    //             }
-    //         }
-    //     } 
-    // } 
-    // //注册事件
-    // if(document.addEventListener){ 
-    //     document.addEventListener('DOMMouseScroll',scrollFunc,false); 
-    // }
-    // //W3C 
-    // //IE/Opera/Chrome
-    // window.onmousewheel=document.onmousewheel=scrollFunc; 
+    closeAlert();
 
     $(window).on("scroll", function(){ 
         //当滚动条滚动时
