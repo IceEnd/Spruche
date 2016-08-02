@@ -151,7 +151,6 @@ router.post('/write/ablog', function (req, res, next) {
             res.end();
         })
         .catch(function (error) {
-            console.log(error);
             res.send({ type: false });
             res.end();
         });
@@ -209,7 +208,7 @@ router.get('/editarticle', function (req, res, next) {
             })
             .then(function (result) {
                 classify = result;
-                return blogsDao.getBlogByID(req.query.id);
+                return blogsDao.getBlogByID(req.query.id,true);
             })
             .then(function (result) {
                 res.render('back/write', { classify: classify, edit: true, blog: result[0] });

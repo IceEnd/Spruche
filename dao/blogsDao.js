@@ -47,10 +47,16 @@ function getBlogByPage(start, amount) {
 /**
  * 获取文章
  */
-function getBlogByID(id) {
+function getBlogByID(id,flag) {
     var defer = Q.defer();
+    var str;
+    if(flag){
+        str = 'select a.*,b.email,b.head_img from blogs as a left join users as b on (a.user_id = b.id) WHERE (a.state = 0 or a.state = 1) AND a.id = ' + id;
+    }else {
+        str = 'select a.*,b.email,b.head_img from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.id = ' + id;
+    }
     pool.getConnection(function (err, connection) {
-        connection.query('select a.*,b.email,b.head_img from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.id = ' + id, function (err, result) {
+        connection.query(str, function (err, result) {
             if (!err) {
                 defer.resolve(result);
             }
@@ -90,7 +96,7 @@ function addViewNum(id) {
 function getAllBlogInfo() {
     var defer = Q.defer();
     pool.getConnection(function (err, connection) {
-        connection.query('select id,title,username,classify_name,tags,view_num,publish_date from blogs where state = 0 group by id desc', function (err, result) {
+        connection.query('select id,title,username,classify_name,tags,view_num,publish_date from blogs where state = 0 or state = 1 group by id desc', function (err, result) {
             if (!err) {
                 defer.resolve(result);
             }
@@ -150,7 +156,13 @@ function getNext(id) {
 function alterBlog(blog) {
     var defer = Q.defer();   
     var query = 'UPDATE blogs set title = "' + blog.title + '", content= \'' + blog.content + '\', summary = "' + blog.summary + '", tags = "' +
-            (blog.tags.join(',')) + '", classify_name = "' + blog.classify_name + '", classify_id = ' + blog.classify_id + ', img = "' + blog.img + '" where id = '+blog.id;
+            (blog.tags.join(',')) + '", classify_name = "' + blog.classify_name + '", classify_id = ' + blog.classify_id + ', img = "' + blog.img + '"';
+    if(typeof blog.state === 'undefined'){
+        query += ' where id = '+blog.id;
+    }
+    else{
+        query += ', state = ' + blog.state + ' where id = '+blog.id;
+    }
     pool.getConnection(function (err, connection) {
         connection.query(query, function (err, result) {
                 if (!err) {

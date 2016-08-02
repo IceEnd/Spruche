@@ -12,7 +12,8 @@
 
     var save_btn = $('#save-btn'),
         publish_btn = $('#publish-btn'),
-        alter_btn = $('#alter-btn');
+        alter_btn = $('#alter-btn'),
+        update_btn = $('#update-btn');
 
     var edit = false;
 
@@ -124,7 +125,7 @@
         }
         blog.state = 1;
         saveBlog(blog);
-    })
+    });
 
     //修改博客
     alter_btn.bind('click',function () {
@@ -138,7 +139,22 @@
             return;
         }
         alterBlog(blog);
-    })
+    });
+
+    //更新发布
+    update_btn.bind('click',function () {
+        if (blog_title_ipt.val() == '') {
+            alert('请输入文章标题');
+            return;
+        }
+        var blog = getContent();
+        if (blog.content == '') {
+            alert('请输入文章内容');
+            return;
+        }
+        blog.state = 0;
+        alterBlog(blog);
+    });
 
     //save博客
     function saveBlog(blog) {

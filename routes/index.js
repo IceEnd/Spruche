@@ -86,7 +86,7 @@ router.get('/article/av*', function (req, res, next) {
         return blogsDao.addViewNum(article_id);
       })
       .then(function (result) {
-        return blogsDao.getBlogByID(article_id);
+        return blogsDao.getBlogByID(article_id,false);
       })
       .then(function (result) {
         if (result.length == 0) {

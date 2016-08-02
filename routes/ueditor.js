@@ -7,7 +7,6 @@ router.get('/ueditor', function (req, res, next) {
     if (req.query.action === 'uploadimage') {
         var foo = req.ueditor;
         var imgname = req.ueditor.filename;
-        console.log(imgname);
         var img_url = '/upload/images/';
         //你只要输入要保存的地址 。保存操作交给ueditor来做
         res.ue_up(img_url);

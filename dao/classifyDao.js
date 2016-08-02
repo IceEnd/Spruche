@@ -31,7 +31,6 @@ function addClassify(classify) {
     pool.getConnection(function (err,connection) {
         connection.query('INSERT INTO classify(id,classify,state) VALUES(0,"'+classify+'",0)',function (err,result) {
             if(!err){
-                console.log(result);
                 defer.resolve(result);
             }
             else{
