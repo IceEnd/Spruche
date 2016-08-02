@@ -41,7 +41,7 @@
                             <span>
                               <a class="article-author" data-pjax="true"><%= blog.username %></a>
                             </span><span>
-                              <a class="article-comments-num" href="/article/av<%=blog.id%>#disqus_thread" data-pjax="true">0 Comments</a>
+                              <a class="article-comments-num disqus-comment-count" data-disqus-url="<%=website.domain%>/article/av<%=blog.id%>" href="/article/av<%=blog.id%>#disqus_thread" data-pjax="true">0 Comments</a>
                             </span><span>
                               <a class="article-view-num"><%= blog.view_num %> Views</a>
                             </span><span>

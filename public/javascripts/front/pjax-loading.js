@@ -23,4 +23,5 @@ $(document).on('pjax:end', function() {
           });
       }
   });
+  getCommentCount();
 });
