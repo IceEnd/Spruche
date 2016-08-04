@@ -124,7 +124,7 @@
         $('#mobile-nav').stop(true.false).animate({'left':'-60%'},200);         
     }
 
-    $('#get-menu-icon').bind('click',function (e) {
+    $('#get-menu-icon').bind('touchstart',function (e) {
         stopPropagation(e); 
         if(menu_none){
             showMenu();
@@ -132,7 +132,7 @@
         } 
     });
 
-    $(document).bind('click', function() {  
+    $(document).bind('touchstart', function() {  
         hiddenMenu(); 
         menu_none = true; 
     });
