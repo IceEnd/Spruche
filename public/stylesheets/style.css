@@ -812,6 +812,10 @@ article-tags-div a:nth-child(3n+0){
     width: 70%;
     right: 5%;
   }
+
+  .article-title-h:hover{
+    letter-spacing:0;
+  }
 }
 
 @media(max-width:  768px){
@@ -933,6 +937,10 @@ article-tags-div a:nth-child(3n+0){
     padding-top: 0;
   }
 
+  .article-title-h:hover{
+    letter-spacing:0;
+  }
+
   .article-other-info{
     padding-left: 0;
   }
@@ -983,5 +991,13 @@ article-tags-div a:nth-child(3n+0){
 
   .article-content-div{
     padding: 0 0 1em 0;
+  }
+
+  .article-li:nth-child(odd){
+    left: 0;
+  }
+
+  .article-li:nth-child(even){
+    left: 0;
   }
 }
