@@ -13,6 +13,10 @@
             myAlert('密码只能输入6-20个字母、数字、下划线');
             return false;
         }
+        if (!CAPTCHAOBJ.getValidate()){
+            myAlert('请滑动验证码！');
+            return false;
+        }
         else {
             $.ajax({
                 type: 'POST',
@@ -21,7 +25,10 @@
                 traditional: true,
                 data: {
                     "username": $username.val(),
-                    "password": $password.val()
+                    "password": $password.val(),
+                    "geetest_challenge":CAPTCHAOBJ.getValidate().geetest_challenge,
+                    "geetest_seccode":CAPTCHAOBJ.getValidate().geetest_seccode,
+                    "geetest_validate":CAPTCHAOBJ.getValidate().geetest_validate
                 },
                 success: function (data) {
                     switch (data.type) {
@@ -29,9 +36,15 @@
                             successLogin(data.user);
                             break;
                         case 1:
-                            myAlert('用户名或密码错误');
+                            myAlert('用户名或密码错误');  
+                            clearForm();                        
+                            break;
+                        case 2:
+                            myAlert('你是机器人吗？');
+                            clearForm();
                             break;
                     }
+                     
                 },
                 error: function (xhr, errorType, error) {
                     myAlert('网络繁忙，请稍后再试...');
@@ -40,6 +53,13 @@
             return false;
         }
     });
+
+    //清空表单
+    function clearForm(){
+        CAPTCHAOBJ.refresh();
+        $username.val('');
+        $password.val('');
+    }
 
     //密码验证
     function isPassword(str) {

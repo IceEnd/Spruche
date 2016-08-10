@@ -16,7 +16,7 @@
     
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
     <script src="/javascripts/libs/jquery.cookie.js"></script>
-  
+    <script src="https://static.geetest.com/static/tools/gt.js"></script>
   </head>
   <body>
       <% include header.html %>
@@ -34,6 +34,9 @@
                         <input class="login-form-ipt" type="password" placeholder="密码" name="password" id="password">
                      </div>
                      <div class="login-form-d login-form-d-f">
+                         <div id="embed-captcha" style="width:300px;margin:0 auto;"></div>
+                     </div>
+                     <div class="login-form-d login-form-d-f">
                          <input type="checkbox" name="remember" id="remember" class="remember"/>
                          <h1 class="remember-h1">记住我</h1>
                      </div>
@@ -44,6 +47,30 @@
               </div>
           </div>
       </div>
+      <script>
+       var CAPTCHAOBJ;
+       var handlerEmbed = function (captchaObj) {
+           captchaObj.appendTo("#embed-captcha");
+           CAPTCHAOBJ = captchaObj;
+        };
+
+        function loadCaptcha(){
+            $.ajax({
+                url: "/pc-geetest/register?t=" + (new Date()).getTime(), 
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    initGeetest({
+                        gt: data.gt,
+                        challenge: data.challenge,
+                        product: "embed",
+                        offline: !data.success 
+                    }, handlerEmbed);
+                }
+            });
+        }
+        loadCaptcha();
+      </script>
       
       <% include alert.html %>
       <script type="text/javascript" src="/javascripts/common/util.js"></script>

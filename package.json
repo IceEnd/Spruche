@@ -18,6 +18,7 @@
     "q": "latest",
     "crypto": "latest",
     "ueditor": "latest",
-    "express-pjax":"latest"
+    "express-pjax":"latest",
+    "request": "^2.54.0"
   }
 }
