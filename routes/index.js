@@ -184,12 +184,22 @@ router.post('/ulogin', function (req, res, next) {
 router.get('/messageboard', function (req, res, next) {
   websiteDao.getWebSite()
     .then(function (result) {
-      res.render('front/messageboard', { website: result });
+      res.renderPjax('front/messageboard', { website: result });
     })
     .catch(function (error) {
       res.render('error', { message: 404, error: error });
-    })
+    });
+});
 
+/* 友人帐 */
+router.get('/friendslink', function (req, res, next) {
+  websiteDao.getWebSite()
+    .then(function (result) {
+      res.renderPjax('front/friendslink', { website: result });
+    })
+    .catch(function (error) {
+      res.render('error', { message: 404, error: error });
+    });
 });
 
 router.get("/pc-geetest/register", function (req, res) {
