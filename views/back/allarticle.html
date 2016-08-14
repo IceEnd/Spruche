@@ -25,7 +25,7 @@
     <div class="wirte-content">
         <ul>
             <% for(var i in blogs){ %>
-            <div class="panel panel-default">
+            <li class="panel panel-default">
                 <div class="panel-heading">
                     <%=blogs[i].id%>.<a href="/article/av<%=blogs[i].id%>" target="_blank"><%=blogs[i].title%></a>
                 </div>
@@ -49,7 +49,7 @@
                         <a class="article_delete" data-id="<%=blogs[i].id%>">删除</a>
                     </span>
                 </div>
-            </div>
+            </li>
             <%}%>
         </ul>
     </div>

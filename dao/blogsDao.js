@@ -178,6 +178,26 @@ function alterBlog(blog) {
     return defer.promise;
 }
 
+/**
+ * 删除文章
+ */
+function deleteBlog(id){
+    var defer = Q.defer();
+    pool.getConnection(function (err, connection) {
+        connection.query('UPDATE blogs set state = 100000 where id = '+id, function (err, result) {
+            if(!err){
+                defer.resolve(true);
+            }
+            else{
+                console.log(err);
+                defer.reject(err);
+            }
+            connection.release();
+        });
+    });
+    return defer.promise;
+}
+
 module.exports = {
     saveBlog: saveBlog,                               //保存文章
     getBlogByPage: getBlogByPage,                     //获取分页文章
@@ -187,4 +207,5 @@ module.exports = {
     getPrev: getPrev,                                 //获取前一个文章
     getNext: getNext,                                 //获取下一个文章
     alterBlog: alterBlog,                             //修改博客
+    deleteBlog: deleteBlog,                           //删除博客
 }

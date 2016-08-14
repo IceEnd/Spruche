@@ -43,6 +43,14 @@ CREATE TABLE blogs(
   FOREIGN KEY (user_id) REFERENCES users(id) on   delete   cascade   on   update   cascade,
   FOREIGN KEY (classify_id) REFERENCES classify(id)
 )engine=innodb default CHARSET=utf8;
+/*
+ * state 说明:
+ * 0: 已发布
+ * 1: 草稿
+ * 2
+ * ...
+ * 100000: 已删除  
+*/
 
 /*标签*/
 CREATE TABLE tags(

@@ -80,6 +80,35 @@ router.get('/write', function (req, res, next) {
     }
 });
 
+router.post('/write/*', function (req, res, next){
+    if(req.cookies.uid && req.cookies.type == 0) {
+        usersDao.getUserById(req.cookies.uid)
+            .then(function (result) {
+                if (result.length != 0) {
+                    next();
+                }
+                else {
+                    res.send({type:false});
+                }
+            });
+    } else {
+        res.send({type:false});
+    }
+});
+
+/* 删除文章 */
+router.post('/write/delarticle',function (req, res, next){
+    blogsDao.deleteBlog(req.body.id)
+        .then(function (result) {
+            res.send({ type: true });
+            res.end();
+        })
+        .catch(function (error) {
+            res.send({ type: false });
+            res.end();
+        });
+});
+
 /* 保存发布 */
 router.post('/write/sblog', function (req, res, next) {
     var blog = JSON.parse(req.body.blog);
