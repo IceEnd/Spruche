@@ -94,7 +94,7 @@ Access `https://hostname/admin` or `http://hostname/admin`,you can manage system
 ####DISQUS
 The master is use DISQUS.
 ####duoshuo
-The ver0.0.1duoshuo is use duoshuo,please replace 'short_name' in `views/front/article.html`,`views/front/friendsLink.html`,`views/front/messageboard.html`,`views/front/index.html`,`views/back/allarticle.html`.
+The duoshuo is use duoshuo,please replace 'short_name' in `views/front/article.html`,`views/front/friendsLink.html`,`views/front/messageboard.html`,`views/front/index.html`,`views/back/allarticle.html`.
 
 ###LICENSE
 [APACHE 2.0](https://github.com/pantsPoi/Spruche/blob/master/LICENSE)
