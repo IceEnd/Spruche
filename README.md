@@ -84,3 +84,6 @@ If you want to use SSL, please put the file into the SSL folder.You can look at 
  
 ###Admin
 Access `https://hostname/admin` or `http://hostname/admin`,you can manage system.
+
+###LICENSE
+APACHE 2.0
