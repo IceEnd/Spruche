@@ -74,6 +74,11 @@ And then:
 ```
 forever ./bin/www
 ```
+or
+```
+npm run public
+```
+
 ###step 5. System config
 Now,you need to access you website:`http://hostname/start` or `https://hostname/start`.Add the corresponding information.
 
@@ -81,9 +86,15 @@ Ok, finished.Now,you can access you website.
 
 ###SSL
 If you want to use SSL, please put the file into the SSL folder.You can look at step4.
- 
+
 ###Admin
 Access `https://hostname/admin` or `http://hostname/admin`,you can manage system.
+
+###DISQUS OR duoshuo
+####DISQUS
+The master is use DISQUS.
+####duoshuo
+The ver0.0.1duoshuo is use duoshuo,please replace 'short_name' in `views/front/article.html`,`views/front/friendsLink.html`,`views/front/messageboard.html`,`views/front/index.html`.
 
 ###LICENSE
 [APACHE 2.0](https://github.com/pantsPoi/Spruche/blob/master/LICENSE)
