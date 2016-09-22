@@ -1,17 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var Geetest = require('../gt-sdk');
 
 var websiteDao = require('../dao/websiteDao');
 var usersDao = require('../dao/usersDao');
 var blogsDao = require('../dao/blogsDao');
 
 var util = require('../common/util');
-
-var pcGeetest = new Geetest({
-    privateKey: '*******',
-    publicKey: '******'
-});
 
 /* website install */
 router.get('/start', function (req, res, next) {
@@ -92,7 +86,7 @@ router.get('/article/av*', function (req, res, next) {
         return blogsDao.addViewNum(article_id);
       })
       .then(function (result) {
-        return blogsDao.getBlogByID(article_id, false);
+        return blogsDao.getBlogByID(article_id,false);
       })
       .then(function (result) {
         if (result.length == 0) {
@@ -143,41 +137,28 @@ router.post('/ulogin', function (req, res, next) {
   var date = util.formatDate(new Date());
   var user;
   var type = 0;
-  console.log(req.body.geetest_challenge);
-  console.log(req.body.geetest_validate);
-  console.log(req.body.geetest_seccode);
-  pcGeetest.validate({
-    challenge: req.body.geetest_challenge,
-    validate: req.body.geetest_validate,
-    seccode: req.body.geetest_seccode
-  }, function (err, result) {
-    if (err || !result) {
-      res.send({ type: 2 });
-    } else {
-      usersDao.login(req.body.username, req.body.password)
-        .then(function (result) {
-          if (result.length != 0) {
-            user = result[0];
-            return usersDao.loginDate(user.id, date);
-          }
-          else {
-            type = 1;
-            return false;
-          }
-        })
-        .then(function (result) {
-          if (type == 0) {
-            res.send({ type: 0, user: user })
-          }
-          else {
-            res.send({ type: 1 });
-          }
-          res.end();
-        }, function (err) {
-          res.send({ type: 1 });
-        });
-    }
-  });
+  usersDao.login(req.body.username, req.body.password)
+    .then(function (result) {
+      if (result.length != 0) {
+        user = result[0];
+        return usersDao.loginDate(user.id, date);
+      }
+      else {
+        type = 1;
+        return false;
+      }
+    })
+    .then(function (result) {
+      if (type == 0) {
+        res.send({ type: 0, user: user })
+      }
+      else {
+        res.send({ type: 1 });
+      }
+      res.end();
+    }, function (err) {
+      res.send({ type: 1 });
+    });
 });
 
 /* 留言板 */
@@ -200,17 +181,6 @@ router.get('/friendslink', function (req, res, next) {
     .catch(function (error) {
       res.render('error', { message: 404, error: error });
     });
-});
-
-router.get("/pc-geetest/register", function (req, res) {
-  // 向极验申请一次验证所需的challenge
-  pcGeetest.register(function (data) {
-    res.send(JSON.stringify({
-      gt: pcGeetest.publicKey,
-      challenge: data.challenge,
-      success: data.success
-    }));
-  });
 });
 
 module.exports = router;

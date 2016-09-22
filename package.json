@@ -1,9 +1,10 @@
 {
   "name": "spruche",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "public": "forever start ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
