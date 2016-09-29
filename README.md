@@ -72,7 +72,7 @@ npm install -g forever
 ```
 And then:
 ```
-forever ./bin/www
+forever start ./bin/www
 ```
 or
 ```

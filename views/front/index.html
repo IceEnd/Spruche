@@ -63,7 +63,7 @@
                   <% } %>
                   <div class="article-summary-div">
                     <a href="/article/av<%=blogs[i].id %>" data-pjax="true">
-                      <p class="article-summary-p"><%=blogs[i].summary %></p>
+                      <p class="article-summary-p"><%- blogs[i].summary %></p>
                     </a>
                   </div>
                   <% if(blogs[i].tags != '') {%>

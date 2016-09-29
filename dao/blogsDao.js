@@ -10,16 +10,16 @@ function saveBlog(blog) {
     var defer = Q.defer();
     pool.getConnection(function (err, connection) {
         connection.query('INSERT INTO blogs(id,title,username,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,state,publish_date,img) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
-            [blog.title, blog.username, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, blog.state, blog.publish_date, blog.img], function (err, result) {
-                if (!err) {
-                    defer.resolve(result);
-                }
-                else {
-                    console.log(err);
-                    defer.reject(err);
-                }
-                connection.release();
-            });
+          [blog.title, blog.username, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, blog.state, blog.publish_date, blog.img], function (err, result) {
+              if (!err) {
+                  defer.resolve(result);
+              }
+              else {
+                  console.log(err);
+                  defer.reject(err);
+              }
+              connection.release();
+          });
     });
     return defer.promise;
 }
@@ -154,26 +154,24 @@ function getNext(id) {
  * 修改文章
  */
 function alterBlog(blog) {
-    var defer = Q.defer();   
-    var query = 'UPDATE blogs set title = "' + blog.title + '", content= \'' + blog.content + '\', summary = "' + blog.summary + '", tags = "' +
-            (blog.tags.join(',')) + '", classify_name = "' + blog.classify_name + '", classify_id = ' + blog.classify_id + ', img = "' + blog.img + '"';
+    var defer = Q.defer();
+    var query;
     if(typeof blog.state === 'undefined'){
-        query += ' where id = '+blog.id;
-    }
-    else{
-        query += ', state = ' + blog.state + ' where id = '+blog.id;
+        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, img = '${blog.img}' where id = ${blog.id}`;
+    } else {
+        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, img = '${blog.img}', state = ${blog.state} where id = ${blog.id}`;
     }
     pool.getConnection(function (err, connection) {
         connection.query(query, function (err, result) {
-                if (!err) {
-                    defer.resolve(result);
-                }
-                else {
-                    console.log(err);
-                    defer.reject(err);
-                }
-                connection.release();
-            });
+            if (!err) {
+                defer.resolve(result);
+            }
+            else {
+                console.log(err);
+                defer.reject(err);
+            }
+            connection.release();
+        });
     });
     return defer.promise;
 }
