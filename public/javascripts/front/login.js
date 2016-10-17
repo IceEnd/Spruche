@@ -58,13 +58,15 @@ function ($) {
             $.cookie('uid',user.id, { expires: 7 ,path: "/"});
             $.cookie('username',user.username, { expires: 7 ,path: "/"});
             $.cookie('type',user.type, { expires: 7 ,path: "/"});
+            $.cookie('token',user.token, { expires: 7 ,path: "/" })
         }
         else{
             $.cookie('uid',user.id, {path: "/"});
             $.cookie('username',user.username, {path: "/"});
             $.cookie('type',user.type, {path: "/"});
+            $.cookie('token',user.token, { path: "/" })
         }
-        window.location.href="/";
+        window.location.href="/admin#index";
     }
 
     closeAlert();

@@ -141,6 +141,9 @@ router.post('/ulogin', function (req, res, next) {
     .then(function (result) {
       if (result.length != 0) {
         user = result[0];
+        delete user.password;
+        delete user.state;
+        delete user.reg_date;
         return usersDao.loginDate(user.id, date);
       }
       else {
@@ -150,6 +153,7 @@ router.post('/ulogin', function (req, res, next) {
     })
     .then(function (result) {
       if (type == 0) {
+        user.token = result;
         res.send({ type: 0, user: user })
       }
       else {

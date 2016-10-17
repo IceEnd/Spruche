@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>多媒体</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Cononicoの文艺复兴" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+
+    <meta name="description" itemprop="description" content="Cononicoの个人博客" />
+    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+
+    <link rel='stylesheet' href='/stylesheets/back.css' />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/stylesheets/libs/bootstrap.min.css" />
+    <!--external css-->
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css" />
+</head>
+<body>
+    <div>
+        <% for(var i in images) { %>
+            <img src="<%=images[i]%>" data-src="<%=images[i]%>" style="width: 140px;height: 140px;margin: 5px;" class="img-thumbnail">
+        <% } %>
+    </div>
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/bootstrap.min.js"></script>
+    <script src="/javascripts/back/media.js"></script>
+</body>
+</html>

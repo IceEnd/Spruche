@@ -11,6 +11,7 @@ create table users(
   latest_time DATETIME,
   type INTEGER NOT NULL,
   state INTEGER NOT NULL,
+  token VARCHAR(200),
   PRIMARY KEY (id),
   UNIQUE (username)
 )engine=innodb default CHARSET=utf8;
