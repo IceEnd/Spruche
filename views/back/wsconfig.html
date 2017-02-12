@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>站点调教</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Cononicoの文艺复兴"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+
+    <link rel='stylesheet' href='/stylesheets/back.css' />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/stylesheets/libs/bootstrap.min.css" />
+    <!--external css-->
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.cookie.js"></script>
+
+</head>
+<body>
+    <div>
+        <div class="ws-form">
+            <h3>用户信息</h3>
+            <form id="userform" data-user="<%=user.id %>">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email" value="<%=user.email %>">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Username" value="<%=user.username %>">
+                </div>
+            </form>
+            <button id="user_btn" class="btn btn-default" type="button">更新用户</button>
+        </div>
+
+        <div class="ws-form">
+            <h3>站点设置</h3>
+            <form>
+                <div class="form-group">
+                    <label for="wsname">站点名称</label>
+                    <input type="email" class="form-control" id="wsname" placeholder="站点名称" value="<%=website.name%>">
+                </div>
+                <div class="form-group">
+                    <label for="wsdescription">站点描述</label>
+                    <input type="email" class="form-control" id="wsdescription" placeholder="站点描述" value="<%=website.description%>">
+                </div>
+                <div class="form-group">
+                    <label for="shortname">多说short_name</label>
+                    <input type="email" class="form-control" id="shortname" placeholder="多说short_name" value="<%=website.short_name%>">
+                </div>
+            </form>
+            <button id="duoshuo_btn" class="btn btn-default" type="button">更新站点</button>
+        </div>
+    </div>
+    <script src="/javascripts/back/wsconfig.js"></script>
+</body>
+</html>

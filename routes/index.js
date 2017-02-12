@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
+var Geetest = require('../gt-sdk');
 
 var websiteDao = require('../dao/websiteDao');
 var usersDao = require('../dao/usersDao');
 var blogsDao = require('../dao/blogsDao');
+var tagsDao = require('../dao/tagsDao');
 
 var util = require('../common/util');
+
+var pcGeetest = new Geetest({
+    privateKey: '308ef2b3d8b8adc6340193bbf6063be0',
+    publicKey: 'c95bbbfe020f0227020374bd2ebf3705'
+});
 
 /* website install */
 router.get('/start', function (req, res, next) {
@@ -32,7 +39,7 @@ router.get('/start', function (req, res, next) {
 
 /* 首页 */
 router.get('/', function (req, res, next) {
-  var blogs, website, amount = 0;
+  var website;
   websiteDao.getWebSite()
     .then(function (result) {
       website = result[0];
@@ -59,7 +66,7 @@ router.post('/loadmoreav', function (req, res, next) {
 });
 
 /* 获取文章 */
-router.get('/article/av*', function (req, res, next) {
+router.get('/article/av*', function (req, res) {
   var reg = /\/article\/av\d+/gi;
   var flag = true;
   var url = req.originalUrl, article_id, website, blogs, prev, next;
@@ -86,7 +93,7 @@ router.get('/article/av*', function (req, res, next) {
         return blogsDao.addViewNum(article_id);
       })
       .then(function (result) {
-        return blogsDao.getBlogByID(article_id,false);
+        return blogsDao.getBlogByID(article_id, false);
       })
       .then(function (result) {
         if (result.length == 0) {
@@ -137,32 +144,42 @@ router.post('/ulogin', function (req, res, next) {
   var date = util.formatDate(new Date());
   var user;
   var type = 0;
-  usersDao.login(req.body.username, req.body.password)
-    .then(function (result) {
-      if (result.length != 0) {
-        user = result[0];
-        delete user.password;
-        delete user.state;
-        delete user.reg_date;
-        return usersDao.loginDate(user.id, date);
-      }
-      else {
-        type = 1;
-        return false;
-      }
-    })
-    .then(function (result) {
-      if (type == 0) {
-        user.token = result;
-        res.send({ type: 0, user: user })
-      }
-      else {
-        res.send({ type: 1 });
-      }
-      res.end();
-    }, function (err) {
-      res.send({ type: 1 });
-    });
+  pcGeetest.validate({
+    challenge: req.body.geetest_challenge,
+    validate: req.body.geetest_validate,
+    seccode: req.body.geetest_seccode
+  }, function (err, result) {
+    if (err || !result) {
+      res.send({ type: 2 });
+    } else {
+      usersDao.login(req.body.email, req.body.password)
+        .then(function (result) {
+          if (result.length != 0) {
+            user = result[0];
+            delete user.password;
+            delete user.state;
+            delete user.reg_date;
+            return usersDao.loginDate(user.id, date);
+          }
+          else {
+            type = 1;
+            return false;
+          }
+        })
+        .then(function (result) {
+          if (type == 0) {
+            user.token = result;
+            res.send({ type: 0, user: user })
+          }
+          else {
+            res.send({ type: 1 });
+          }
+          res.end();
+        }, function (err) {
+          res.send({ type: 1 });
+        });
+    }
+  });
 });
 
 /* 留言板 */
@@ -184,6 +201,29 @@ router.get('/friendslink', function (req, res, next) {
     })
     .catch(function (error) {
       res.render('error', { message: 404, error: error });
+    });
+});
+
+router.get("/pc-geetest/register", function (req, res) {
+
+  // 向极验申请一次验证所需的challenge
+  pcGeetest.register(function (data) {
+    res.send(JSON.stringify({
+      gt: pcGeetest.publicKey,
+      challenge: data.challenge,
+      success: data.success
+    }));
+  });
+});
+
+/* 获取标签 */
+router.post('/tags', function (req, res){
+  tagsDao.getAllTags()
+    .then(function (result) {
+      res.send({ type: true, tags: result});
+    })
+    .catch(function (error) {
+      res.send({ type: false });
     });
 });
 

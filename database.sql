@@ -28,7 +28,6 @@ CREATE TABLE classify(
 CREATE TABLE blogs(
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(200) NOT NULL,
-  username VARCHAR(50) NOT NULL,
   content TEXT NOT NULL,
   summary TEXT NOT NULL,
   user_id INT NOT NULL,
@@ -109,11 +108,13 @@ CREATE TABLE website(
     id INT NOT NULL AUTO_INCREMENT,
     name varchar(100),
     email varchar(200),
+    description varchar(500),
+    short_name varchar(100),
     create_date DATETIME,
     state int not null,
     domain varchar(500),
     PRIMARY KEY (id)
 )engine=innodb default CHARSET=utf8;
 
-insert into website(id,state) value (1,0);
+insert into website(id,state,short_name, description) value (1,0,'','');
 insert into classify(id,classify,state) value (1,'未分类',0);

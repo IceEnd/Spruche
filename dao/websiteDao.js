@@ -44,7 +44,27 @@ function startWebSite(website,email,date,domain) {
     return defer.promise;
 }
 
+/**
+ * 更新信息
+ */
+function updateInfo(ws) {
+    var defer = Q.defer();
+    pool.getConnection(function (err, connection) {
+        connection.query(`UPDATE website SET name = '${ws.name}', description = '${ws.description}', short_name = '${ws.short_name}' where id = 1`, function (err, result) {
+            if(!err){
+                defer.resolve(result);
+            } else {
+                console.warn(err);
+                defer.reject(err);
+            }
+            connection.release();
+        });
+    });
+    return defer.promise;
+}
+
 module.exports = {
-    getWebSite:getWebSite,         //获取站点信息
-    startWebSite:startWebSite,     //开通站点
+    getWebSite: getWebSite,        //  获取站点信息
+    startWebSite: startWebSite,    //  开通站点
+    updateInfo: updateInfo,        //  更新信息
 }

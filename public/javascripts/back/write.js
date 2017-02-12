@@ -11,9 +11,9 @@
     var classify_ul = $('#classify-ul');
 
     var save_btn = $('#save-btn'),
-      publish_btn = $('#publish-btn'),
-      alter_btn = $('#alter-btn'),
-      update_btn = $('#update-btn');
+        publish_btn = $('#publish-btn'),
+        alter_btn = $('#alter-btn'),
+        update_btn = $('#update-btn');
 
     var edit = false;
 
@@ -84,7 +84,7 @@
                 success: function (data) {
                     if (data.type) {
                         classify_ul.append('<li class="classify-li"><input class="classify-ipt" name="classify" type="radio" value="' + data.id +
-                          '" data-name="' + classify + '"/><span>' + classify + '</span></li>');
+                            '" data-name="' + classify + '"/><span>' + classify + '</span></li>');
                         add_classify_ipt.val('');
                     } else {
                         alert('网络繁忙，请稍后再试...');
@@ -211,7 +211,7 @@
         var arr = [];
         arr.push(UE.getEditor('editor').getContent());
         blog.content = arr.join('\n');
-        blog.summary = htmlspecialchars(UE.getEditor('editor').getContentTxt().substr(0,200) + '...');
+        blog.summary = htmlspecialchars(UE.getEditor('editor').getContentTxt().substr(0,180) + '...');
         blog.tags = tags;
         blog.classify_name = $('.classify-ipt:checked').attr('data-name');
         blog.classify_id = $('.classify-ipt:checked').val();
@@ -252,14 +252,14 @@
         tags.splice(i, 1);
     }
 
-    function htmlspecialchars(str)
-    {
-        str = str.replace(/&/g, '&amp;');
-        str = str.replace(/</g, '&lt;');
-        str = str.replace(/>/g, '&gt;');
-        str = str.replace(/"/g, '&quot;');
-        str = str.replace(/'/g, '&#039;');
-        return str;
-    }
+    function htmlspecialchars(str)    
+    {    
+        str = str.replace(/&/g, '&amp;');  
+        str = str.replace(/</g, '&lt;');  
+        str = str.replace(/>/g, '&gt;');  
+        str = str.replace(/"/g, '&quot;');  
+        str = str.replace(/'/g, '&#039;');  
+        return str;  
+    } 
 
 })($);

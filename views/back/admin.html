@@ -30,7 +30,7 @@
     <div id="container">
         <header class="header white-bg">
             <div class="sidebar-toggle-box">
-                <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+                <div id="tool-bar" data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
             </div>
             <!--logo start-->
             <a href="#" class="logo">Spru<span>Che</span></a>
@@ -53,7 +53,7 @@
                             <li><a href="#"><i class=" icon-suitcase"></i>个人信息</a></li>
                             <li><a href="#"><i class="icon-cog"></i> 设置</a></li>
                             <li><a href="#"><i class="icon-bell-alt"></i> 消息</a></li>
-                            <li><a href="#"><i class="icon-key"></i> 登出</a></li>
+                            <li id="logout"><a href="#"><i class="icon-key"></i> 登出</a></li>
                         </ul>
                     </li>
                  </ul>
@@ -90,7 +90,7 @@
                           <span class="arrow"></span>
                       </a>
                       <ul class="sub">
-                          <li class="sub-menu-li menu-media" data-src="media"><a>媒体库</a></li>
+                          <li class="sub-menu-li menu-media" data-src="media"><a>多媒体</a></li>
                           <!--<% if(user.type == 0){ %>-->
                           <!--<li class="sub-menu-li medu-addmedia" data-src="addmedia"><a>添加</a></li>-->
                           <!--<% } %>-->
@@ -145,6 +145,7 @@
     </div>
     
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.cookie.js"></script>
     <script src="/javascripts/libs/jquery.scrollTo.min.js"></script>
     <script src="/javascripts/libs/bootstrap.min.js"></script>
     <script src="/javascripts/back/admin.js"></script>

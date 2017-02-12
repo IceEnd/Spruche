@@ -1,5 +1,7 @@
 #Spruche
 
+[![npm version](https://img.shields.io/badge/npm-v0.0.4-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+
 ##Get Started
 Spruche is a  blog system,which is based on Node.js.Here you can go to check the system function--[https://blog.coolecho.net](https://blog.coolecho.net "绘枫和畅").The back-end using Express framework, on the front end pjax technology is introduced.
 
@@ -20,7 +22,7 @@ create database xxxx;
 ```js
 module.exports = {
   mysql: {
-    host: '127.0.0.1', 
+    host: '127.0.0.1',
     user: 'username',       //username,用户名
     password: '****',       //password,密码
     database:'database',    //database，数据库名
@@ -40,7 +42,7 @@ First,If you don't use SSL, so please note the following code in /bin/www.
 var https = require('https');
 
 var privateKey  = fs.readFileSync('./ssl/node.key', 'utf8');
-var certificate = fs.readFileSync('./ssl/node.crt', 'utf8'); 
+var certificate = fs.readFileSync('./ssl/node.crt', 'utf8');
 */
 ...
 /*
@@ -90,11 +92,8 @@ If you want to use SSL, please put the file into the SSL folder.You can look at 
 ###Admin
 Access `https://hostname/admin` or `http://hostname/admin`,you can manage system.
 
-###DISQUS OR duoshuo
-####DISQUS
-The master is use DISQUS.
-####duoshuo
-The duoshuo is use duoshuo,please replace 'short_name' in `views/front/article.html`,`views/front/friendsLink.html`,`views/front/messageboard.html`,`views/front/index.html`,`views/back/allarticle.html`.
+###DUODHUO
+Access `https://hostname/admin#wsconfing`, set ```short_name``` of duoshuo.
 
 ###LICENSE
 [APACHE 2.0](https://github.com/pantsPoi/Spruche/blob/master/LICENSE)

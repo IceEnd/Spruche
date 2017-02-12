@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>绘枫和畅 | Q&A留言板</title>
+    <title>绘枫和畅 | 留言板</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <meta name="author" content="Cononico" />
@@ -17,7 +17,7 @@
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
-    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDjango.css">
 </head>
 
 <body>
@@ -27,65 +27,53 @@
             <section id="content" class="article-content">
                 <article>
                     <div class="article-info-div">
-                        <h3>这个地方给大家吐槽：</h3>
+                        <h3>各位dalao好：</h3>
                     </div>
                     <div class="article-content-div">
-                        <p style="text-indent:2em;">先说说这个页面的缘由：</p>
-                        <p style="text-indent:2em;">最先开始搭建博客试过很多的开源的系统，比如WordPress、z-blog，
-                            那个时候懂得不懂，因为这两个上手门槛几乎为0，还由于当时对Web开发还处于小白的阶段，所以很长一段时间，
-                            “绘枫和畅”这个博客站点使用了WordPress。起初为了个性化博客，四处收罗主题，到后来对着别人的主题试着
-                            写自己的主题，我做过两个主题《niconiconi》和《CANNAN》。因为我对php不熟悉，其中的代码和设计都参考
-                            过他人的主题，我并没有否认，只是我不认为我这就是抄袭：其一：主题的主体设计的确是我的创意；其二：我写过
-                            的主题都是拿到网络上免费拿去用的，我也并没有加过任何的版权这作者的签名。不管结果如何，我都实现了个性化
-                            站点的想法。
+                        <p style="text-indent:2em;">我叫Cononico，是个怠惰的<ruby  style="color:#e14040;">码<rt style="color:#000;">shuài</rt>农<rt style="color:#000;">gē</rt></ruby>,
+                            未来还想成为<ruby  style="color:#ffa347;">大<rt style="color:#000;">dà</rt>画<rt style="color:#000;">zuò</rt>师<rt style="color:#000;">jiā</rt></ruby>。
                         </p>
-                        <p style="text-indent:2em;">我想说的是，WordPress主题制作起来很容易。</p>
-                        <p style="text-indent:2em;">有很多网友使用过我写的主题，有人用自然是值得高兴的。很长一段时间有很多
-                            网友加我的QQ问我一些关于主题的问题或是前端学习的方法，虽然我性格比较孤僻，但是我所知道都已经回答了。我所
-                            写的只是一个主题，并不是WordPress,各种千奇百怪的问题我是真的没有碰见过，也无从解决。WordPress虽然好，但是
-                            已经不再适合我了。因此2016年7月我利用空余的时间，实现了一个基于Node.js的博客系统——<a href="https://github.com/pantsPoi/Spruche" target="_blank">Spruche</a>。
+						<p style="text-indent:2em;">渣博由<a href="https://blog.coolecho.net/article/av17" data-pjax="true" style="color:blue;text-decoration:none;">Spruche</a>搭建，不是主题。
                         </p>
-                        <p style="text-indent:2em;">现在站点使用的就是这个系统，目前系统完成了主体的功能，但是作为个人博客系统来说已经足够了。
-                            Spruche全站使用了pjax，让博客成为一个单页应用，评论系统采用了<a href="https://disqus.com/" target="_blank">DisQus</a>，想要评论至少得要有一个DisQus账号。
-                            Spruche在GitHub上发布了一个0.0.1bate版，感兴趣的可以去看看。
+                        <p style="text-indent:2em;">本人懒散低调，不多的空闲时间想拿来写小说《<a href="https://www.iqing.in/book/27808" style="color:#e14040;text-decoration:none;">Orange Echo</a>》，
+                            无聊至极时才会打理打理站点。
                         </p>
-                        <p style="text-indent:2em;">Spruche还有很多的问题，比如安全性我就没有验证过，目前只有我一个人维护，
-                            如果有兴趣和我一起维护(不只是维护，做游戏等都可以)，可以给我发送邮件：min@coolecho.net
-                        </p>
-                        <p style="text-indent:2em;">如果大家在主题或者系统的使用上遇到问题，或是遇到前端方面的麻烦，欢迎在这个页面留言，或者直接给我
-                            发邮件，我看到留言就会解答（如果我会的话）。
+                        <p style="text-indent:2em;">如有问题或是想和我交流，欢迎留言！
                         </p>
                     </div>
                     <div>
-                       <div id="disqus_thread"></div>
-                       <script>
-                            var disqus_config = function () {
-                                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                            };
-                            (function() {  // DON'T EDIT BELOW THIS LINE
-                                var d = document, s = d.createElement('script');
-
-                                s.src = '//coolecho.disqus.com/embed.js';
-
-                                s.setAttribute('data-timestamp', +new Date());
-                                (d.head || d.body).appendChild(s);
+                      <!-- 多说评论框 start -->
+                        <div class="ds-thread" data-thread-key="messageboard" data-title="留言板" data-url="https://blog.coolecho.net/messageboard"></div>
+                        <!-- 多说评论框 end -->
+                        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"cononico"};
+                            (function() {
+                                var ds = document.createElement('script');
+                                ds.type = 'text/javascript';ds.async = true;
+                                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//'+document.location.hostname+'/javascripts/duoshuo/embed.js';
+                                ds.charset = 'UTF-8';
+                                (document.getElementsByTagName('head')[0]
+                                || document.getElementsByTagName('body')[0]).appendChild(ds);
                             })();
-                      </script>
-                      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                        </script>
+                        <!-- 多说公共JS代码 end -->
                     </div>
                 </article>
             </section>
         </div>
     </div>
+    <!--<% include tagsBg.html %>-->
     <% include footer.html %>
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
     <script src="/javascripts/libs/jquery.pjax.js"></script>
     <script src="/javascripts/front/pjax-loading.js"></script>
     <script type="text/javascript" src="/javascripts/common/util.js"></script>
     <script type="text/javascript" src="/javascripts/front/index.js"></script>
-    <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>
+    <script src="/javascripts/duoshuo/embed.js"></script>
     <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+    <script src="/javascripts/libs/tagcanvas.min.js"></script>
+    <!--<script src="/javascripts/front/tags.js"></script>-->
 </body>
 
 </html>

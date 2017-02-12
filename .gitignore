@@ -5,3 +5,4 @@
 /.idea/
 /database/
 /bin/www
+npm-debug.log

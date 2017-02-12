@@ -5,18 +5,18 @@
     
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <meta name="author" content="Cononico" />
-    <meta name="application-name" content="Cononicoの文艺复兴"/>
+    <meta name="application-name" content="<%= website.name %>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta charset="UTF-8" />
     <meta name="apple-mobile-app-capable" content="yes">
     <meta name="apple-mobile-app-status-bar-style" content="black">
     
-    <meta name="description" itemprop="description" content="Cononicoの个人博客" />
+    <meta name="description" itemprop="description" content="<%=website.description %>" />
     <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
-    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDjango.css">
     
   </head>
   <body>
@@ -46,7 +46,7 @@
                         <span>
                           <a class="article-author"><%= blogs[i].username %></a>
                         </span><span>
-                          <a class="article-comments-num disqus-comment-count" data-disqus-url="<%=website.domain%>/article/av<%= blogs[i].id %>" href="/article/av<%= blogs[i].id %>#disqus_thread" data-pjax="true">0 Comments</a>
+                          <a class="article-comments-num ds-thread-count" data-thread-key="<%=blogs[i].id%>" data-count-type="comments" data-pjax="true">0 Comments</a>
                         </span><span>
                           <a class="article-view-num"><%= blogs[i].view_num %> Views</a>
                         </span><span>
@@ -84,26 +84,36 @@
             <% if(blogs.length == 10){%>
             <div class="load-more-btn-div">
               <div class="load-more-btn-div-cnt" id="load-more-btn-div-cnt">
-                <span class="lode-more-shine load-more-shine-left"></span>
+                <!--<span class="lode-more-shine load-more-shine-left"></span>-->
                 <span class="load-line"></span>
-                <a class="load-more-a" id="load-more-a">More</a>
+                <a class="load-more-a" id="load-more-a">加载更多</a>
                 <span class="load-line"></span>
-                <span class="lode-more-shine load-more-shine-right"></span>
+                <!--<span class="lode-more-shine load-more-shine-right"></span>-->
               </div>
-              <% include loading.html %>
             </div>
+            <% include loading.html %>
             <% } %>
           </section>
       </div>
     </div>
+    <div class="img-view">
+      <h5></h5>
+      <div class="img-view-div">
+        <img />
+      </div>
+    </div>
     <% include alert.html %>
+    <!--<% include tagsBg.html %>-->
     <% include footer.html %> 
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/javascripts/common/util.js"></script>
     <script type="text/javascript" src="/javascripts/front/index.js"></script>
-    <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>
+    <script>var duoshuoQuery = {short_name:"<%=website.short_name %>"};</script>
+    <script src="/javascripts/duoshuo/embed.js"></script>
     <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
     <script src="/javascripts/libs/jquery.pjax.js"></script>
     <script src="/javascripts/front/pjax-loading.js"></script>
+    <script src="/javascripts/libs/tagcanvas.min.js"></script>
+    <!--<script src="/javascripts/front/tags.js"></script>-->
   </body>
 </html>

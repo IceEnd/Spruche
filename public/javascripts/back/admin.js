@@ -6,29 +6,30 @@
     var $sub = $('.sub');
     var $sub_menu_li = $('.sub-menu-li');
     var $arrow = $('.arrow');
-
+    var barHidden = false;
+    
     var path = location.hostname + location.port +'/admin';
-
-    window.onload = function () {
+    
+    window.onload = function () { 
         var hash = location.hash;
         hash = hash.substr(1,hash.length);
-        if(hash == ""){
+        if(hash == "") {
             hash = 'index';
             location.hash = hash;
         }
-        $('.menu-li.'+hash).addClass('active');
-        $('.menu-li:not(.'+hash+')').removeClass('active open');
+        $('.menu-li:not(.menu-'+hash+')').removeClass('active open');
+        $('.menu-li.menu-'+hash).addClass('active');
         $('.sub-menu-li.menu-'+hash).addClass('active');
         $('.sub-menu-li.menu-'+hash).parent('.sub').addClass('active');
         $('.sub-menu-li.menu-'+hash).parent('.sub').slideDown(200);
         $ifm.attr('src','/admin/'+hash);
     }
-
+    
     $ifm.load(function () {
-        $(this).height($(this).contents().find('html').height());
-        $wrapper.height($(this).contents().find('html').height());
+       $(this).height($(this).contents().find('html').height());
+       $wrapper.height($(this).contents().find('html').height());
     });
-
+    
     $menu_li.each(function () {
         $(this).click(function () {
             $menu_li.removeClass('active');
@@ -40,7 +41,7 @@
             location.hash = $(this).attr('data-src');
         });
     });
-
+    
     $sub_menu_li.each(function () {
         $(this).click(function () {
             $menu_li.removeClass('active');
@@ -51,14 +52,14 @@
             $(".sub:not(.active)").removeClass('open');
             $(".sub:not(.active)").slideUp(200);
             $(".sub:not(.active)").parents('.sub-menu').find('.arrow').removeClass('open');
-            $(this).parents('.sub-menu').addClass('active');
+            $(this).parents('.sub-menu').addClass('active'); 
             $(this).parent('.sub').slideDown();
             $(this).addClass('active');
             $ifm.attr('src','/admin/'+$(this).attr('data-src'));
             location.hash = $(this).attr('data-src');
         });
     });
-
+    
     $('#sidebar .sub-menu > a').click(function () {
         var last = $('.sub-menu.open', $('#sidebar'));
         last.removeClass("open");
@@ -82,4 +83,24 @@
             $("#sidebar").scrollTo("+="+Math.abs(diff),500);
     });
 
+    $('#tool-bar').click(function () {         //工具栏
+        if(barHidden) {
+            $('#sidebar').animate({"left":"0"}, 500);
+            $("#main-content").animate({"margin-left": "180px"}, 500);
+            barHidden = false;
+        } else {
+            $('#sidebar').animate({"left": "-180px"}, 500);
+            $("#main-content").animate({"margin-left": "0"}, 500);
+            barHidden = true;
+        }
+    });
+
+    $("#logout").click(function () {
+        $.cookie('uid', { expires: -1, path: "/"});
+        $.cookie('email', { expires: -1, path: "/"});
+        $.cookie('type', { expires: -1, path: "/"});
+        $.cookie('token', { expires: -1, path: "/" });
+        window.location.href="/";
+    });
+    
 })($);

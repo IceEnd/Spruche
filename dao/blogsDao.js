@@ -9,17 +9,17 @@ var Q = require('q');
 function saveBlog(blog) {
     var defer = Q.defer();
     pool.getConnection(function (err, connection) {
-        connection.query('INSERT INTO blogs(id,title,username,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,state,publish_date,img) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
-          [blog.title, blog.username, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, blog.state, blog.publish_date, blog.img], function (err, result) {
-              if (!err) {
-                  defer.resolve(result);
-              }
-              else {
-                  console.log(err);
-                  defer.reject(err);
-              }
-              connection.release();
-          });
+        connection.query('INSERT INTO blogs(id,title,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,state,publish_date,img) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?) ',
+            [blog.title, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, blog.state, blog.publish_date, blog.img], function (err, result) {
+                if (!err) {
+                    defer.resolve(result);
+                }
+                else {
+                    console.log(err);
+                    defer.reject(err);
+                }
+                connection.release();
+            });
     });
     return defer.promise;
 }
@@ -30,7 +30,7 @@ function saveBlog(blog) {
 function getBlogByPage(start, amount) {
     var defer = Q.defer();
     pool.getConnection(function (err, connection) {
-        connection.query('select a.*,b.email,b.head_img from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 group by a.id desc limit ' + start + ',' + amount, function (err, result) {
+        connection.query('select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 group by a.id desc limit ' + start + ',' + amount, function (err, result) {
             if (!err) {
                 defer.resolve(result);
             }
@@ -51,9 +51,9 @@ function getBlogByID(id,flag) {
     var defer = Q.defer();
     var str;
     if(flag){
-        str = 'select a.*,b.email,b.head_img from blogs as a left join users as b on (a.user_id = b.id) WHERE (a.state = 0 or a.state = 1) AND a.id = ' + id;
+        str = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE (a.state = 0 or a.state = 1) AND a.id = ${id}`;
     }else {
-        str = 'select a.*,b.email,b.head_img from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.id = ' + id;
+        str = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.id = ${id}`;
     }
     pool.getConnection(function (err, connection) {
         connection.query(str, function (err, result) {
@@ -96,7 +96,7 @@ function addViewNum(id) {
 function getAllBlogInfo() {
     var defer = Q.defer();
     pool.getConnection(function (err, connection) {
-        connection.query('select id,title,username,classify_name,tags,view_num,publish_date from blogs where state = 0 or state = 1 group by id desc', function (err, result) {
+        connection.query(`select a.id, a.title, a.classify_name, a.tags, a.view_num, a.publish_date, b.username from blogs as a left join users as b on (a.user_id = b.id) where a.state = 0 or a.state = 1 group by a.id desc`, function (err, result) {
             if (!err) {
                 defer.resolve(result);
             }
@@ -163,15 +163,15 @@ function alterBlog(blog) {
     }
     pool.getConnection(function (err, connection) {
         connection.query(query, function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
+                if (!err) {
+                    defer.resolve(result);
+                }
+                else {
+                    console.log(err);
+                    defer.reject(err);
+                }
+                connection.release();
+            });
     });
     return defer.promise;
 }

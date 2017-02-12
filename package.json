@@ -1,11 +1,20 @@
 {
   "name": "spruche",
-  "version": "0.0.3",
-  "private": true,
+  "version": "0.0.4",
   "scripts": {
     "start": "node ./bin/www",
     "public": "forever start ./bin/www"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IceEnd/Spruche.git"
+  },
+  "keywords": [
+    "blog",
+    "express"
+  ],
+  "author": "CNO",
+  "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "~1.13.2",
     "cookie-parser": "~1.3.5",

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%= title %></title>
+    <title><%=website.name %> | <%= title %></title>
     
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <meta name="author" content="Cononico" />
-    <meta name="application-name" content="Cononicoの文艺复兴"/>
+    <meta name="application-name" content="<%=website.name %>登陆页面"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta charset="UTF-8" />
     <meta name="apple-mobile-app-capable" content="yes">
-    <meta name="apple-mobile-app-status-bar-style" content="black">
+    <meta name="apple-mobile-app-status-bar-style" content="black"><meta name="description" itemprop="description" content="<%= website.name %>的登陆页面" />
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
@@ -27,7 +27,7 @@
                   <form class="login-form" id="login-form">   
                      <div class="login-form-d login-form-d-f">
                         <span class="login-username-icon"></span> 
-                        <input class="login-form-ipt" type="text" placeholder="用户名" name="username" id="username">
+                        <input class="login-form-ipt" type="text" placeholder="邮箱" name="email" id="email">
                      </div>
                      <div class="login-form-d login-form-d-f">
                         <span class="login-password-icon"></span> 

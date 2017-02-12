@@ -10,7 +10,7 @@
   <div class="head_nav_div" id="head_nav_div">
       <nav class="head_nav">
         <ul id="nav_ul">
-            <a href="http://www.coolecho.net">
+            <a href="http://about.coolecho.net">
                 <li class="nav_ul_li">About</li>
             </a>
 			<a href="/friendslink" data-pjax="true"> 
@@ -19,13 +19,13 @@
             <a href="/messageboard" data-pjax="true"> 
                 <li class="nav_ul_li">Tucao</li>
             </a>
-            <li class="nav_ul_li" style="cursor:not-allowed;">Search</li>
             <a href="/">
                 <li class="nav_li_on nav_ul_li">Home</li>
             </a>
         </ul>
      </nav>
   </div>
+  <canvas id="header-canvas"></canvas>
 </header>
 
 <div class="loading-div">
@@ -51,19 +51,59 @@
                     <a href="/">
                         <li class="nav_li_on nav_ul_li">Home</li>
                     </a>
-                    <li class="nav_ul_li" style="cursor:not-allowed;">Search</li>
                     <a href="/messageboard" data-pjax="true"> 
                         <li class="nav_ul_li">Tucao</li>
                     </a>
                     <a href="/friendslink" data-pjax="true"> 
 						<li class="nav_ul_li">Friends</li>
 					</a>
-                    <a href="http://www.coolecho.net">
+                    <a href="http://about.coolecho.net">
                         <li class="nav_ul_li">About</li>
                     </a>
                 </ul>
             </nav>
         </div>
     </div>
-
 </header>
+
+<script type='text/javascript'>
+    var canvas = document.getElementById('header-canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = canvas.parentNode.offsetWidth;
+    canvas.height = canvas.parentNode.offsetHeight;
+    window.requestAnimFrame = (function(){
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(callback){
+                    window.setTimeout(callback, 1000 / 60);
+                };
+    })();
+
+    var waves = ["rgba(157, 187, 210, 0.4)",
+        "rgba(171, 216, 201, 0.4)",
+        "rgba(157,192,249, 0.4)",
+        "rgba(0,222,255, 0.2)"];
+    var step = 0;
+    function loop() {
+        step++;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        for(var j = waves.length - 1; j >= 0; j--) {
+            var offset = step + j * Math.PI * 12;
+            ctx.fillStyle = waves[j];
+            var angle = (step+j*45)*Math.PI/180;
+            var deltaHeight = Math.sin(angle) * 30;
+            var deltaHeightRight = Math.cos(angle) * 30;
+            ctx.beginPath();
+            ctx.moveTo(0, 50 + deltaHeight);
+            // ctx.lineTo(canvas.width, canvas.height/2 + deltaHeightRight);
+            ctx.bezierCurveTo(canvas.width /3 , 50+deltaHeight, canvas.width * 2 / 3, 50+deltaHeightRight, canvas.width, 50+deltaHeightRight);
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.lineTo(0, canvas.height / 2 + deltaHeight);
+            ctx.closePath();
+            ctx.fill();
+        }
+        requestAnimFrame(loop);
+    }
+
+    loop();
+</script>

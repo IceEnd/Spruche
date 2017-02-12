@@ -5,19 +5,19 @@
     
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <meta name="author" content="Cononico" />
-    <meta name="application-name" content="Cononicoの文艺复兴"/>
+    <meta name="application-name" content="<%= website.name %>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta charset="UTF-8" />
     <meta name="apple-mobile-app-capable" content="yes">
     <meta name="apple-mobile-app-status-bar-style" content="black">
     
-    <meta name="description" itemprop="description" content="Cononicoの个人博客" />
+    <meta name="description" itemprop="description" content="<%=website.description %>" />
     <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
 
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
 
-    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDjango.css">
   </head>
   <body>
       <% include header.html %>
@@ -41,7 +41,7 @@
                             <span>
                               <a class="article-author" data-pjax="true"><%= blog.username %></a>
                             </span><span>
-                              <a class="article-comments-num disqus-comment-count" data-disqus-url="<%=website.domain%>/article/av<%=blog.id%>" href="/article/av<%=blog.id%>#disqus_thread" data-pjax="true">0 Comments</a>
+                              <a class="article-comments-num ds-thread-count" data-thread-key="<%=blog.id%>" data-count-type="comments" data-pjax="true">0 Comments</a>
                             </span><span>
                               <a class="article-view-num"><%= blog.view_num %> Views</a>
                             </span><span>
@@ -69,35 +69,44 @@
                        <% } %>
                     </nav>
                     <div>
-                       <div id="disqus_thread"></div>
-                       <script>
-                            var disqus_config = function () {
-                                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                            };
-                            (function() {  // DON'T EDIT BELOW THIS LINE
-                                var d = document, s = d.createElement('script');
-
-                                s.src = '//coolecho.disqus.com/embed.js';
-
-                                s.setAttribute('data-timestamp', +new Date());
-                                (d.head || d.body).appendChild(s);
+                        <!-- 多说评论框 start -->
+                        <div class="ds-thread" data-thread-key="<%=blog.id%>" data-title="<%=blog.title%>" data-url="<%=website.domain%>/article/av<%=blog.id%>"></div>
+                        <!-- 多说评论框 end -->
+                        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+                        <script type="text/javascript">
+                            var duoshuoQuery = {short_name:"<%=website.short_name %>"};
+                            (function() {
+                                var ds = document.createElement('script');
+                                ds.type = 'text/javascript';ds.async = true;
+                                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//'+document.location.hostname+'/javascripts/duoshuo/embed.js';
+                                ds.charset = 'UTF-8';
+                                (document.getElementsByTagName('head')[0]
+                                || document.getElementsByTagName('body')[0]).appendChild(ds);
                             })();
-                      </script>
-                      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                        </script>
+                        <!-- 多说公共JS代码 end -->
                     </div>
                   </article>
               </section>
           </div>
       </div>
+      <div class="img-view">
+          <h5></h5>
+          <div class="img-view-div">
+              <img />
+          </div>
+      </div>
+      <!--<% include tagsBg.html %>-->
       <% include footer.html %>
       <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
       <script src="/javascripts/libs/jquery.pjax.js"></script>
       <script src="/javascripts/front/pjax-loading.js"></script>
       <script type="text/javascript" src="/javascripts/common/util.js"></script>
       <script type="text/javascript" src="/javascripts/front/index.js"></script>
-      <script id="dsq-count-scr" src="//coolecho.disqus.com/count.js" async></script>
+      <script src="/javascripts/duoshuo/embed.js"></script>
       <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+      <script src="/javascripts/libs/tagcanvas.min.js"></script>
+      <!--<script src="/javascripts/front/tags.js"></script>-->
       <script type="text/javascript">
           SyntaxHighlighter.highlight();
           $("table.syntaxhighlighter").each(function () {

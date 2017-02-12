@@ -14,7 +14,6 @@
           }
           $('#info-main').html(html);
           var height = $('html').height() + $('#info-main').height();
-          console.log(height);
           $('#wrapper', parent.document).height(height);
           $('#content-iframe', parent.document).height(height);
         }
