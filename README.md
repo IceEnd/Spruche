@@ -1,6 +1,6 @@
 #Spruche
 
-[![npm version](https://img.shields.io/badge/npm-v0.0.4-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+[![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 
 ##Get Started
 Spruche is a  blog system,which is based on Node.js.Here you can go to check the system function--[https://blog.coolecho.net](https://blog.coolecho.net "绘枫和畅").The back-end using Express framework, on the front end pjax technology is introduced.
