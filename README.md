@@ -1,6 +1,7 @@
 #Spruche
 
 [![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 ##Get Started
 Spruche is a  blog system,which is based on Node.js.Here you can go to check the system function--[https://blog.coolecho.net](https://blog.coolecho.net "绘枫和畅").The back-end using Express framework, on the front end pjax technology is introduced.
@@ -96,4 +97,4 @@ Access `https://hostname/admin` or `http://hostname/admin`,you can manage system
 Access `https://hostname/admin#wsconfing`, set ```short_name``` of duoshuo.
 
 ###LICENSE
-[APACHE 2.0](https://github.com/pantsPoi/Spruche/blob/master/LICENSE)
+[MIT](https://github.com/pantsPoi/Spruche/blob/master/LICENSE)
