@@ -194,7 +194,6 @@
         getImageWidth($('.img-view img').attr('src'), function (imgWidth, imgHeight) {
             var width = $(window).width();
             var height = $(window).height();
-            console.log((imgWidth / imgHeight) > (width / height));
             if((imgWidth / imgHeight) > (width / height)) {
                 var marginTop = -(imgHeight / ( imgWidth / width)) / 2 * 0.8;
                 $('.img-view img').css({width: '100%', height:'auto', top: '50%', 'margin-top': marginTop + 'px'});
