@@ -209,10 +209,6 @@
         });
     }
 
-    window.onresize = function () {
-        imgViewSize(false);
-    }
-
     $(window).bind("wheel",function(event){
         if(!wheelAble) {
             event.preventDefault();
