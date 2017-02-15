@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var Geetest = require('../gt-sdk');
 
 var websiteDao = require('../dao/websiteDao');
 var usersDao = require('../dao/usersDao');
@@ -8,11 +7,6 @@ var blogsDao = require('../dao/blogsDao');
 var tagsDao = require('../dao/tagsDao');
 
 var util = require('../common/util');
-
-var pcGeetest = new Geetest({
-    privateKey: '308ef2b3d8b8adc6340193bbf6063be0',
-    publicKey: 'c95bbbfe020f0227020374bd2ebf3705'
-});
 
 /* website install */
 router.get('/start', function (req, res, next) {
@@ -140,46 +134,36 @@ router.post('/start', function (req, res, next) {
 });
 
 /* 登陆 */
-router.post('/ulogin', function (req, res, next) {
+router.post('/ulogin', function (req, res) {
   var date = util.formatDate(new Date());
   var user;
   var type = 0;
-  pcGeetest.validate({
-    challenge: req.body.geetest_challenge,
-    validate: req.body.geetest_validate,
-    seccode: req.body.geetest_seccode
-  }, function (err, result) {
-    if (err || !result) {
-      res.send({ type: 2 });
-    } else {
-      usersDao.login(req.body.email, req.body.password)
-        .then(function (result) {
-          if (result.length != 0) {
-            user = result[0];
-            delete user.password;
-            delete user.state;
-            delete user.reg_date;
-            return usersDao.loginDate(user.id, date);
-          }
-          else {
-            type = 1;
-            return false;
-          }
-        })
-        .then(function (result) {
-          if (type == 0) {
-            user.token = result;
-            res.send({ type: 0, user: user })
-          }
-          else {
-            res.send({ type: 1 });
-          }
-          res.end();
-        }, function (err) {
-          res.send({ type: 1 });
-        });
-    }
-  });
+  usersDao.login(req.body.email, req.body.password)
+    .then(function (result) {
+      if (result.length != 0) {
+        user = result[0];
+        delete user.password;
+        delete user.state;
+        delete user.reg_date;
+        return usersDao.loginDate(user.id, date);
+      }
+      else {
+        type = 1;
+        return false;
+      }
+    })
+    .then(function (result) {
+      if (type == 0) {
+        user.token = result;
+        res.send({ type: 0, user: user })
+      }
+      else {
+        res.send({ type: 1 });
+      }
+      res.end();
+    }, function (err) {
+      res.send({ type: 1 });
+    });
 });
 
 /* 留言板 */

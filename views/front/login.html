@@ -10,13 +10,11 @@
     <meta charset="UTF-8" />
     <meta name="apple-mobile-app-capable" content="yes">
     <meta name="apple-mobile-app-status-bar-style" content="black"><meta name="description" itemprop="description" content="<%= website.name %>的登陆页面" />
-
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/dist/main.min.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
     
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
     <script src="/javascripts/libs/jquery.cookie.js"></script>
-    <script src="https://static.geetest.com/static/tools/gt.js"></script>
   </head>
   <body>
       <% include header.html %>
@@ -47,33 +45,9 @@
               </div>
           </div>
       </div>
-      <script>
-       var CAPTCHAOBJ;
-       var handlerEmbed = function (captchaObj) {
-           captchaObj.appendTo("#embed-captcha");
-           CAPTCHAOBJ = captchaObj;
-        };
-
-        function loadCaptcha(){
-            $.ajax({
-                url: "/pc-geetest/register?t=" + (new Date()).getTime(), 
-                type: "get",
-                dataType: "json",
-                success: function (data) {
-                    initGeetest({
-                        gt: data.gt,
-                        challenge: data.challenge,
-                        product: "embed",
-                        offline: !data.success 
-                    }, handlerEmbed);
-                }
-            });
-        }
-        loadCaptcha();
-      </script>
       
       <% include alert.html %>
-      <script type="text/javascript" src="/javascripts/common/util.js"></script>
-      <script type="text/javascript" src="/javascripts/front/login.js"></script>
+      <script type="text/javascript" src="/dist/main.min.js"></script>
+
   </body>
 </html>

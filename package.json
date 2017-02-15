@@ -30,5 +30,16 @@
     "ueditor": "latest",
     "express-pjax":"latest",
     "request": "^2.54.0"
+  },
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-uglify": "~2.1.0",
+    "grunt-contrib-requirejs": "~1.0.0",
+    "grunt-contrib-copy": "~1.0.0",
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-css": "~0.5.4",
+    "grunt-strip": "~0.2.1"
   }
 }
