@@ -393,7 +393,7 @@ html,body{
 }
 
 .page-content{
-  max-width: 1170px;
+  max-width: 978px;
   width: 90%;
   margin: 0 auto;
   padding: 25px 35px;
@@ -860,7 +860,7 @@ html,body{
 }
 
 .article-content{
-  max-width: 1170px;
+  max-width: 978px;
   width: 90%;
   margin: 0 auto;
   padding: 25px 45px;
@@ -913,22 +913,28 @@ html,body{
 }
 
 .article-content-div ol,.article-content-div ul, .article-content-div li{
-  list-style-type: disc;
   margin: 0 1em;
-  font-size: 0.9em;
+}
+
+.article-content-div ol li{
+  list-style-type: decimal;
+}
+
+.article-content-div ul li{
+  list-style-type: disc;
 }
 
 .article-content-div p {
-  text-indent:2em;
+  text-indent:0em;
   margin-bottom: 1em;
 }
 
 .article-content-div p img {
-  margin: 1em 0 1em -2em;
+  margin: 1em 0em;
   cursor: pointer;
 }
 
-.article-content-div ul li p {
+.article-content-div ul li p,  .article-content-div ol li p{
   text-indent: 0;
   margin-bottom: 0;
 }
@@ -961,13 +967,25 @@ html,body{
 }
 
 .article-content-div table {
-  display: table;
   border-collapse: collapse;
   border: 0;
+  display: block;
+  width: 95%;
+  overflow: auto;
+  margin: 0.5em auto;
 }
-.article-content-div tr, .article-content-div th{
-  border-bottom: 1px solid #333;
-  border-top: 1px solid #333;
+.article-content-div table tr, .article-content-div table th{
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.article-content-div table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.article-content-div .syntaxhighlighter td {
+  border-width: 0 !important;
 }
 
 .post-nav {
@@ -1251,6 +1269,10 @@ html,body{
 
   .article-info{
     margin-left: 0;
+  }
+
+  .article-content-div {
+    font-size: 12px;
   }
 
   .article-title-h{
