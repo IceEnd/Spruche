@@ -518,6 +518,13 @@ ul.sidebar-menu li ul.sub li a:hover, ul.sidebar-menu li ul.sub li.active a {
   color: #232425;
 }
 
+.ws-form {
+    padding: 10px;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio: 0){
     .dropdown-menu.extended {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.176) !important;

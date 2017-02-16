@@ -66,16 +66,16 @@
                         }
 
                         htmlStr += '<div class="horizontal-line-div"><div class="vertical-line"></div></div></article></li>';
-                    }  
-                    $('#article-ul').append(htmlStr);
-                    if(blogs.length == 10){
-                        $('#load-more-btn-div-cnt').css('display','inline-block');
                     }
-                    showArticle();
-                    DUOSHUO.ThreadCount($('.ds-thread-count'));
                     setTimeout(function () {
                         $('#loading-div').css('display','none');
-                    }, 500);
+                        $('#article-ul').append(htmlStr);
+                        if(blogs.length == 10){
+                            $('#load-more-btn-div-cnt').css('display','inline-block');
+                        }
+                        showArticle();
+                        DUOSHUO.ThreadCount($('.ds-thread-count'));
+                    }, 600);
                 }
                 else{
                     setTimeout(function () {
@@ -97,7 +97,7 @@
 
     closeAlert();
 
-    $(window).on("scroll", function(){ 
+    $(window).on("scroll", function(){
         //当滚动条滚动时
         showArticle();
 
@@ -107,7 +107,7 @@
             });
             $('#head_logo').css({'top':'5px','width':'70px','height':'70px','border-width':'2px','transform':'rotate(360deg)'});
             $('.motto').fadeOut(800);
-            
+
             flag = false;
         }
 
@@ -122,7 +122,7 @@
     function showArticle() {
         article_li = $('.article-li');
         h = window.innerHeight;
-        for(var i = 0; i < article_li.length; i++){             
+        for(var i = 0; i < article_li.length; i++){
             s_top=$(document).scrollTop();
             t = article_li[i].offsetTop - s_top;
             if((t-h) < -50){
@@ -133,34 +133,39 @@
 
     //菜单弹出
     function showMenu(){
-        $('#mobile-nav').stop(true.false).animate({'left':'0'},200);    
+        $('#mobile-nav').stop(true.false).animate({'left':'0'},200);
     }
     function hiddenMenu(){
-        $('#mobile-nav').stop(true.false).animate({'left':'-60%'},200);         
+        $('#mobile-nav').stop(true.false).animate({'left':'-60%'},200);
     }
 
-    $('#get-menu-icon').bind('touchstart',function (e) {
-        stopPropagation(e); 
+    $('#get-menu-icon').bind('click',function (e) {
+        stopPropagation(e);
         if(menu_none){
             showMenu();
             menu_none = false;
-        } 
+        }
     });
 
-    $(document).bind('touchstart', function() {  
-        hiddenMenu(); 
-        menu_none = true; 
+    $(document).bind('click', function() {
+        hiddenMenu();
+        menu_none = true;
     });
 
-    $('#mobile-nav').bind('click', function(e) {  
-        stopPropagation(e);   
+    $(document).bind('touchstart', function() {
+        hiddenMenu();
+        menu_none = true;
     });
 
-    function stopPropagation(e) {  
-        if (e.stopPropagation)  
-            e.stopPropagation();  
-        else  
-            e.cancelBubble = true;  
+    $('#mobile-nav').bind('click', function(e) {
+        stopPropagation(e);
+    });
+
+    function stopPropagation(e) {
+        if (e.stopPropagation)
+            e.stopPropagation();
+        else
+            e.cancelBubble = true;
     }
 
     $(document).on('click', '.article-content-div img', function () {
@@ -194,7 +199,6 @@
         getImageWidth($('.img-view img').attr('src'), function (imgWidth, imgHeight) {
             var width = $(window).width();
             var height = $(window).height();
-            console.log((imgWidth / imgHeight) > (width / height));
             if((imgWidth / imgHeight) > (width / height)) {
                 var marginTop = -(imgHeight / ( imgWidth / width)) / 2 * 0.8;
                 $('.img-view img').css({width: '100%', height:'auto', top: '50%', 'margin-top': marginTop + 'px'});
@@ -208,6 +212,10 @@
             }
         });
     }
+
+    // window.onresize = function () {
+    //     imgViewSize(false);
+    // }
 
     $(window).bind("wheel",function(event){
         if(!wheelAble) {

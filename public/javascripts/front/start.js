@@ -1,10 +1,10 @@
 (function ($) {
-    var $website = $('#website'),
-        $username = $('#username'),
-        $email = $('#email'),
-        $password = $('#password'),
-        $rePassword = $('#rpassword'),
-        $btn = $('#sure_btn');
+    var $website = $('#start-website'),
+        $username = $('#start-username'),
+        $email = $('#start-email'),
+        $password = $('#start-password'),
+        $rePassword = $('#start-rpassword'),
+        $btn = $('#start_sure_btn');
     
     var domain = location.protocol + '//'+ location.hostname;
 
