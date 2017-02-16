@@ -36,35 +36,13 @@ Open system terminal
 ```
 npm install
 ```
-###step 4. Start
-First,If you don't use SSL, so please note the following code in /bin/www.
+Then
 ```
-/*
-var https = require('https');
-
-var privateKey  = fs.readFileSync('./ssl/node.key', 'utf8');
-var certificate = fs.readFileSync('./ssl/node.crt', 'utf8');
-*/
-...
-/*
-var credentials = {
-  key: privateKey,                 //key
-  cert: certificate,               //cert
-  passphrase: '**********'         //password
-};
-*/
-...
-/*
-var httpsServer = https.createServer(credentials, app);
-*/
-
-...
-/*
-httpsServer.listen(443);
-httpsServer.on('error', onError);
-httpsServer.on('listening', onListening);
-*/
+npm install -g grunt
+grunt
 ```
+
+###step 3. Start
 If you want to start a system, executing the following command.
 ```
 npm start
@@ -82,13 +60,12 @@ or
 npm run public
 ```
 
-###step 5. System config
+###step 4. System config
 Now,you need to access you website:`http://hostname/start` or `https://hostname/start`.Add the corresponding information.
 
 Ok, finished.Now,you can access you website.
 
-###SSL
-If you want to use SSL, please put the file into the SSL folder.You can look at step4.
+
 
 ###Admin
 Access `https://hostname/admin` or `http://hostname/admin`,you can manage system.
