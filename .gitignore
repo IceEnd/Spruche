@@ -6,3 +6,4 @@
 /database/
 /bin/www
 npm-debug.log
+/public/dist/
