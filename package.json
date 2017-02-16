@@ -1,9 +1,10 @@
 {
   "name": "spruche",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "start": "node ./bin/www",
-    "public": "forever start ./bin/www"
+    "public": "forever start ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
