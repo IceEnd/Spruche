@@ -894,16 +894,6 @@ html,body{
     word-break: break-all;
 }
 
-.article-content-div p {
-  text-indent:2em;
-  margin-bottom: 1em;
-}
-
-.article-content-div p img {
-  margin: 1em 0 1em -2em;
-  cursor: pointer;
-}
-
 .article-content-div .wp-caption-text{
     text-align: center;
     color:cadetblue;
@@ -924,7 +914,40 @@ html,body{
 
 .article-content-div ol,.article-content-div ul, .article-content-div li{
   list-style-type: disc;
-  margin-left: 1em;
+  margin: 0 1em;
+  font-size: 0.9em;
+}
+
+.article-content-div p {
+  text-indent:2em;
+  margin-bottom: 1em;
+}
+
+.article-content-div p img {
+  margin: 1em 0 1em -2em;
+  cursor: pointer;
+}
+
+.article-content-div ul li p {
+  text-indent: 0;
+  margin-bottom: 0;
+}
+
+.article-content-div blockquote {
+  color: #7f8fa4;
+  font-size: inherit;
+  padding: 8px 21px;
+  margin: 12px 0;
+  border-left: 3px solid #ececec;
+  background-color: #fefefe;
+}
+
+.article-content-div blockquote p {
+  text-indent: 0;
+  margin-bottom: 0;
+  color: #7f8fa4;
+  font-size: inherit;
+  line-height: 1.5;
 }
 
 .article-content-div .custom_dash, .article-content-div .list-dash{
