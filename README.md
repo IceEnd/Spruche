@@ -38,7 +38,7 @@ npm install
 ```
 Then
 ```
-npm install -g grunt
+npm install -g grunt-cli
 grunt
 ```
 
