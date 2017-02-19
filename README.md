@@ -3,6 +3,8 @@
 [![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
+[中文文档](https://www.coolecho.net/article/av17)
+
 ##Get Started
 Spruche is a  blog system,which is based on Node.js.Here you can go to check the system function--[https://blog.coolecho.net](https://blog.coolecho.net "绘枫和畅").The back-end using Express framework, on the front end pjax technology is introduced.
 
