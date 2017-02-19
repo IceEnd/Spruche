@@ -11,7 +11,7 @@ Spruche is a  blog system,which is based on Node.js.Here you can go to check the
 If you want to use Spruche, your server should satisfy the conditions.
 ###list
 - Node.js >= 4.4.7
-- mysql >= 5.x
+- mysql >= 5.0
 
 ##Install
 ###step 1. Create database
