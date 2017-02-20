@@ -1,18 +1,50 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const Geetest = require('../gt-sdk');
 
-var websiteDao = require('../dao/websiteDao');
-var usersDao = require('../dao/usersDao');
-var blogsDao = require('../dao/blogsDao');
-var tagsDao = require('../dao/tagsDao');
+const websiteDao = require('../dao/websiteDao');
+const usersDao = require('../dao/usersDao');
+const blogsDao = require('../dao/blogsDao');
+const tagsDao = require('../dao/tagsDao');
+const dbDao = require('../dao/dbDao');
 
-var util = require('../common/util');
+const util = require('../common/util');
 
 /* website install */
-router.get('/start', function (req, res, next) {
+router.get('/start', function (req, res) {
   var start = false;
   var website;
-  websiteDao.getWebSite()
+  dbDao.createUsers()
+    .then(function () {
+      return dbDao.createClassify();
+    })
+    .then(function () {
+      return dbDao.createBlogs();
+    })
+    .then(function () {
+      return dbDao.createTags();
+    })
+    .then(function () {
+      return dbDao.createComments();
+    })
+    .then(function () {
+      return dbDao.createReplayComments();
+    })
+    .then(function () {
+      return dbDao.createWebsite();
+    })
+    .then(function () {
+      return dbDao.createFriends();
+    })
+    .then(function () {
+      return dbDao.initWebsite();
+    })
+    .then(function () {
+      return dbDao.initClassify();
+    })
+    .then(function () {
+      return websiteDao.getWebSite();
+    })
     .then(function (result) {
       if (result[0].state == 0) {
         start = true;
@@ -21,26 +53,35 @@ router.get('/start', function (req, res, next) {
         website = result[0];
       }
     })
-    .finally(function () {
+    .then(function () {
       if (start) {
-        res.render('front/start', { title: 'Spruche' });
+        res.render('front/start', { title: '初号机神经同步' });
       }
       else {
         res.redirect('/');
       }
-    });
+    })
+    .catch(function (err) {
+      console.log(err);
+      res.render('error', { message: '数据表创建失败，请联系作者' });
+    })
 });
 
 /* 首页 */
-router.get('/', function (req, res, next) {
-  var website;
+router.get('/', function (req, res) {
+  var website, blogs;
   websiteDao.getWebSite()
     .then(function (result) {
       website = result[0];
-      return blogsDao.getBlogByPage(0, 10);
+      return blogsDao.getStick();
     })
     .then(function (result) {
-      res.render('front/index', { website: website, blogs: result });
+      blogs = result;
+      return blogsDao.getBlogByPage(0, 9);
+    })
+    .then(function (result) {
+      blogs = blogs.concat(result);
+      res.render('front/index', { website: website, blogs: blogs });
     })
     .catch(function (error) {
       res.render('error', { message: '404', error: error });
@@ -118,7 +159,7 @@ router.get('/login', function (req, res, next) {
 });
 
 /* 开通站点 */
-router.post('/start', function (req, res, next) {
+router.post('/start', function (req, res) {
   var date = util.formatDate(new Date());
   var img = '/images/pic/head.jpg';
   websiteDao.startWebSite(req.body.website, req.body.email, date, req.body.domain)
@@ -127,14 +168,14 @@ router.post('/start', function (req, res, next) {
         return usersDao.regUser(req.body.username, req.body.password, req.body.email, img, date, 0, 0);
       }
     })
-    .finally(function (result) {
+    .finally(function () {
       res.send(true);
       res.end();
     });
 });
 
 /* 登陆 */
-router.post('/ulogin', function (req, res) {
+router.post('/ulogin', function (req, res, next) {
   var date = util.formatDate(new Date());
   var user;
   var type = 0;
@@ -186,18 +227,6 @@ router.get('/friendslink', function (req, res, next) {
     .catch(function (error) {
       res.render('error', { message: 404, error: error });
     });
-});
-
-router.get("/pc-geetest/register", function (req, res) {
-
-  // 向极验申请一次验证所需的challenge
-  pcGeetest.register(function (data) {
-    res.send(JSON.stringify({
-      gt: pcGeetest.publicKey,
-      challenge: data.challenge,
-      success: data.success
-    }));
-  });
 });
 
 /* 获取标签 */

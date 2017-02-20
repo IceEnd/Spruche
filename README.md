@@ -1,6 +1,6 @@
 #Spruche
 
-[![version](https://img.shields.io/badge/version-0.0.4-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+[![version](https://img.shields.io/badge/vsersion-0.0.5-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 [中文文档](https://www.coolecho.net/article/av17)
@@ -15,7 +15,7 @@ If you want to use Spruche, your server should satisfy the conditions.
 
 ##Install
 ###step 1. Create database
-You need to execute SQL script,Create the database scripts are in database.sql.You can be in the mysql command line or execute a statement in the visualization tools, of course you can also define your own database name.for example:<br>
+Create database, for example:<br>
 ```
 create database xxxx;
 ```

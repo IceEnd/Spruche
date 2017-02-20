@@ -1,37 +1,37 @@
 (function ($) {
-    var $website = $('#start-website'),
-        $username = $('#start-username'),
-        $email = $('#start-email'),
-        $password = $('#start-password'),
-        $rePassword = $('#start-rpassword'),
-        $btn = $('#start_sure_btn');
+    var $startWebsite = $('#start-website'),
+        $startUsername = $('#start-username'),
+        $startEmail = $('#start-email'),
+        $startPassword = $('#start-password'),
+        $startRePassword = $('#start-rpassword'),
+        $startSureBtn = $('#start_sure_btn');
     
     var domain = location.protocol + '//'+ location.hostname;
 
-    $btn.bind('click', function () {
-        if ($website.val() == '' || $username.val() == '' || $email.val() == '' || $password.val() == '' || $rePassword.val() == '') {
+    $startSureBtn.bind('click', function () {
+        if ($startWebsite.val() == '' || $startUsername.val() == '' || $startEmail.val() == '' || $startPassword.val() == '' || $startRePassword.val() == '') {
             myAlert('信息不能为空');
             return false;
         }
-        if (!isPassword($password.val())) {
+        if (!isPassword($startPassword.val())) {
             myAlert('密码只能输入6-20个字母、数字、特殊字符');
             return false;
         }
-        if(!isEmail($email.val())){
+        if(!isEmail($startEmail.val())){
             myAlert('请输入正确的邮箱');
             return false;
         }
-        if ($password.val() == $rePassword.val()) {
+        if ($startPassword.val() == $startRePassword.val()) {
             $.ajax({
                 type: 'POST',
                 url: '/start',
                 dataType: 'json',
                 traditional: true,
                 data: {
-                    "website":$website.val(),
-                    "username":$username.val(),
-                    "email":$email.val(),
-                    "password":$password.val(),
+                    "website":$startWebsite.val(),
+                    "username":$startUsername.val(),
+                    "email":$startEmail.val(),
+                    "password":$startPassword.val(),
                     'domain':domain
                 },
                 success: function (data) {

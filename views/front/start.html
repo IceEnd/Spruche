@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%=website.name %> | <%= title %></title>
+    <title>Spruche | <%= title %></title>
     
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <meta name="author" content="Cononico" />
-    <meta name="application-name" content="<%=website.name %>"/>
+    <meta name="application-name" content="<%= title %>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta charset="UTF-8" />
     <meta name="apple-mobile-app-capable" content="yes">
@@ -38,7 +38,7 @@
                      </div> 
                      <div class="login-form-d login-form-d-f">
                         <span class="login-email-icon"></span> 
-                        <input class="login-form-ipt" type="email" placeholder="邮箱" name="username" id="start-email">
+                        <input class="login-form-ipt" type="email" placeholder="邮箱" name="email" id="start-email">
                      </div> 
                      <div class="login-form-d login-form-d-f">
                         <span class="login-password-icon"></span> 
@@ -58,7 +58,7 @@
       
       <!-- 弹出框 -->
       <% include alert.html %>
-
+      <script type="text/javascript" src="/javascripts/libs/jquery.pjax.js"></script>
       <script type="text/javascript" src="/dist/main.min.js"></script>
   </body>
 </html>

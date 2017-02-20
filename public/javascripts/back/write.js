@@ -31,7 +31,6 @@
                 tags = $('#tags-div').attr('data-tags').split(',');
             }
         }
-        console.log(tags);
     }
 
     init();
@@ -211,7 +210,7 @@
         var arr = [];
         arr.push(UE.getEditor('editor').getContent());
         blog.content = arr.join('\n');
-        blog.summary = htmlspecialchars(UE.getEditor('editor').getContentTxt().substr(0,180) + '...');
+        blog.summary = htmlspecialchars(UE.getEditor('editor').getContentTxt());
         blog.tags = tags;
         blog.classify_name = $('.classify-ipt:checked').attr('data-name');
         blog.classify_id = $('.classify-ipt:checked').val();

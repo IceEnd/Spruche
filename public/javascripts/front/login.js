@@ -29,10 +29,7 @@
                 traditional: true,
                 data: {
                     "email": $email.val(),
-                    "password": $password.val(),
-                    "geetest_challenge":CAPTCHAOBJ.getValidate().geetest_challenge,
-                    "geetest_seccode":CAPTCHAOBJ.getValidate().geetest_seccode,
-                    "geetest_validate":CAPTCHAOBJ.getValidate().geetest_validate
+                    "password": $password.val()
                 },
                 success: function (data) {
                     switch (data.type) {
