@@ -33,7 +33,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+// var httpsServer = https.createServer(credentials, app);
 
 /**
  * Listen on provided port, on all network interfaces.
