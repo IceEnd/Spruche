@@ -11,8 +11,8 @@
     <meta name="apple-mobile-app-capable" content="yes">
     <meta name="apple-mobile-app-status-bar-style" content="black">
     
-    <meta name="description" itemprop="description" content="<%=website.description %>" />
-    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+    <meta name="description" itemprop="description" content="<%=blog.title %>" />
+    <meta name="keywords" itemprop="keywords" content="<%=blog.tags%>" />
 
     <link rel='stylesheet' href='/dist/main.min.css' />
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
@@ -53,6 +53,17 @@
                     </div>
                     <div class="article-content-div">
                         <%- blog.content %>
+                    </div>
+                    <div class="licenses-div">
+                        <blockquote>
+                            <p style="text-align:center;">
+                                <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a><br>本作品采用
+                                <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。<br>
+                            </p>
+                        </blockquote>
+                    </div>
+                    <div class="qrcode-div">
+                        <img alt="微信公众号" src="/images/pic/wx.jpg" />
                     </div>
                     <nav class="post-nav">
                        <% if(prev.length != 0){ %>

@@ -54,7 +54,7 @@
                         }
 
                         htmlStr += '<div class="article-summary-div"><a href="/article/av'+blogs[b].id+'" data-pjax="true"><p class="article-summary-p">'+
-                            blogs[b].summary+'</p></a></div>';
+                            blogs[b].summary.substr(0, 155)+'</p></a></div>';
 
                         if(blogs[b].tags != ''){
                             htmlStr += '<div class="article-tags-div">';
@@ -212,10 +212,6 @@
             }
         });
     }
-
-    // window.onresize = function () {
-    //     imgViewSize(false);
-    // }
 
     $(window).bind("wheel",function(event){
         if(!wheelAble) {
