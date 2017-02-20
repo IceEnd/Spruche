@@ -1,6 +1,6 @@
 {
   "name": "spruche",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "start": "node ./bin/www",
     "public": "forever start ./bin/www",
