@@ -8,10 +8,15 @@ const classifyDao = require('../dao/classifyDao');
 const blogsDao = require('../dao/blogsDao');
 const tagsDao = require('../dao/tagsDao');
 const websiteDao = require('../dao/websiteDao');
+const friendsDao = require('../dao/friendsDao');
 
-var util = require('../common/util');
+const util = require('../common/util');
+const upload = require('../common/upload');
 
 const package = require('../package.json');
+
+const blogImgUpload = upload.blogImgUpload.single('blogimg');
+const friendImgUpload = upload.friendImgUpload.single('friendhead');
 
 router.get('/*', function (req, res, next) {
   usersDao.getUserToken(req.cookies.id, req.cookies.token)
@@ -102,10 +107,8 @@ router.post('/index/appInfo', function (req, res) {
     if(!err && response.statusCode == 200){
       var appInfo = JSON.parse(response.body);
       appInfo.version = package.version;
-      console.log(appInfo);
       res.send({type: true, appInfo: appInfo});
     } else {
-      console.log(err);
       res.send({type: false});
     }
   });
@@ -218,8 +221,49 @@ router.post('/write/addclassify', function (req, res) {
       res.send({ type: true, id: result.insertId });
       res.end();
     })
-    .catch(function (error) {
+    .catch(function () {
       res.send({ type: false });
+      res.end();
+    });
+});
+
+/* 上传特色图片 */
+router.post('/write/blogimgupload', function (req, res) {
+  blogImgUpload(req, res, function (err) {
+    if (err) {
+      res.send({ retCode: '500'});
+      res.end();
+    } else {
+      blogsDao.setImage(`/upload/img/blog/${req.file.filename}`, req.body.id)
+        .then(function () {
+          res.send({
+            retCode: '0',
+            retData: {
+              url: `/upload/img/blog/${req.file.filename}`
+            }
+          });
+        })
+        .catch(function () {
+          res.send({retCode: '500'});
+          res.end();
+        });
+    }
+  });
+});
+
+/* 设置特色图片 */
+router.post('/write/setblogimg', function (req, res) {
+  blogsDao.setImage(req.body.url, req.body.id)
+    .then(function () {
+      res.send({
+        retCode: '0',
+        retData: {
+          url: req.body.url
+        }
+      });
+    })
+    .catch(function () {
+      res.send({retCode: '500'});
       res.end();
     });
 });
@@ -288,10 +332,10 @@ router.get('/allarticle', function (req, res) {
       .catch(function (error) {
         res.render('error', { message: 403, error: error });
       });
-    }
-    else {
-      res.redirect('../login');
-    }
+  }
+  else {
+    res.redirect('../login');
+  }
 });
 
 
@@ -341,27 +385,109 @@ router.get('/media', function (req, res) {
 // 设置页面
 router.get('/wsconfig', function (req, res) {
   let user;
-  if (req.cookies.uid && req.cookies.type == 0) {
-    usersDao.getUserById(req.cookies.uid)
-      .then(function (result) {
-        if (result.length != 0) {
-          user = result[0];
-          return websiteDao.getWebSite();
-        }
-        else {
-          throw new Error('403');
-        }
-      })
-      .then(function (result) {
-        res.render('back/wsconfig', { user: user, website: result[0] });
-      })
-      .catch(function (error) {
-        res.render('error', { message: 403, error: error });
+  usersDao.getUserById(req.cookies.uid)
+    .then(function (result) {
+      if (result.length != 0) {
+        user = result[0];
+        return websiteDao.getWebSite();
+      }
+      else {
+        throw new Error('403');
+      }
+    })
+    .then(function (result) {
+      res.render('back/wsconfig', { user: user, website: result[0] });
+    })
+    .catch(function (error) {
+      res.render('error', { message: 403, error: error });
+    });
+});
+
+// 友情链接管理
+router.get('/friendsconfig', function (req, res) {
+  friendsDao.getFriends()
+    .then(function (result) {
+      res.render('back/friendsconfig', { friends: result });
+    })
+    .catch(function () {
+      res.render('error', '500');
+    });
+});
+
+router.post('/friendsconfig/addfriend', function (req, res) {
+  friendImgUpload(req, res, function (err) {
+    if (err) {
+      res.send({
+        retCode: '500'
       });
-  }
-  else {
-    res.redirect('../login');
-  }
+      res.end();
+    } else {
+      const friend = {
+        name: req.body.friendName,
+        url: req.body.friendsUrl,
+        website: req.body.friendWebsite,
+        description: req.body.friendDescription,
+        head: `/upload/img/friends/${req.file.filename}`
+      };
+      friendsDao.addFriend(friend)
+        .then(function () {
+          res.send({
+            retCode: '0',
+            retData: {
+              friend: friend
+            }
+          });
+        })
+        .catch(function () {
+          res.send({retCode: '500'});
+          res.end();
+        });
+    }
+  });
+});
+
+router.post('/friendsconfig/alterfriend', function (req, res) {
+  friendImgUpload(req, res, function (err) {
+    if (err) {
+      res.send({retCode: '500'});
+      res.end();
+    } else {
+      const friend = {
+        id: req.body.id,
+        name: req.body.friendName,
+        url: req.body.friendsUrl,
+        website: req.body.friendWebsite,
+        description: req.body.friendDescription
+      };
+      if (req.body.head !== undefined) {
+        friend.head = req.body.head;
+      } else {
+        friend.head = `/upload/img/friends/${req.file.filename}`;
+      }
+      friendsDao.alterFriend(friend)
+        .then(function () {
+          res.send({retCode: '0'});
+          res.end();
+        })
+        .catch(function () {
+          res.send({retCode: '500'});
+          res.end();
+        });
+    }
+  });
+});
+
+router.post('/friendsconfig/delete', function (req, res) {
+  friendsDao.deleteFriend(req.body.id)
+    .then(function () {
+      res.send({retCode: '0'});
+      res.end();
+    })
+    .catch(function (error) {
+      console.log(error);
+      res.send({retCode: '500'});
+      res.end();
+    });
 });
 
 // 更新个人信息
@@ -380,19 +506,14 @@ router.post('/updateuser', function (req, res){
 // 更新网站信息
 router.post('/updatews', function (req, res){
   const website = JSON.parse(req.body.website);
-  console.log(website);
   websiteDao.updateInfo(website)
     .then(function () {
-        res.send({ type: true });
+      res.send({ type: true });
     })
     .catch(function (error) {
-        res.send({ type: false, error: error });
-        res.end();
+      res.send({ type: false, error: error });
+      res.end();
     });
 });
-
-/*获取友情链接*/
-// router.get('/frinedsconfig', function (req, res) {
-// });
 
 module.exports = router;

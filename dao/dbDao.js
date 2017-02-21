@@ -210,6 +210,7 @@ function createFriends() {
      CREATE TABLE If Not Exists friends(
       id INT NOT NULL AUTO_INCREMENT,
       name varchar(100) NOT NULL,
+      website varchar(100) NOT NULL,
       url varchar(100) NOT NULL,
       description varchar(500) NOT NULL,
       head varchar(100) NOT NULL,

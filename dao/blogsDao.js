@@ -9,7 +9,7 @@ var Q = require('q');
 function saveBlog(blog) {
     const defer = Q.defer();
     pool.getConnection(function (err, connection) {
-        connection.query('INSERT INTO blogs(id,title,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,stick,state,publish_date,img) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
+        connection.query('INSERT INTO blogs(id,title,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,stick,state,publish_date) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?) ',
             [blog.title, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, 0, blog.state, blog.publish_date, blog.img], function (err, result) {
                 if (!err) {
                     defer.resolve(result);
@@ -155,9 +155,9 @@ function alterBlog(blog) {
     const defer = Q.defer();
     var query;
     if(typeof blog.state === 'undefined'){
-        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, img = '${blog.img}' where id = ${blog.id}`;
+        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id} where id = ${blog.id}`;
     } else {
-        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, img = '${blog.img}', state = ${blog.state} where id = ${blog.id}`;
+        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, state = ${blog.state} where id = ${blog.id}`;
     }
     pool.getConnection(function (err, connection) {
         connection.query(query, function (err, result) {
@@ -269,6 +269,26 @@ function getStick() {
     });
     return defer.promise;
 }
+
+/**
+ * 设置文章特色图片
+ */
+function setImage(url, id) {
+    const defer = Q.defer();
+    pool.getConnection(function (err, connection) {
+        connection.query(`UPDATE blogs set img = '${url}' where id = ${id}`, function (err, result) {
+            if(!err){
+                defer.resolve(result);
+            }
+            else{
+                defer.reject(err);
+            }
+            connection.release();
+        });
+    });
+    return defer.promise;
+}
+
 module.exports = {
     saveBlog: saveBlog,                               //保存文章
     getBlogByPage: getBlogByPage,                     //获取分页文章
@@ -283,4 +303,5 @@ module.exports = {
     cancelStick: cancelStick,                         //取消置顶
     setStick: setStick,                               //设置置顶
     getStick: getStick,                               //获取置顶文章
+    setImage: setImage,
 }
