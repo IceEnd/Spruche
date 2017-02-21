@@ -140,14 +140,64 @@
                     <div class="publish-opt-title-div">
                         <h2>文章特色图片</h2>
                     </div>
+                    <div>
+                        <%if(edit) { %>
+                        <img src="<%= blog.img %>" id="blog_img_show" class="img-thumbnail">
+                        <% } %>
+                    </div>
                      <div class="publish-opt-btn-div">
-                         <a>选择图片</a>
-                         <a>上传图片</a>
+                         <a data-toggle="modal" data-target="#upload_blog_img_modal">上传图片</a>
+                         <a data-toggle="modal" data-target="#write_blog_img_modal">图片地址</a>
                      </div>
                 </div>
             </div>
             <div class="clearfix"></div>
         </form>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="upload_blog_img_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">上传图片</h4>
+                </div>
+                <div class="modal-body">
+                    <p>上传文章特色图片，文件大小在1M以下.</p>
+                    <form class="form-inline" id="blog_img_form">
+                        <div class="form-group">
+                            <label for="blog_img_input">选择图片</label>
+                            <input type="file" id="blog_img_input">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="blog_img_close_btn">Close</button>
+                    <button type="button" class="btn btn-primary" id="blog_img_btn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="write_blog_img_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">填写图片地址</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="write_blog_img_form">
+                        <div class="form-group">
+                            <label for="write_blog_img_input">图片地址</label>
+                            <input class="form-control" type="text" id="write_blog_img_input">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="write_blog_img_close_btn">Close</button>
+                    <button type="button" class="btn btn-primary" id="write_blog_img_btn">OK</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="/dist/back.min.js"></script>

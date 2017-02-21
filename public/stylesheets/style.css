@@ -581,8 +581,12 @@ html,body{
 }
 
 .article-img-div{
-  padding: 20px 15px 0 15px;
+  padding: 20px 20px 0 20px;
   text-align: center;
+}
+
+.article-img-div>img{
+  width: 100%;
 }
 
 .article-summary-div{

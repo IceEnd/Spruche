@@ -1,4 +1,4 @@
-var crypto = require('crypto');
+const crypto = require('crypto');
 
 /**加密 */
 function hashStr(str) {

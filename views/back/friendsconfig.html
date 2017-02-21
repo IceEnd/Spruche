@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Spruche|友链管理</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="Spruche|文章调教" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+
+    <meta name="description" itemprop="description" content="Spruche|友链管理" />
+    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+
+    <link rel='stylesheet' href='/dist/back.min.css' />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/stylesheets/libs/bootstrap.min.css" />
+    <!--external css-->
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.css" />
+</head>
+<body style="height: 100%">
+<div>
+    <form id="add_friend_form" data-type="true">
+        <div class="form-group">
+            <label for="friend_name"  class="col-sm-2 control-label">名称</label>
+            <input type="text" class="form-control" id="friend_name" placeholder="网站作者名称">
+        </div>
+        <div class="form-group">
+            <label for="friend_website">网站名</label>
+            <input type="text" class="form-control" id="friend_website" placeholder="网站名称">
+        </div>
+        <div class="form-group">
+            <label for="friend_description">网站描述</label>
+            <input type="text" class="form-control" id="friend_description" placeholder="网站描述">
+        </div>
+        <div class="form-group">
+            <label for="friends_url">网站链接</label>
+            <input type="text" class="form-control" id="friends_url" placeholder="网站链接">
+        </div>
+        <div class="form-group">
+            <label for="friends_head">头像</label>
+            <input type="file" id="friends_head">
+            <p class="help-block">选择小于1M的图片.</p>
+        </div>
+        <button type="submit" class="btn btn-default" id="frined_save_btn">保存</button>
+    </form>
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <% for(var i = 0; i < friends.length; i++) {%>
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img src="<%=friends[i].head%>" alt="头像" style="height: 250px">
+                    <div class="caption">
+                        <h3><a href="<%=friends[i].url%>" class="friend-website"><%=friends[i].website%></a></h3>
+                        <p><span class="friend-name"><%=friends[i].name%></span><br/><span class="friend-description"><%=friends[i].description%></span></p>
+                        <p>
+                            <a class="btn btn-default frined-alter" role="button" data-id="<%=friends[i].id%>">修改</a>
+                            <a class="btn btn-primary frined-delete" role="button" data-id="<%=friends[i].id%>">删除</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+<script src="/javascripts/libs/bootstrap.min.js"></script>
+<script src="/dist/back.min.js"></script>
+</body>
+</html>

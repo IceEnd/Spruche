@@ -219,10 +219,15 @@ router.get('/messageboard', function (req, res, next) {
 });
 
 /* 友人帐 */
-router.get('/friendslink', function (req, res, next) {
+router.get('/friendslink', function (req, res) {
+  var website;
   websiteDao.getWebSite()
     .then(function (result) {
-      res.renderPjax('front/friendslink', { website: result[0] });
+      website = result[0];
+      return friendsDao.getFriends();
+    })
+    .then(function (result) {
+      res.renderPjax('front/friendslink', { website: website, friends: result });
     })
     .catch(function (error) {
       res.render('error', { message: 404, error: error });

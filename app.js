@@ -16,8 +16,6 @@ var admin = require('./routes/admin');
 var ue = require('./routes/ueditor');
 
 var app = express();
-// var accessLogStream = fs.createWriteStream('./logs/access.log', {flags: 'a'});
-// var errorLogfile = fs.createWriteStream('./logs/error.log', {flags: 'a'});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

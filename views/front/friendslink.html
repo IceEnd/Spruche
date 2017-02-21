@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <title>绘枫和畅 | Q&A留言板</title>
-
     <title><%= website.name %> | 友人帐</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
@@ -23,71 +21,76 @@
 </head>
 
 <body>
-    <% include header.html %>
-    <div id="container">
-        <div class="page article-page">
-            <section id="content" class="article-content">
-                <article>
-                    <div class="article-info-div">
-                        <h3 class="friends-link-title">Cononico的小伙伴们：</h3>
-                    </div>
-                    <div style="padding-top:50px;">
-                        <ul class="friends-ul">
-                            <li class="friends-li">
-                                <div class="friends-li-div" >
-                                    <div class="article-user-img-div friends-link float-left">
-                                        <a href="http://noearth.com/">
-                                            <img src="https://osscoolecho.oss-cn-hangzhou.aliyuncs.com/blog/friendsheadimg/201608111.jpg"/>
-                                        </a>
-                                    </div>
-                                    <div class="vertical-line-div friends-link float-left">
-                                        <div class="vertical-line"></div>
-                                    </div>
-                                    <div class="article-info float-left">
-                                        <h3 class="article-title-h friends-link">
-                                            <span class="shine-font-span friends-link"></span>
-                                            <a href="/">友人名称</a>
-                                        </h3>
-                                        <div class="article-other-info friends-article-other-info">
-                                            <h4><a href="http://noearth.com/">友人博客</a></h4>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
+<% include header.html %>
+<div id="container">
+    <div class="page article-page">
+        <section id="content" class="article-content">
+            <article>
+                <div class="article-info-div">
+                    <h3 class="friends-link-title">Cononico的小伙伴们(无先后次序)：</h3>
+                </div>
+                <div style="padding-top:50px;">
+                    <ul class="friends-ul">
+                        <% for(var i = 0; i < friends.length; i++) { %>
+                        <li class="friends-li">
+                            <div class="friends-li-div" >
+                                <div class="article-user-img-div friends-link float-left">
+                                    <a href="<%= friends[i].url %>">
+                                        <img src="<%= friends[i].head %>"/>
+                                    </a>
                                 </div>
-                                <div class="friends-li-div">
-                                	<h4 class="friends-motto">——友人描述。</h4>
+                                <div class="vertical-line-div friends-link float-left">
+                                    <div class="vertical-line"></div>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                      <div id="disqus_thread"></div>
-                       <script>
-                            var disqus_config = function () {
-                                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                            };
-                            (function() {  // DON'T EDIT BELOW THIS LINE
-                                var d = document, s = d.createElement('script');
-
-                                s.src = '//coolecho.disqus.com/embed.js';
-
-                                s.setAttribute('data-timestamp', +new Date());
-                                (d.head || d.body).appendChild(s);
-                            })();
-                      </script>
-                      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-                    </div>
-                </article>
-            </section>
-        </div>
+                                <div class="article-info float-left">
+                                    <h3 class="article-title-h friends-link">
+                                        <span class="shine-font-span friends-link"></span>
+                                        <a href="<%= friends[i].url %>"><%= friends[i].name %></a>
+                                    </h3>
+                                    <div class="article-other-info friends-article-other-info">
+                                        <h4><a href="http://noearth.com/"><%= friends[i].website %></a></h4>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="friends-li-div">
+                                <h4 class="friends-motto">——<%= friends[i].description %></h4>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 多说评论框 start -->
+                    <div class="ds-thread" data-thread-key="friendslink" data-title="友人帐" data-url="https://www.coolecho.net/friendslink"></div>
+                    <!-- 多说评论框 end -->
+                    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+                    <script type="text/javascript">
+                        var duoshuoQuery = {short_name:"<%=website.short_name%>"};
+                        (function() {
+                            var ds = document.createElement('script');
+                            ds.type = 'text/javascript';ds.async = true;
+                            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                            ds.charset = 'UTF-8';
+                            (document.getElementsByTagName('head')[0]
+                            || document.getElementsByTagName('body')[0]).appendChild(ds);
+                        })();
+                    </script>
+                    <!-- 多说公共JS代码 end -->
+                </div>
+            </article>
+        </section>
     </div>
-    <% include footer.html %>
-    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
-    <script src="/javascripts/libs/jquery.pjax.js"></script>
-    <script src="/javascripts/duoshuo/embed.js"></script>
-    <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
-    <script type="text/javascript" src="/dist/main.min.js"></script>
+</div>
+<!--<% include tagsBg.html %>-->
+<% include footer.html %>
+<script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+<script src="/javascripts/libs/jquery.pjax.js"></script>
+<script src="/javascripts/duoshuo/embed.js"></script>
+<script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<!--<script src="/javascripts/libs/tagcanvas.min.js"></script>-->
+<script type="text/javascript" src="/dist/main.min.js"></script>
+<!--<script src="/javascripts/front/tags.js"></script>-->
 </body>
 
 </html>

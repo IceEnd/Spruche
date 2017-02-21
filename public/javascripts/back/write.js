@@ -1,19 +1,20 @@
 (function ($) {
-    var tags_ipt = $('#tags-ipt');
-    var add_classify_ipt = $('#add-classify-ipt');
-    var blog_title_ipt = $('#blog-title-ipt');
+    var $tags_ipt = $('#tags-ipt');
+    var $add_classify_ipt = $('#add-classify-ipt');
+    var $blog_title_ipt = $('#blog-title-ipt');
 
-    var add_tags = $('#add-tags');
-    var add_classify = $('#add-classify');
+    var $add_tags = $('#add-tags');
+    var $add_classify = $('#add-classify');
 
-    var tags_div = $('#tags-div');
-    var blog_form = $('#blog-form');
-    var classify_ul = $('#classify-ul');
+    var $tags_div = $('#tags-div');
+    var $classify_ul = $('#classify-ul');
 
-    var save_btn = $('#save-btn'),
-        publish_btn = $('#publish-btn'),
-        alter_btn = $('#alter-btn'),
-        update_btn = $('#update-btn');
+    var $save_btn = $('#save-btn'),
+        $publish_btn = $('#publish-btn'),
+        $alter_btn = $('#alter-btn'),
+        $update_btn = $('#update-btn');
+        $blog_img_btn = $('#blog_img_btn'),
+        $write_blog_img_btn = $('#write_blog_img_btn');
 
     var edit = false;
 
@@ -36,32 +37,32 @@
     init();
 
     //添加标签
-    add_tags.bind('click', function () {
-        var tags_str = tags_ipt.val();
+    $add_tags.bind('click', function () {
+        var tags_str = $tags_ipt.val();
         tags_str = tags_str.replace(reg,'');
         var temp = [];
         if (tags_str) {
             temp = tags_str.split(',');
             tags = tags.concat(temp);
             tags = detection(tags);
-            tags_div.html('');
+            $tags_div.html('');
             for (var i in tags) {
-                tags_div.append('<a class="tags-a"><span class="glyphicon glyphicon-remove remove-tags"></span><span class="tags-span">' + tags[i] + '</span></a>');
+                $tags_div.append('<a class="tags-a"><span class="glyphicon glyphicon-remove remove-tags"></span><span class="tags-span">' + tags[i] + '</span></a>');
             }
-            tags_ipt.val('');
+            $tags_ipt.val('');
         }
     });
 
     //删除标签  
-    tags_div.on('click', '.remove-tags', function () {
+    $tags_div.on('click', '.remove-tags', function () {
         var tag = $(this).parent().children('.tags-span').text();
         removeTag(tag, tags);
         $(this).parent().css('display', 'none');
     });
 
     //添加分类
-    add_classify.bind('click', function () {
-        var classify = add_classify_ipt.val();
+    $add_classify.bind('click', function () {
+        var classify = $add_classify_ipt.val();
         classify = classify.replace(/^\s+|\s+$/g, '');
         var flag = true;
         $('.classify-ipt').each(function () {
@@ -82,9 +83,9 @@
                 },
                 success: function (data) {
                     if (data.type) {
-                        classify_ul.append('<li class="classify-li"><input class="classify-ipt" name="classify" type="radio" value="' + data.id +
+                        $classify_ul.append('<li class="classify-li"><input class="classify-ipt" name="classify" type="radio" value="' + data.id +
                             '" data-name="' + classify + '"/><span>' + classify + '</span></li>');
-                        add_classify_ipt.val('');
+                        $add_classify_ipt.val('');
                     } else {
                         alert('网络繁忙，请稍后再试...');
                     }
@@ -97,8 +98,8 @@
     });
 
     //发表文章
-    publish_btn.bind('click', function () {
-        if (blog_title_ipt.val() == '') {
+    $publish_btn.bind('click', function () {
+        if ($blog_title_ipt.val() == '') {
             alert('请输入文章标题');
             return;
         }
@@ -112,8 +113,8 @@
     });
 
     //保存草稿
-    save_btn.bind('click', function () {
-        if (blog_title_ipt.val() == '') {
+    $save_btn.bind('click', function () {
+        if ($blog_title_ipt.val() == '') {
             alert('请输入文章标题');
             return;
         }
@@ -127,8 +128,8 @@
     });
 
     //修改博客
-    alter_btn.bind('click',function () {
-        if (blog_title_ipt.val() == '') {
+    $alter_btn.bind('click',function () {
+        if ($blog_title_ipt.val() == '') {
             alert('请输入文章标题');
             return;
         }
@@ -141,8 +142,8 @@
     });
 
     //更新发布
-    update_btn.bind('click',function () {
-        if (blog_title_ipt.val() == '') {
+    $update_btn.bind('click',function () {
+        if ($blog_title_ipt.val() == '') {
             alert('请输入文章标题');
             return;
         }
@@ -206,7 +207,7 @@
     //封装博客内容
     function getContent() {
         var blog = {};
-        blog.title = blog_title_ipt.val();
+        blog.title = $blog_title_ipt.val();
         var arr = [];
         arr.push(UE.getEditor('editor').getContent());
         blog.content = arr.join('\n');
@@ -214,7 +215,6 @@
         blog.tags = tags;
         blog.classify_name = $('.classify-ipt:checked').attr('data-name');
         blog.classify_id = $('.classify-ipt:checked').val();
-        blog.img = '';
         if(edit){
             blog.id = $('#write-content').attr('data-id');
             blog.content = blog.content.replace(/\\/g,'/');
@@ -259,6 +259,75 @@
         str = str.replace(/"/g, '&quot;');  
         str = str.replace(/'/g, '&#039;');  
         return str;  
-    } 
+    }
 
+    $blog_img_btn.bind('click', function () {
+        if ($('#blog_img_input').val() === '') {
+            alert('请选择图片');
+            return ;
+        }
+        var lodt = $('#blog_img_input').val().lastIndexOf(".");
+        var type = $('#blog_img_input').val().substring(lodt+1);
+        if (!(/(gif|jpg|jpeg|png|svg|GIF|JPG|PNG|SVG)$/.test(type))) {
+            console.log(type);
+            alert('只能上传图片');
+            return ;
+        }
+        var formData = new FormData();
+        formData.append('blogimg', $('#blog_img_input')[0].files[0]);
+        formData.append('id', $('#write-content').attr('data-id'));
+        $.ajax({
+            type:'POST',
+            url: '/admin/write/blogimgupload',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.retCode === "0") {
+                    alert("添加成功");
+                    $('#blog_img_show').attr('src', data.retData.url);
+                    $('#blog_img_close_btn').click();
+                    $('#blog_img_form')[0].reset();
+                }
+                else {
+                    alert('网络繁忙，请稍后再试...');
+                }
+            },
+            error: function () {
+                alert('网络繁忙，请稍后再试...');
+            }
+        });
+    });
+
+    $write_blog_img_btn.bind('click', function () {
+        if ($('#write_blog_img_input').val() === '') {
+            alert('请输入地址');
+            return ;
+        }
+        $.ajax({
+            type:'POST',
+            url: '/admin/write/setblogimg',
+            dataType:'json',
+            traditional: true,
+            data: {
+                id: $('#write-content').attr('data-id'),
+                url: $('#write_blog_img_input').val()
+            },
+            success: function (data) {
+                if (data.retCode === "0") {
+                    alert("添加成功");
+                    $('#blog_img_show').attr('src', data.retData.url);
+                    $('#write_blog_img_close_btn').click();
+                    $('#write_blog_img_form')[0].reset();
+                }
+                else {
+                    alert('网络繁忙，请稍后再试...');
+                }
+            },
+            error: function (xhr, errorType, error) {
+                alert('网络繁忙，请稍后再试...');
+            }
+        });
+    });
 })($);
