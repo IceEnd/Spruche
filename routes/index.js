@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Geetest = require('../gt-sdk');
 
 const websiteDao = require('../dao/websiteDao');
 const usersDao = require('../dao/usersDao');
