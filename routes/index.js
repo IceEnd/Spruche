@@ -6,6 +6,7 @@ const usersDao = require('../dao/usersDao');
 const blogsDao = require('../dao/blogsDao');
 const tagsDao = require('../dao/tagsDao');
 const dbDao = require('../dao/dbDao');
+const friendsDao = require('../dao/friendsDao');
 
 const util = require('../common/util');
 
