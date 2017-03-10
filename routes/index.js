@@ -76,7 +76,7 @@ router.get('/', function (req, res) {
     })
     .then(function (result) {
       blogs = result;
-      return blogsDao.getBlogByPage(0, 9);
+      return blogsDao.getBlogByPage(0, 10);
     })
     .then(function (result) {
       blogs = blogs.concat(result);
