@@ -17,10 +17,6 @@
             myAlert('密码只能输入6-20个字母、数字、下划线');
             return false;
         }
-        if (!CAPTCHAOBJ.getValidate()){
-            myAlert('请滑动验证码！');
-            return false;
-        }
         else {
             $.ajax({
                 type: 'POST',
@@ -29,10 +25,7 @@
                 traditional: true,
                 data: {
                     "email": $email.val(),
-                    "password": $password.val(),
-                    "geetest_challenge":CAPTCHAOBJ.getValidate().geetest_challenge,
-                    "geetest_seccode":CAPTCHAOBJ.getValidate().geetest_seccode,
-                    "geetest_validate":CAPTCHAOBJ.getValidate().geetest_validate
+                    "password": $password.val()
                 },
                 success: function (data) {
                     switch (data.type) {

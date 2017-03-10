@@ -15,7 +15,6 @@
     
     <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
     <script src="/javascripts/libs/jquery.cookie.js"></script>
-    <script src="https://static.geetest.com/static/tools/gt.js"></script>
   </head>
   <body>
       <% include header.html %>
@@ -46,30 +45,6 @@
               </div>
           </div>
       </div>
-      <script>
-       var CAPTCHAOBJ;
-       var handlerEmbed = function (captchaObj) {
-           captchaObj.appendTo("#embed-captcha");
-           CAPTCHAOBJ = captchaObj;
-        };
-
-        function loadCaptcha(){
-            $.ajax({
-                url: "/pc-geetest/register?t=" + (new Date()).getTime(), 
-                type: "get",
-                dataType: "json",
-                success: function (data) {
-                    initGeetest({
-                        gt: data.gt,
-                        challenge: data.challenge,
-                        product: "embed",
-                        offline: !data.success 
-                    }, handlerEmbed);
-                }
-            });
-        }
-        loadCaptcha();
-      </script>
       
       <% include alert.html %>
       <script type="text/javascript" src="/javascripts/libs/jquery.pjax.js"></script>
