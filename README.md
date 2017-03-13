@@ -6,7 +6,7 @@
 [中文教程](https://www.coolecho.net/article/av17)
 
 ##Get Started
-Spruche is a  blog system,which is based on Node.js.Here you can go to check the system function--[https://blog.coolecho.net](https://blog.coolecho.net "绘枫和畅").The back-end using Express framework, on the front end pjax technology is introduced.
+Spruche is a beautiful blog system,which is based on Node.js.Here you can go to check the system function--[https://www.coolecho.net](https://www.coolecho.net "绘枫和畅"), which is based on Express.
 
 If you want to use Spruche, your server should satisfy the conditions.
 ###list
