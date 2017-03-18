@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(pjax());
 
 app.use('/', routes);
-app.use('/users', users);
+// app.use('/users', users);
 app.use('/admin',admin);
 app.use('/ueditor',ue);
 
