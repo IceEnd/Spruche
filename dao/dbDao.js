@@ -1,3 +1,5 @@
+'use strict';
+
 const mysql = require('mysql');
 const $conf = require('../database/mysqlDB.js');
 const pool = mysql.createPool($conf.mysql);

@@ -1,13 +1,15 @@
-var mysql = require('mysql');
-var $conf = require('../database/mysqlDB.js');
-var pool = mysql.createPool($conf.mysql);
-var Q = require('q');
+'use strict';
+
+const mysql = require('mysql');
+const $conf = require('../database/mysqlDB.js');
+const pool = mysql.createPool($conf.mysql);
+const Q = require('q');
 
 /**
  * 获取全部标签
  */
 function getAllTags() {
-    var defer = Q.defer();
+    const defer = Q.defer();
     pool.getConnection(function (err,connection) {
         connection.query('select * from tags where state = 0',function (err,result) {
             if(!err){
@@ -27,9 +29,9 @@ function getAllTags() {
  * 插入新标签
  */
 function saveTags(tags,date) {
-    var defer = Q.defer();
+    const defer = Q.defer();
     pool.getConnection(function (err,connection) {
-        for(var i = 0; i < tags.length; i++){
+        for(let i = 0; i < tags.length; i++){
             (function (i) {
                 connection.query('INSERT INTO tags(id,tags_name,create_date,state) VALUES(0,?,?,?)',
                 [tags[i],date,0],function (err,result) {

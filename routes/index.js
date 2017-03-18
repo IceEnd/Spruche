@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const router = express.Router();
 
@@ -12,8 +13,8 @@ const util = require('../common/util');
 
 /* website install */
 router.get('/start', function (req, res) {
-  var start = false;
-  var website;
+  let start = false;
+  let website;
   dbDao.createUsers()
     .then(function () {
       return dbDao.createClassify();
@@ -69,7 +70,7 @@ router.get('/start', function (req, res) {
 
 /* 首页 */
 router.get('/', function (req, res) {
-  var website, blogs;
+  let website, blogs;
   websiteDao.getWebSite()
     .then(function (result) {
       website = result[0];
@@ -89,8 +90,8 @@ router.get('/', function (req, res) {
 });
 
 /* 加载更多文章 */
-router.post('/loadmoreav', function (req, res, next) {
-  var page = parseInt(req.body.page);
+router.post('/loadmoreav', function (req, res) {
+  const page = parseInt(req.body.page);
   blogsDao.getBlogByPage(page * 10, 10)
     .then(function (result) {
       res.send({ type: true, blogs: result });
@@ -102,9 +103,9 @@ router.post('/loadmoreav', function (req, res, next) {
 
 /* 获取文章 */
 router.get('/article/av*', function (req, res) {
-  var reg = /\/article\/av\d+/gi;
-  var flag = true;
-  var url = req.originalUrl, article_id, website, blogs, prev, next;
+  const reg = /\/article\/av\d+/gi;
+  let flag = true;
+  let url = req.originalUrl, article_id, website, blogs, prev, next;
   article_id = reg.exec(url);
   if (article_id) {
     article_id = article_id[0].substr(11);
@@ -143,7 +144,7 @@ router.get('/article/av*', function (req, res) {
       });
   }
   else {
-    var error = {};
+    const error = {};
     error.status = '400';
     error.stack = '';
     res.render('error', { message: 400, error: error });
@@ -160,8 +161,8 @@ router.get('/login', function (req, res, next) {
 
 /* 开通站点 */
 router.post('/start', function (req, res) {
-  var date = util.formatDate(new Date());
-  var img = '/images/pic/head.jpg';
+  const date = util.formatDate(new Date());
+  const img = '/images/pic/head.jpg';
   websiteDao.startWebSite(req.body.website, req.body.email, date, req.body.domain)
     .then(function (result) {
       if (result) {
@@ -176,9 +177,9 @@ router.post('/start', function (req, res) {
 
 /* 登陆 */
 router.post('/ulogin', function (req, res, next) {
-  var date = util.formatDate(new Date());
-  var user;
-  var type = 0;
+  const date = util.formatDate(new Date());
+  let user;
+  let type = 0;
   usersDao.login(req.body.email, req.body.password)
     .then(function (result) {
       if (result.length != 0) {
@@ -220,7 +221,7 @@ router.get('/messageboard', function (req, res, next) {
 
 /* 友人帐 */
 router.get('/friendslink', function (req, res) {
-  var website;
+  let website;
   websiteDao.getWebSite()
     .then(function (result) {
       website = result[0];

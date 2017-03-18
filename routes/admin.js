@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const router = express.Router();
 const request = require('request');
@@ -13,7 +14,7 @@ const friendsDao = require('../dao/friendsDao');
 const util = require('../common/util');
 const upload = require('../common/upload');
 
-const package = require('../package.json');
+const packageInfo = require('../package.json');
 
 const blogImgUpload = upload.blogImgUpload.single('blogimg');
 const friendImgUpload = upload.friendImgUpload.single('friendhead');
@@ -34,7 +35,7 @@ router.get('/*', function (req, res, next) {
 
 /* Get home page */
 router.get('/', function (req, res) {
-  var user;
+  let user;
   usersDao.getUserById(req.cookies.uid)
     .then(function (result) {
       if (result.length !== 0 && result[0].type === 0 ) {
@@ -48,7 +49,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/index', function (req, res) {
-  var user;
+  let user;
   usersDao.getUserById(req.cookies.uid)
     .then(function (result) {
       if (result.length !== 0 && result[0].type === 0) {
@@ -63,8 +64,7 @@ router.get('/index', function (req, res) {
 
 /* 写博客 */
 router.get('/write', function (req, res) {
-  var user;
-  var classify;
+  let user, classify;
   classifyDao.getAllClassify()
     .then(function (result) {
       classify = result;
@@ -105,8 +105,8 @@ router.post('/*', function (req, res, next) {
 router.post('/index/appInfo', function (req, res) {
   request.get("http://about.coolecho.net/appinfo/appInfo.json", {timeout: 2000}, function (err, response) {
     if(!err && response.statusCode == 200){
-      var appInfo = JSON.parse(response.body);
-      appInfo.version = package.version;
+      const appInfo = JSON.parse(response.body);
+      appInfo.version = packageInfo.version;
       res.send({type: true, appInfo: appInfo});
     } else {
       res.send({type: false});
@@ -141,11 +141,11 @@ router.post('/write/delarticle',function (req, res, next){
 
 /* 保存发布 */
 router.post('/write/sblog', function (req, res, next) {
-  var blog = JSON.parse(req.body.blog);
+  const blog = JSON.parse(req.body.blog);
   blog.view_num = 0;
   blog.publish_date = util.formatDate(new Date());
   blog.user_id = req.cookies.uid;
-  var blog_id, tags = [];
+  let blog_id, tags = [];
   blogsDao.saveBlog(blog)
     .then(function (result) {
       blog_id = result.insertId;
@@ -156,8 +156,8 @@ router.post('/write/sblog', function (req, res, next) {
         tags = blog.tags;
       }
       else {
-        for (var i = 0; i < blog.tags.length; i++) {
-          for (var j = 0; j < result.length; j++) {
+        for (let i = 0; i < blog.tags.length; i++) {
+          for (let j = 0; j < result.length; j++) {
             if (blog.tags[i] == result[j].tags_name)
               break;
             if (j == result.length - 1) {
@@ -180,9 +180,9 @@ router.post('/write/sblog', function (req, res, next) {
 
 /* 修改文章 */
 router.post('/write/ablog', function (req, res, next) {
-  var blog = JSON.parse(req.body.blog);
-  var tags = [];
-  var date = util.formatDate(new Date());
+  const blog = JSON.parse(req.body.blog);
+  let tags = [];
+  const date = util.formatDate(new Date());
   blogsDao.alterBlog(blog)
     .then(function (result) {
       return tagsDao.getAllTags();
@@ -192,8 +192,8 @@ router.post('/write/ablog', function (req, res, next) {
         tags = blog.tags;
       }
       else {
-        for (var i = 0; i < blog.tags.length; i++) {
-          for (var j = 0; j < result.length; j++) {
+        for (let i = 0; i < blog.tags.length; i++) {
+          for (let j = 0; j < result.length; j++) {
             if (blog.tags[i] == result[j].tags_name)
               break;
             if (j == result.length - 1) {
@@ -204,12 +204,12 @@ router.post('/write/ablog', function (req, res, next) {
       }
       return tagsDao.saveTags(tags, date);
     })
-    .then(function (result) {
+    .then(function () {
       res.send({ type: true });
       res.end();
     })
     .catch(function (error) {
-      res.send({ type: false });
+      res.send({ type: false, retMsg: error });
       res.end();
     });
 });
@@ -341,7 +341,7 @@ router.get('/allarticle', function (req, res) {
 
 /*修改文章页面*/
 router.get('/editarticle', function (req, res) {
-  var classify;
+  let classify;
   if (req.cookies.uid && req.cookies.type == 0) {
     usersDao.getUserById(req.cookies.uid)
       .then(function (result) {
@@ -370,10 +370,10 @@ router.get('/editarticle', function (req, res) {
 
 /*获取所有图片*/
 router.get('/media', function (req, res) {
-  var imgArr = [];
-  var path;
+  let imgArr = [];
+  let path;
   glob('./public/upload/images/**/*.?(jpeg|jpg|png|gif)', function (err, files) {
-    for(var f in files){
+    for(let f in files){
       path = files[f].replace(/^\.\/public/, '');
       imgArr.push(path);
     }

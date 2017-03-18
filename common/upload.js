@@ -1,3 +1,5 @@
+'use strict';
+
 const multer  = require('multer')
 
 const blogImgUpload = multer({

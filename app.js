@@ -1,21 +1,22 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mysql = require('mysql');
-var fs = require('fs');
-var crypto = require('crypto');
-var ueditor = require("ueditor");
-var pjax = require("express-pjax");
+"use strict";
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+const fs = require('fs');
+const crypto = require('crypto');
+const ueditor = require("ueditor");
+const pjax = require("express-pjax");
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var admin = require('./routes/admin');
-var ue = require('./routes/ueditor');
+const routes = require('./routes/index');
+const users = require('./routes/users');
+const admin = require('./routes/admin');
+const ue = require('./routes/ueditor');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,7 +50,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function(err, req, res) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -60,8 +61,8 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  var meta = '[' + new Date() + '] ' + req.url + '\n';
+app.use(function(err, req, res) {
+//  const meta = '[' + new Date() + '] ' + req.url + '\n';
 //  errorLogfile.write(meta + err.stack + '\n');
   res.status(err.status || 500);
   res.render('error', {

@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var ueditor = require("ueditor");
-var path = require('path');
+'use strict';
+const express = require('express');
+const router = express.Router();
+const ueditor = require("ueditor");
+const path = require('path');
 
 router.get('/ueditor', function (req, res) {
   if (req.query.action === 'uploadimage') {
@@ -29,7 +30,7 @@ router.post('/ueditor', ueditor(path.join(__dirname, '../public'), function(req,
   if (req.query.action === 'uploadimage') {
     const foo = req.ueditor;
     const imgname = req.ueditor.filename;
-    var img_url = '/upload/images/'+date.getFullYear()+'/'+date.getMonth()+'/';
+    const img_url = '/upload/images/'+date.getFullYear()+'/'+date.getMonth()+'/';
     //图片上传
     res.ue_up(img_url);
   }

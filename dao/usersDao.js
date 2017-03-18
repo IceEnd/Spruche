@@ -1,15 +1,17 @@
-var mysql = require('mysql');
-var $conf = require('../database/mysqlDB.js');
-var pool = mysql.createPool($conf.mysql);
-var Q = require('q');
+'use strict';
 
-var util = require('../common/util');
+const mysql = require('mysql');
+const $conf = require('../database/mysqlDB.js');
+const pool = mysql.createPool($conf.mysql);
+const Q = require('q');
+
+const util = require('../common/util');
 
 /**
  * 注册用户
  */
 function regUser(username,password,email,img,date,type,state) {
-    var defer = Q.defer();
+    const defer = Q.defer();
     password = util.hashStr(password);
     pool.getConnection(function (err,connection) {
         connection.query('INSERT INTO users(id,username,password,email,head_img,reg_date,type,state) VALUES(0,?,?,?,?,?,?,?)',
@@ -31,7 +33,7 @@ function regUser(username,password,email,img,date,type,state) {
  * 用户登录
  */
 function login(email,password) {
-    var defer = Q.defer();
+    const defer = Q.defer();
     password = util.hashStr(password+'');
     pool.getConnection(function (err,connection) {
         connection.query(`SELECT * FROM users where email = "${email}" AND password = "${password}" AND state = 0`,function (err,result) {
@@ -52,8 +54,8 @@ function login(email,password) {
  * 更新最近登陆日期
  */
 function loginDate(id,date) {
-   var defer = Q.defer();
-   var token = "id:" + date;
+   const defer = Q.defer();
+   let token = "id:" + date;
    token = util.hashStr(token);
    pool.getConnection(function (err,connection){
        connection.query(`UPDATE users set latest_time = '${date}', token = '${token}' where id = ${id}`,function (err,result) {
@@ -74,7 +76,7 @@ function loginDate(id,date) {
  * 查询用户信息
  */
 function getUserById(id) {
-    var defer = Q.defer();
+    const defer = Q.defer();
      pool.getConnection(function (err,connection){
         connection.query(`SELECT * FROM users WHERE id = '${id}' AND state = 0`,function (err,result) {
             if(!err){
@@ -93,7 +95,7 @@ function getUserById(id) {
  * 判断用户登录状态
  */
 function getUserToken(id, token) {
-  var defer = Q.defer();
+  const defer = Q.defer();
   pool.getConnection(function (err, connection) {
     connection.query(`SELECT * FROM users where id = id AND state = 0 AND token = '${token}'`, function (err, result) {
       if(!err){
@@ -112,7 +114,7 @@ function getUserToken(id, token) {
  * 更新用户信息
  */
 function updateInfo(user) {
-  var defer = Q.defer();
+  const defer = Q.defer();
   pool.getConnection(function (err, connection) {
     connection.query(`UPDATE users SET email = '${user.email}', username = '${user.username}' where id = ${user.id} AND state = 0`, function (err, result) {
       if(!err){

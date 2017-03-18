@@ -1,7 +1,9 @@
-var mysql = require('mysql');
-var $conf = require('../database/mysqlDB.js');
-var pool = mysql.createPool($conf.mysql);
-var Q = require('q');
+'use strict';
+
+const mysql = require('mysql');
+const $conf = require('../database/mysqlDB.js');
+const pool = mysql.createPool($conf.mysql);
+const Q = require('q');
 
 /**
  * 保存文章
@@ -48,7 +50,7 @@ function getBlogByPage(start, amount) {
  */
 function getBlogByID(id,flag) {
     const defer = Q.defer();
-    var str;
+    let str;
     if(flag){
         str = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE (a.state = 0 or a.state = 1) AND a.id = ${id}`;
     }else {
@@ -153,7 +155,7 @@ function getNext(id) {
  */
 function alterBlog(blog) {
     const defer = Q.defer();
-    var query;
+    let query;
     if(typeof blog.state === 'undefined'){
         query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id} where id = ${blog.id}`;
     } else {
