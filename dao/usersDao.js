@@ -1,132 +1,51 @@
 'use strict';
 
-const mysql = require('mysql');
-const $conf = require('../database/mysqlDB.js');
-const pool = mysql.createPool($conf.mysql);
-const Q = require('q');
-
-const util = require('../common/util');
+const dbQuery = require('../common/util').dbQuery;
+const hashStr = require('../common/util').hashStr;
 
 /**
  * 注册用户
  */
 function regUser(username,password,email,img,date,type,state) {
-    const defer = Q.defer();
-    password = util.hashStr(password);
-    pool.getConnection(function (err,connection) {
-        connection.query('INSERT INTO users(id,username,password,email,head_img,reg_date,type,state) VALUES(0,?,?,?,?,?,?,?)',
-        [username,password,email,img,date,type,state],function (err,result) {
-            if(!err){
-                defer.resolve(true);
-            }
-            else{
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  const pwd = hashStr(password);
+  return dbQuery('INSERT INTO users(id,username,password,email,head_img,reg_date,type,state) VALUES(0,?,?,?,?,?,?,?)', [username, pwd, email, img, date, type, state]);
 }
 
 /**
  * 用户登录
  */
 function login(email,password) {
-    const defer = Q.defer();
-    password = util.hashStr(password+'');
-    pool.getConnection(function (err,connection) {
-        connection.query(`SELECT * FROM users where email = "${email}" AND password = "${password}" AND state = 0`,function (err,result) {
-            if(!err){
-                defer.resolve(result);
-            }
-            else{
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  const pwd = hashStr(password);
+  return dbQuery(`SELECT * FROM users where email = "${email}" AND password = "${pwd}" AND state = 0`)
 }
 
 /**
  * 更新最近登陆日期
  */
 function loginDate(id,date) {
-   const defer = Q.defer();
-   let token = "id:" + date;
-   token = util.hashStr(token);
-   pool.getConnection(function (err,connection){
-       connection.query(`UPDATE users set latest_time = '${date}', token = '${token}' where id = ${id}`,function (err,result) {
-           if(!err){
-                defer.resolve(token);
-            }
-            else{
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-       });
-   }); 
-   return defer.promise;
+  const token = hashStr("id:"+date);
+  return dbQuery(`UPDATE users set latest_time = '${date}', token = '${token}' where id = ${id}`, [], token);
 }
 
 /**
  * 查询用户信息
  */
 function getUserById(id) {
-    const defer = Q.defer();
-     pool.getConnection(function (err,connection){
-        connection.query(`SELECT * FROM users WHERE id = '${id}' AND state = 0`,function (err,result) {
-            if(!err){
-                defer.resolve(result);
-            }
-            else{
-                defer.reject(err);
-            }
-            connection.release();
-        }); 
-     });
-     return defer.promise;
+  return dbQuery(`SELECT * FROM users WHERE id = '${id}' AND state = 0`);
 }
 
 /**
  * 判断用户登录状态
  */
 function getUserToken(id, token) {
-  const defer = Q.defer();
-  pool.getConnection(function (err, connection) {
-    connection.query(`SELECT * FROM users where id = id AND state = 0 AND token = '${token}'`, function (err, result) {
-      if(!err){
-        defer.resolve(result);
-      } else {
-        console.log(err);
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+  return dbQuery(`SELECT * FROM users where id = id AND state = 0 AND token = '${token}'`);
 }
 
 /**
  * 更新用户信息
  */
 function updateInfo(user) {
-  const defer = Q.defer();
-  pool.getConnection(function (err, connection) {
-    connection.query(`UPDATE users SET email = '${user.email}', username = '${user.username}' where id = ${user.id} AND state = 0`, function (err, result) {
-      if(!err){
-        defer.resolve(result);
-      } else {
-        console.warn(err);
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+  return dbQuery(`UPDATE users SET email = '${user.email}', username = '${user.username}' where id = ${user.id} AND state = 0`);
 }
 
 module.exports = {

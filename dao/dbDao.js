@@ -1,18 +1,12 @@
 'use strict';
 
-const mysql = require('mysql');
-const $conf = require('../database/mysqlDB.js');
-const pool = mysql.createPool($conf.mysql);
-const Q = require('q');
-
+const dbQuery = require('../common/util').dbQuery;
 /**
  * 获取全部标签
  */
 function createUsers() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-      create table If Not Exists users(
+  return dbQuery(`
+  create table If Not Exists users(
         id INT NOT NULL AUTO_INCREMENT,
         email VARCHAR(100) NOT NULL,
         username VARCHAR(50) NOT NULL,
@@ -25,46 +19,24 @@ function createUsers() {
         token VARCHAR(200),
         PRIMARY KEY (id),
         UNIQUE (username)
-      )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+      )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createClassify() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists classify(
+  return dbQuery(`
+  CREATE TABLE If Not Exists classify(
       id INT NOT NULL AUTO_INCREMENT,
       classify varchar(100),
       state int not null,
       PRIMARY KEY (id)
-     )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+     )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createBlogs() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists blogs(
+  return dbQuery(`
+  CREATE TABLE If Not Exists blogs(
       id INT NOT NULL AUTO_INCREMENT,
       title VARCHAR(200) NOT NULL,
       content TEXT NOT NULL,
@@ -82,48 +54,26 @@ function createBlogs() {
       PRIMARY KEY (id),
       FOREIGN KEY (user_id) REFERENCES users(id) on   delete   cascade   on   update   cascade,
       FOREIGN KEY (classify_id) REFERENCES classify(id)
-    )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+    )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createTags() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists tags(
+  return dbQuery(`
+  CREATE TABLE If Not Exists tags(
       id INT NOT NULL AUTO_INCREMENT,
       tags_name VARCHAR(100) NOT NULL,
       create_date DATETIME NOT NULL,
       state INT NOT NULL,
       PRIMARY KEY (id),
       UNIQUE(tags_name)
-    )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+    )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createComments() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists comments(
+  return dbQuery(`
+  CREATE TABLE If Not Exists comments(
       id INT NOT NULL AUTO_INCREMENT,
       blog_id INT NOT NULL,
       email varchar(100) not null,
@@ -134,24 +84,13 @@ function createComments() {
       state INT NOT NULL,
       PRIMARY KEY(id),
       FOREIGN KEY (blog_id) REFERENCES blogs(id) on   delete   cascade   on   update   cascade
-    )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+    )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createReplayComments() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists reply_comments(
+  return dbQuery(`
+  CREATE TABLE If Not Exists reply_comments(
       id INT NOT NULL AUTO_INCREMENT,
       blog_id INT NOT NULL,
       comments_id INT NOT NULL,
@@ -165,24 +104,13 @@ function createReplayComments() {
       PRIMARY KEY (id),
       FOREIGN KEY (comments_id) REFERENCES comments(id) on   delete   cascade   on   update   cascade,
       FOREIGN KEY (blog_id) REFERENCES blogs(id) on   delete   cascade   on   update   cascade
-    )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+    )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createWebsite() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists website(
+  return dbQuery(`
+  CREATE TABLE If Not Exists website(
       id INT NOT NULL AUTO_INCREMENT,
       name varchar(100),
       email varchar(200),
@@ -192,24 +120,13 @@ function createWebsite() {
       state int not null,
       domain varchar(500),
       PRIMARY KEY (id)
-    )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+    )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function createFriends() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`
-     CREATE TABLE If Not Exists friends(
+  return dbQuery(`
+  CREATE TABLE If Not Exists friends(
       id INT NOT NULL AUTO_INCREMENT,
       name varchar(100) NOT NULL,
       website varchar(100) NOT NULL,
@@ -219,49 +136,16 @@ function createFriends() {
       status int not null,
       create_date DATETIME NOT NULL,
       PRIMARY KEY (id)
-    )engine=innodb default CHARSET=utf8`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+    )engine=innodb default CHARSET=utf8
+  `);
 }
 
 function initWebsite() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`replace into website(id,state,short_name, description) value (1,0,'none','')`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+  return dbQuery(`replace into website(id,state,short_name, description) value (1,0,'none','')`);
 }
 
 function initClassify() {
-  const defer = Q.defer();
-  pool.getConnection(function (err,connection) {
-    connection.query(`replace into classify(id,classify,state) value (1,'未分类',0)`,function (err,result) {
-      if(!err){
-        defer.resolve(result);
-      }
-      else{
-        defer.reject(err);
-      }
-      connection.release();
-    });
-  });
-  return defer.promise;
+  return dbQuery(`replace into classify(id,classify,state) value (1,'未分类',0)`);
 }
 
 module.exports = {

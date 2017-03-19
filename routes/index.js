@@ -85,6 +85,7 @@ router.get('/', function (req, res) {
       res.render('front/index', { website: website, blogs: blogs });
     })
     .catch(function (error) {
+      console.warn(error);
       res.render('error', { message: '404', error: error });
     })
 });

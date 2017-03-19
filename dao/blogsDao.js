@@ -1,294 +1,115 @@
 'use strict';
 
-const mysql = require('mysql');
-const $conf = require('../database/mysqlDB.js');
-const pool = mysql.createPool($conf.mysql);
-const Q = require('q');
+const dbQuery = require('../common/util').dbQuery;
 
 /**
  * 保存文章
  */
 function saveBlog(blog) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('INSERT INTO blogs(id,title,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,stick,state,publish_date) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?) ',
-            [blog.title, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, 0, blog.state, blog.publish_date, blog.img], function (err, result) {
-                if (!err) {
-                    defer.resolve(result);
-                }
-                else {
-                    defer.reject(err);
-                }
-                connection.release();
-            });
-    });
-    return defer.promise;
+  return dbQuery('INSERT INTO blogs(id,title,content,summary,user_id,classify_id,classify_name,tags,view_num,comment_num,stick,state,publish_date) VALUE(0,?,?,?,?,?,?,?,?,?,?,?,?)', [blog.title, blog.content, blog.summary, blog.user_id, blog.classify_id, blog.classify_name, blog.tags.join(','), 0, 0, 0, blog.state, blog.publish_date, blog.img]);
 }
 
 /**
  * 获取分页文章
  */
 function getBlogByPage(start, amount) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.stick = 0 group by a.id desc limit ' + start + ',' + amount, function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.stick = 0 group by a.id desc limit ${start}, ${amount}`);
 }
 
 /**
  * 获取文章
  */
 function getBlogByID(id,flag) {
-    const defer = Q.defer();
-    let str;
-    if(flag){
-        str = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE (a.state = 0 or a.state = 1) AND a.id = ${id}`;
-    }else {
-        str = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.id = ${id}`;
-    }
-    pool.getConnection(function (err, connection) {
-        connection.query(str, function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  let query;
+  if(flag){
+    query = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE (a.state = 0 or a.state = 1) AND a.id = ${id}`;
+  }else {
+    query = `select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.id = ${id}`;
+  }
+  return dbQuery(query);
 }
 
 /**
  * 浏览次数自增
  */
 function addViewNum(id) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('update blogs set view_num = view_num + 1 where id = ' + id, function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                console.log(err);
-                defer(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`update blogs set view_num = view_num + 1 where id = ${id}`);
 }
 
 /**
  * 获取全部文章信息
  */
 function getAllBlogInfo() {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query(`select a.id, a.title, a.classify_name, a.tags, a.view_num, a.publish_date, a.stick, b.username from blogs as a left join users as b on (a.user_id = b.id) where a.state = 0 or a.state = 1 group by a.id desc`, function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                defer(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`select a.id, a.title, a.classify_name, a.tags, a.view_num, a.publish_date, a.stick, a.state, b.username from blogs as a left join users as b on (a.user_id = b.id) where a.state = 0 or a.state = 1 group by a.id desc`);
 }
 
 /**
  * 获取前一个文章
  */
 function getPrev(id) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('SELECT id,title FROM blogs WHERE id < ' + id + ' AND state = 0 ORDER BY id DESC LIMIT 1', function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                console.log(err);
-                defer(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`SELECT id,title FROM blogs WHERE id < ${id} AND state = 0 ORDER BY id DESC LIMIT 1`);
 }
 
 /**
  * 获取下一个文章
  */
 function getNext(id) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('SELECT id,title FROM blogs WHERE id > ' + id + ' AND state = 0 ORDER BY id ASC LIMIT 1', function (err, result) {
-            if (!err) {
-                defer.resolve(result);
-            }
-            else {
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`SELECT id,title FROM blogs WHERE id > ${id} AND state = 0 ORDER BY id ASC LIMIT 1`);
 }
 
 /**
  * 修改文章
  */
 function alterBlog(blog) {
-    const defer = Q.defer();
-    let query;
-    if(typeof blog.state === 'undefined'){
-        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id} where id = ${blog.id}`;
-    } else {
-        query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, state = ${blog.state} where id = ${blog.id}`;
-    }
-    pool.getConnection(function (err, connection) {
-        connection.query(query, function (err, result) {
-                if (!err) {
-                    defer.resolve(result);
-                }
-                else {
-                    console.log(err);
-                    defer.reject(err);
-                }
-                connection.release();
-            });
-    });
-    return defer.promise;
+  let query;
+  if(typeof blog.state === 'undefined'){
+      query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id} where id = ${blog.id}`;
+  } else {
+      query = `UPDATE blogs set title = '${blog.title}', content = '${blog.content}', summary = '${blog.summary}', tags = '${blog.tags.join(',')}', classify_name = '${blog.classify_name}', classify_id = ${blog.classify_id}, state = ${blog.state} where id = ${blog.id}`;
+  }
+  return dbQuery(query);
 }
 
 /**
  * 删除文章
  */
 function deleteBlog(id){
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('UPDATE blogs set state = 100000 where id = '+id, function (err, result) {
-            if(!err){
-                defer.resolve(true);
-            }
-            else{
-                console.log(err);
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`UPDATE blogs set state = 100000 where id = ${id}`)
 }
 
 /**
  * 清空置顶
  */
 function cleanStick() {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('UPDATE blogs set stick = 0', function (err, result) {
-            if(!err){
-                defer.resolve(true);
-            }
-            else{
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery('UPDATE blogs set stick = 0');
 }
 
 /**
  * 取消置顶
  */
 function cancelStick(id) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query(`UPDATE blogs set stick = 0 where id = ${id}`, function (err, result) {
-            if(!err){
-                defer.resolve(true);
-            }
-            else{
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`UPDATE blogs set stick = 0 where id = ${id}`)
 }
 
 /**
  * 置顶
  */
 function setStick(id) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query(`UPDATE blogs set stick = 1 where id = ${id}`, function (err, result) {
-            if(!err){
-                defer.resolve(true);
-            }
-            else{
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`UPDATE blogs set stick = 1 where id = ${id}`);
 }
 
 /**
  * 获取置顶文章
  */
 function getStick() {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query('select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.stick = 1', function (err, result) {
-            if(!err){
-                defer.resolve(result);
-            }
-            else{
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery('select a.*, b.email, b.head_img, b.username from blogs as a left join users as b on (a.user_id = b.id) WHERE a.state = 0 AND a.stick = 1');
 }
 
 /**
  * 设置文章特色图片
  */
 function setImage(url, id) {
-    const defer = Q.defer();
-    pool.getConnection(function (err, connection) {
-        connection.query(`UPDATE blogs set img = '${url}' where id = ${id}`, function (err, result) {
-            if(!err){
-                defer.resolve(result);
-            }
-            else{
-                defer.reject(err);
-            }
-            connection.release();
-        });
-    });
-    return defer.promise;
+  return dbQuery(`UPDATE blogs set img = '${url}' where id = ${id}`);
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 #Spruche
 
-[![version](https://img.shields.io/badge/vsersion-0.0.6-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+[![version](https://img.shields.io/badge/vserion-v0.0.7-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 [中文教程](https://www.coolecho.net/article/av17)

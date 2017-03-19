@@ -12,7 +12,6 @@ const ueditor = require("ueditor");
 const pjax = require("express-pjax");
 
 const routes = require('./routes/index');
-const users = require('./routes/users');
 const admin = require('./routes/admin');
 const ue = require('./routes/ueditor');
 
@@ -34,7 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(pjax());
 
 app.use('/', routes);
-// app.use('/users', users);
 app.use('/admin',admin);
 app.use('/ueditor',ue);
 

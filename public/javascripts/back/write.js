@@ -269,11 +269,14 @@
         var lodt = $('#blog_img_input').val().lastIndexOf(".");
         var type = $('#blog_img_input').val().substring(lodt+1);
         if (!(/(gif|jpg|jpeg|png|svg|GIF|JPG|PNG|SVG)$/.test(type))) {
-            console.log(type);
             alert('只能上传图片');
             return ;
         }
         var formData = new FormData();
+        if (!$('#write-content').attr('data-id')) {
+            alert('请先保存文章');
+            return ;
+        }
         formData.append('blogimg', $('#blog_img_input')[0].files[0]);
         formData.append('id', $('#write-content').attr('data-id'));
         $.ajax({
