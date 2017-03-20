@@ -46,7 +46,7 @@ npm install -g grunt-cli
 grunt
 ```
 
-### step 3. Start
+### step 4. Start
 
 If you want to start a system, executing the following command.
 ```
@@ -65,7 +65,7 @@ or
 npm run public
 ```
 
-### step 4. System config
+### step 5. System config
 
 Now,you need to access you website:`http://hostname/start` or `https://hostname/start`.Add the corresponding information.
 
