@@ -1,26 +1,27 @@
-#Spruche
+# Spruche
 
 [![version](https://img.shields.io/badge/vserion-v0.0.7-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 [中文教程](https://www.coolecho.net/article/av17)
 
-##Get Started
+## Get Started
 Spruche is a beautiful blog system,which is based on Node.js.Here you can go to check the system function--[https://www.coolecho.net](https://www.coolecho.net "绘枫和畅").
 
 If you want to use Spruche, your server should satisfy the conditions.
-###list
+### list
 - Node.js >= 4.4.7
 - mysql >= 5.0
 
-##Install
-###step 1. Create database
+## Install
+### step 1. Create database
+
 Create database, for example:<br>
 ```
 create database xxxx;
 ```
 
-###step 2. Mysql config
+### step 2. Mysql config
 /database/mysqlDB.js <br>
 ```js
 module.exports = {
@@ -33,7 +34,8 @@ module.exports = {
   }
 };
 ```
-###step 3. Install packages
+### step 3. Install packages
+
 Open system terminal
 ```
 npm install
@@ -44,7 +46,8 @@ npm install -g grunt-cli
 grunt
 ```
 
-###step 3. Start
+### step 3. Start
+
 If you want to start a system, executing the following command.
 ```
 npm start
@@ -62,18 +65,20 @@ or
 npm run public
 ```
 
-###step 4. System config
+### step 4. System config
+
 Now,you need to access you website:`http://hostname/start` or `https://hostname/start`.Add the corresponding information.
 
 Ok, finished.Now,you can access you website.
 
+### Admin
 
-
-###Admin
 Access `https://hostname/admin` or `http://hostname/admin`,you can manage system.
 
-###DUODHUO
+### DUODHUO
+
 Access `https://hostname/admin#wsconfing`, set ```short_name``` of duoshuo.
 
-###LICENSE
+### LICENSE
+
 [MIT](https://github.com/pantsPoi/Spruche/blob/master/LICENSE)
