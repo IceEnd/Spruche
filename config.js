@@ -1,9 +1,9 @@
 module.exports = {
   mysql: {                       // 数据库配置
     host: '127.0.0.1',           // 地址
-    user: 'root',                 // 用户名
-    password: 'Mdf@199646',             // 密码
-    database:'spruche',              // 数据库名称
+    user: '***',                 // 用户名
+    password: '***',             // 密码
+    database:'***',              // 数据库名称
     port: 3306,                  // 端口
     charset: 'utf8mb4'
   },
