@@ -18,10 +18,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
 
     <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDjango.css">
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.cookie.js"></script>
   </head>
   <body>
       <% include header.html %>
-      <div id="container">   
+      <div id="container">
           <div class="page article-page">
               <section id="content" class="article-content">
                   <article>
@@ -41,7 +43,7 @@
                             <span>
                               <a class="article-author" data-pjax="true"><%= blog.username %></a>
                             </span><span>
-                              <a class="article-comments-num ds-thread-count" data-thread-key="<%=blog.id%>" data-count-type="comments" data-pjax="true">0 Comments</a>
+                              <a class="article-comments-num" data-pjax="true"><%= commentsView.count %> Comments</a>
                             </span><span>
                               <a class="article-view-num"><%= blog.view_num %> Views</a>
                             </span><span>
@@ -87,9 +89,10 @@
           </div>
       </div>
       <!--<% include tagsBg.html %>-->
+      <% include alert.html %>
       <% include footer.html %>
-      <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
       <script src="/javascripts/libs/jquery.pjax.js"></script>
+      <!--<script src="/javascripts/duoshuo/embed.js"></script>-->
       <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
       <script src="/javascripts/libs/tagcanvas.min.js"></script>
       <script type="text/javascript" src="/dist/main.min.js"></script>

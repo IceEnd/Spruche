@@ -18,7 +18,7 @@ function startWebSite(website,email,date,domain) {
  * 更新信息
  */
 function updateInfo(ws) {
-  return dbQuery(`UPDATE website SET name = '${ws.name}', description = '${ws.description}', short_name = '${ws.short_name}' where id = 1`);
+  return dbQuery(`UPDATE website SET name = '${ws.name}', description = '${ws.description}' where id = 1`);
 }
 
 module.exports = {

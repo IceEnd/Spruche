@@ -1,4 +1,5 @@
-"use strict";
+'use strict';
+
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -12,10 +13,16 @@ const ueditor = require("ueditor");
 const pjax = require("express-pjax");
 
 const routes = require('./routes/index');
+const users = require('./routes/users');
 const admin = require('./routes/admin');
 const ue = require('./routes/ueditor');
+const comments = require('./routes/comments');
+
+const theme = require('./config').theme;
 
 const app = express();
+// const accessLogStream = fs.createWriteStream('./logs/access.log', {flags: 'a'});
+// const errorLogfile = fs.createWriteStream('./logs/error.log', {flags: 'a'});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,21 +36,25 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// 静态资源
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/theme', express.static(path.join(__dirname, `views/front/themes/${theme}/public`)));
 app.use(pjax());
 
 app.use('/', routes);
-app.use('/admin',admin);
-app.use('/ueditor',ue);
+app.use('/admin', admin);
+app.use('/ueditor', ue);
+app.use('/users', users);
+app.use('/comments', comments);
 
 // catch 404 and forward to error handler
 app.use(function(req, res) {
-  var err = new Error('Not Found');
-  err.status = 404;
+  const err = new Error('Not Found');
   res.render('error', {
     message: err.message,
     error: err
   });
+  // next(err);
 });
 
 // error handlers
@@ -63,7 +74,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res) {
-//  const meta = '[' + new Date() + '] ' + req.url + '\n';
+// const meta = '[' + new Date() + '] ' + req.url + '\n';
 //  errorLogfile.write(meta + err.stack + '\n');
   res.status(err.status || 500);
   res.render('error', {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spruche 正在召唤英灵...</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+</head>
+<body>
+<div style="
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    /* line-height: 100%; */
+    text-align: center;
+">
+    <h3 style="
+    margin-top: 200px;
+    color: darkgray;
+    font-size: 1.5rem;
+">
+        Spruche 正在连接微博...
+    </h3>
+
+</div>
+<script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+<script src="/javascripts/libs/jquery.cookie.js"></script>
+<script src="/javascripts/libs/comments.js"></script>
+<script>
+    var comments = new Comments();
+    comments.getThridToken();
+</script>
+</body>
+</html>
