@@ -1,9 +1,9 @@
 'use strict';
 const crypto = require('crypto');
 const mysql = require('mysql');
-const $conf = require('../database/mysqlDB.js');
+const $conf = require('../config');
 const pool = mysql.createPool($conf.mysql);
-const Q = require('q');
+const request = require('request');
 
 
 /**加密 */
@@ -21,36 +21,62 @@ function formatDate(date) {
 }
 
 /**
- *
- * @type {query: string}
+ * 轮子
+ * @type {query: string, varlues: array, t: any}
  */
 function dbQuery(query, values, t) {
-  const defer = Q.defer();
   let arr = [];
   if (values && values.length > 0) {
     arr = values;
   }
-  pool.getConnection(function (err, connection) {
-    connection.query(query, arr, function (err, result) {
-      if (!err) {
-        if (t) {
-          defer.resolve(t);
-        } else {
-          defer.resolve(result);
+  return (new Promise(function (resolve, reject) {
+    pool.getConnection(function (err, connection) {
+      connection.query(query, arr, function (err, result) {
+        if (!err) {
+          if (t) {
+            resolve(t);
+          } else {
+            resolve(result);
+          }
         }
-      }
-      else {
-        console.warn(err);
-        defer.reject(err);
-      }
-      connection.release();
+        else {
+          console.warn(err);
+          reject(err);
+        }
+        connection.release();
+      });
     });
-  });
-  return defer.promise;
+  }));
+}
+
+function requestGetApi(url, timeout) {
+  return (new Promise(function (resolve, reject) {
+    request(url, {timeout: timeout}, function (err, response) {
+      if(!err && response.statusCode == 200) {
+        resolve(JSON.parse(response.body));
+      } else {
+        reject(err)
+      }
+    });
+  }));
+}
+
+function requestPostApi(url, data) {
+  return (new Promise(function (resolve, reject) {
+    request.post({url, form: data}, function (err, response) {
+      if(!err) {
+        resolve(JSON.parse(response.body));
+      } else {
+        reject(err)
+      }
+    });
+  }));
 }
 
 module.exports = {
   hashStr: hashStr,                  //hash加密
   formatDate: formatDate,            //时间格式化
-  dbQuery: dbQuery
+  dbQuery: dbQuery,
+  requestGetApi: requestGetApi,
+  requestPostApi: requestPostApi,
 }

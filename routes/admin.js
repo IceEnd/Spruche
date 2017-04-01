@@ -1,8 +1,11 @@
 'use strict';
+
 const express = require('express');
 const router = express.Router();
 const request = require('request');
 const glob = require('glob');
+const fs = require('fs');
+const path = require('path');
 
 const usersDao = require('../dao/usersDao');
 const classifyDao = require('../dao/classifyDao');
@@ -10,6 +13,7 @@ const blogsDao = require('../dao/blogsDao');
 const tagsDao = require('../dao/tagsDao');
 const websiteDao = require('../dao/websiteDao');
 const friendsDao = require('../dao/friendsDao');
+const commentsDao = require('../dao/commentsDao');
 
 const util = require('../common/util');
 const upload = require('../common/upload');
@@ -20,9 +24,9 @@ const blogImgUpload = upload.blogImgUpload.single('blogimg');
 const friendImgUpload = upload.friendImgUpload.single('friendhead');
 
 router.get('/*', function (req, res, next) {
-  usersDao.getUserToken(req.cookies.id, req.cookies.token)
+  usersDao.getUserToken(req.cookies.uid, req.cookies.token)
     .then(function (result) {
-      if(result.length === 1 && result[0].type === 0) {
+      if(result.length === 1 && result[0].type === 0 && new Date(result[0].expires) > new Date()) {
         next();
       } else {
         res.redirect('../login');
@@ -34,32 +38,22 @@ router.get('/*', function (req, res, next) {
 });
 
 /* Get home page */
-router.get('/', function (req, res) {
-  let user;
-  usersDao.getUserById(req.cookies.uid)
-    .then(function (result) {
-      if (result.length !== 0 && result[0].type === 0 ) {
-        user = result[0];
-        res.render('back/admin', { user: user });
-      }
-      else {
-        res.redirect('../login');
-      }
-    });
+router.get('/', async (req, res) => {
+  try {
+    const result = await usersDao.getUserById(req.cookies.uid);
+    res.render('back/admin', { user: result[0] });
+  } catch (ex) {
+    res.redirect('../login');
+  }
 });
 
-router.get('/index', function (req, res) {
-  let user;
-  usersDao.getUserById(req.cookies.uid)
-    .then(function (result) {
-      if (result.length !== 0 && result[0].type === 0) {
-        user = result[0];
-        res.render('back/index', { user: user });
-      }
-      else {
-        res.redirect('../login');
-      }
-    });
+router.get('/index', async (req, res) => {
+  try {
+    const result = await usersDao.getUserById(req.cookies.uid);
+    res.render('back/index', { user: result[0] });
+  } catch (ex) {
+    res.redirect('../login');
+  }
 });
 
 /* 写博客 */
@@ -86,16 +80,17 @@ router.get('/write', function (req, res) {
 
 router.post('/*', function (req, res, next) {
   if(req.cookies.uid && req.cookies.type == 0) {
-    usersDao.getUserToken(req.cookies.id, req.cookies.token)
+    usersDao.getUserToken(req.cookies.uid, req.cookies.token)
       .then(function (result) {
-        if (result.length == 1) {
+        if (result.length == 1 && result[0].type === 0 && new Date(result[0].expires) > new Date()) {
           next();
         } else {
-          res.send({type:false});
+          throw new Error('登陆态出错');
         }
       })
       .catch(function () {
         res.send({type:false});
+        res.end();
       })
   } else {
     res.send({type:false});
@@ -172,7 +167,8 @@ router.post('/write/sblog', function (req, res, next) {
       res.send({ type: true, blog: blog_id });
       res.end();
     })
-    .catch(function () {
+    .catch(function (error) {
+      console.warn(error);
       res.send({ type: false });
       res.end();
     });
@@ -184,7 +180,7 @@ router.post('/write/ablog', function (req, res, next) {
   let tags = [];
   const date = util.formatDate(new Date());
   blogsDao.alterBlog(blog)
-    .then(function (result) {
+    .then(function () {
       return tagsDao.getAllTags();
     })
     .then(function (result) {
@@ -204,12 +200,13 @@ router.post('/write/ablog', function (req, res, next) {
       }
       return tagsDao.saveTags(tags, date);
     })
-    .then(function () {
+    .then(function (result) {
       res.send({ type: true });
       res.end();
     })
     .catch(function (error) {
-      res.send({ type: false, retMsg: error });
+      console.log(error);
+      res.send({ type: false });
       res.end();
     });
 });
@@ -370,8 +367,7 @@ router.get('/editarticle', function (req, res) {
 
 /*获取所有图片*/
 router.get('/media', function (req, res) {
-  let imgArr = [];
-  let path;
+  let path, imgArr = [];
   glob('./public/upload/images/**/*.?(jpeg|jpg|png|gif)', function (err, files) {
     for(let f in files){
       path = files[f].replace(/^\.\/public/, '');
@@ -491,7 +487,7 @@ router.post('/friendsconfig/delete', function (req, res) {
 });
 
 // 更新个人信息
-router.post('/updateuser', function (req, res){
+router.post('/wsc/updateuser', function (req, res){
   const user = JSON.parse(req.body.user);
   usersDao.updateInfo(user)
     .then(function () {
@@ -504,7 +500,7 @@ router.post('/updateuser', function (req, res){
 });
 
 // 更新网站信息
-router.post('/updatews', function (req, res){
+router.post('/wsc/updatews', function (req, res){
   const website = JSON.parse(req.body.website);
   websiteDao.updateInfo(website)
     .then(function () {
@@ -514,6 +510,36 @@ router.post('/updatews', function (req, res){
       res.send({ type: false, error: error });
       res.end();
     });
+});
+
+// 导入多说评论
+router.post('/wsc/importds', function (req, res) {
+  const resData = {
+    retCode: 0,
+    retMsg: '',
+    retData: {}
+  };
+  let data;
+  try {
+    data = fs.readFileSync(path.resolve('./data/export.json'), 'utf-8');
+    data = JSON.parse(data);
+  } catch (ex) {
+    resData.retCode = -1;
+    resData.retMsg =  '文件不存在';
+  }
+  if (data) {
+    return commentsDao.importDS(data.posts)
+      .then(function () {
+        res.send(resData);
+        res.end();
+      })
+      .catch(function () {
+        resData.retCode = 100001;
+        resData.retMsg =  '导入失败';
+      });
+  }
+  res.send(resData);
+  res.end();
 });
 
 module.exports = router;

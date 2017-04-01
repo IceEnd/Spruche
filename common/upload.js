@@ -1,6 +1,6 @@
 'use strict';
 
-const multer  = require('multer')
+const multer  = require('multer');
 
 const blogImgUpload = multer({
   storage: multer.diskStorage({

@@ -42,21 +42,25 @@
             <h3>站点设置</h3>
             <form>
                 <div class="form-group">
-                    <label for="wsname">站点名称</label>
+                    <label for="wsname"></label>
                     <input type="email" class="form-control" id="wsname" placeholder="站点名称" value="<%=website.name%>">
                 </div>
                 <div class="form-group">
                     <label for="wsdescription">站点描述</label>
                     <input type="email" class="form-control" id="wsdescription" placeholder="站点描述" value="<%=website.description%>">
                 </div>
-                <div class="form-group">
-                    <label for="shortname">多说short_name</label>
-                    <input type="email" class="form-control" id="shortname" placeholder="多说short_name" value="<%=website.short_name%>">
-                </div>
             </form>
             <button id="duoshuo_btn" class="btn btn-default" type="button">更新站点</button>
         </div>
+
+        <div class="ws-form">
+            <h3>导入多说评论</h3>
+            <p>请先将多说评论文件 export.json 放在 /data 下（注意：此功能仅支持导入Spruche上使用过的多说评论）。</p>
+            <button id="duoshuo_import_btn" class="btn btn-default" type="button">导入评论</button>
+        </div>
+
     </div>
-    <script src="/dist/back.min.js"></script>
+    <script src="/javascripts/common/util.js"></script>
+    <script src="/javascripts/back/wsconfig.js"></script>
 </body>
 </html>

@@ -1,83 +1,137 @@
 # Spruche
 
-[![version](https://img.shields.io/badge/vserion-v0.0.7-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+[![version](https://img.shields.io/badge/version-0.1.0-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 [中文教程](https://www.coolecho.net/article/av17)
+[自定义主题](https://www.coolecho.net/article/av37)
 
 ## Get Started
 Spruche is a beautiful blog system,which is based on Node.js.Here you can go to check the system function--[https://www.coolecho.net](https://www.coolecho.net "绘枫和畅").
 
-If you want to use Spruche, your server should satisfy the conditions.
-### list
-- Node.js >= 4.4.7
-- mysql >= 5.0
+### Demo
+Default Theme:
+![Default Theme](./screenshot2.png)
+Mobile:
+![mobile](./screenshot3.png)
+WebSite Config:
+![config](./screenshot1.png)
+
+### Feature
+- Article edit, delete, sticky, draft, characteristic pictures, syntax highlighting, use `ueditor` editor.
+- Theme DIY.
+- Link management.
+- Duoshuo comment on import.
+- Support for weibo login, reply, praise, trample, reporting, and other functions of high level Servant comment box plug-in in appearance.
+- System upgrade to remind.
+
+### Environmental
+- Node.js >= 7.0
+- mysql >= 5.5.3
 
 ## Install
 ### step 1. Create database
-
-Create database, for example:<br>
+You need to execute SQL script,Create the database scripts are in database.sql.You can be in the mysql command line or execute a statement in the visualization tools, of course you can also define your own database name.for example:<br>
 ```
 create database xxxx;
 ```
 
-### step 2. Mysql config
-/database/mysqlDB.js <br>
+### step 2. System config
+Edit `./config.js`:
+
 ```js
 module.exports = {
   mysql: {
     host: '127.0.0.1',
-    user: 'username',       //username,用户名
-    password: '****',       //password,密码
-    database:'database',    //database，数据库名
-    port: 3306              //端口
-  }
+    user: '***',
+    password: '***',
+    database:'***',
+    port: 3306,
+    charset: 'utf8mb4'
+  },
+  wbApp: {                  // sina developer
+    appKey: '***',
+    appSecret: '****'
+  },
+  theme: 'default'         // theme name
 };
 ```
-### step 3. Install packages
 
+### step 3. Install packages
 Open system terminal
 ```
 npm install
 ```
-Then
+or
 ```
-npm install -g grunt-cli
-grunt
+yarn
 ```
 
 ### step 4. Start
 
 If you want to start a system, executing the following command.
+
 ```
 npm start
 ```
-If you want to make the system aways run,you need install `forever`.
+If you want to make the system aways as service, you need install `forever` or `pm2`.
 ```
-npm install -g forever
+npm install -g pm2
 ```
 And then:
 ```
-forever start ./bin/www
-```
-or
-```
-npm run public
+pm2 start ./bin/www
 ```
 
 ### step 5. System config
 
-Now,you need to access you website:`http://hostname/start` or `https://hostname/start`.Add the corresponding information.
+You need to access you website:`http://hostname/start` or `https://hostname/start`.Add the corresponding information.
 
-Ok, finished.Now,you can access you website.
+Ok, finished. Now, you can access you website.
 
 ### Admin
 
 Access `https://hostname/admin` or `http://hostname/admin`,you can manage system.
 
-### DUODHUO
+## Servant Comment Box
 
-Access `https://hostname/admin#wsconfing`, set ```short_name``` of duoshuo.
+### How to use
+
+import plugin in <head>
+```html
+<link rel='stylesheet' href='/dist/comments.min.css' />
+<script src="/dist/comments.min.js"></script>
+```
+In the location of the need to comment box embedded script:
+
+```html
+<div id="comments">
+  <script>
+    var options = {
+        wbAppKey: '2325634760',
+        title: '友情连接',
+        threadKey: '/friendslink',
+        commentAble: true,
+        announcement: '英灵【多说】已经殉职，master正在努力制造新英灵...',
+    }
+    var servant = new Servant('#comments', options);
+    servant.init();
+    </script>
+</div>
+```
+
+### Options
+
+|field|type|default|note|
+|-----|-----|------|-----|
+|placeholder|string|请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。|textarea placeholder|
+|wbAppKey|string|''|sina developer appkey|
+|commentAble|bool|true|allow comments|
+|announccement|string|''|textarea announccement|
+|pageNumber|number|10|comment number each page|
+|childrenNumber|number|10|children review each page number|
+|threadKey|string|''|page's unique key|
+|title|string|''|page's title|
 
 ### LICENSE
 

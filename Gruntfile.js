@@ -8,7 +8,7 @@ module.exports = function (grunt) {
       options: {
       },
       frontDist: {
-        src: ['public/javascripts/front/*.js', 'public/javascripts/common/*.js'],
+        src: ['public/javascripts/common/*.js', 'public/javascripts/front/*.js'],
         dest: 'public/dist/main.js'
       },
       backDist: {
@@ -24,6 +24,10 @@ module.exports = function (grunt) {
       backJS: {
         src: 'public/dist/back.js',
         dest: 'public/dist/back.min.js'
+      },
+      commentsJS: {
+        src: 'public/javascripts/libs/comments.js',
+        dest: 'public/dist/comments.min.js'
       }
     },
     cssmin: {
@@ -34,6 +38,10 @@ module.exports = function (grunt) {
       backCss: {
         src: 'public/stylesheets/back.css',
         dest: 'public/dist/back.min.css'
+      },
+      commentsCss: {
+        src: 'public/stylesheets/comments.css',
+        dest: 'public/dist/comments.min.css'
       }
     }
   });

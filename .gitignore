@@ -3,8 +3,6 @@
 /typings/
 /public/upload/images/
 /.idea/
-/database/
-/bin/www
+.DS_Store
+.ftpconfig
 npm-debug.log
-/public/dist/
-/database/mysqlDB.js

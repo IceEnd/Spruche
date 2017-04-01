@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= website.name %> | Cononico - 千里之行，始于足下</title>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="author" content="Cononico" />
+    <meta name="application-name" content="<%= website.name %>"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta charset="UTF-8" />
+    <meta name="apple-mobile-app-capable" content="yes">
+    <meta name="apple-mobile-app-status-bar-style" content="black">
+    
+    <meta name="description" itemprop="description" content="<%=website.description %>" />
+    <meta name="keywords" itemprop="keywords" content="二次元,绘画，宅,前端,Node" />
+
+    <link rel='stylesheet' href='/dist/main.min.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+    <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDjango.css">
+    
+  </head>
+  <body>
+
+    <% include header.html %>
+    <div id="container">
+      <div class="page">
+        <section id="content" class="page-content">
+          <ul class="article-ul" id="article-ul">
+            <!--文章列表-->
+            <% for(var i = 0; i < blogs.length; i++) { %>
+            <li class="article-li">
+              <article>
+                <div class="article-info-div">
+                  <div class="article-user-img-div float-left">
+                    <img src="<%=blogs[i].head_img %>">
+                  </div>
+                  <div class="vertical-line-div float-left">
+                    <div class="vertical-line"></div>
+                  </div>
+                  <div class="article-info float-left">
+                    <h3 class="article-title-h">
+                      <% if (blogs[i].stick === 1) { %>
+                      <span class="stick-span">[置顶]</span>
+                      <% } %>
+                      <a href="/article/av<%=blogs[i].id %>" data-pjax="true"><%=blogs[i].title %></a>
+                    </h3>
+                    <div class="article-other-info">
+                      <span>
+                        <a class="article-author"><%= blogs[i].username %></a>
+                      </span><span>
+                        <a class="article-comments-num ds-thread-count" data-pjax="true"><%= blogs[i].commentsView.count %> Comments</a>
+                      </span><span>
+                        <a class="article-view-num"><%= blogs[i].view_num %> Views</a>
+                      </span><span>
+                        <a class="article-date"><%= blogs[i].publish_date.getFullYear()+'-'+(blogs[i].publish_date.getMonth()+1)+'-'+blogs[i].publish_date.getDate() %></a>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <% if(blogs[i].img){ %>
+                <div class="article-img-div">
+                  <img src="<%= blogs[i].img %>">
+                </div>
+                <% } %>
+                <div class="article-summary-div">
+                  <a href="/article/av<%=blogs[i].id %>" data-pjax="true">
+                    <p class="article-summary-p"><%- blogs[i].summary.substr(0,155) + "..." %></p>
+                  </a>
+                </div>
+                <% if(blogs[i].tags != '') {%>
+                <div class="article-tags-div">
+                  <% var tags = blogs[i].tags.split(',') %>
+                  <% for(var tag = 0;tag < tags.length; tag++) { %>
+                  <a><%= tags[tag] %></a>
+                  <% }%>
+                </div>
+                <% } %>
+                <div class="horizontal-line-div">
+                  <div class="vertical-line <%= (blogs[i].stick === 1 ? 'vertical-line-stick' : '')%>"></div>
+                </div>
+                <% if (blogs[i].stick === 1) { %>
+                <span class="stick-div">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" fill="#333">
+                    <circle cx="50" cy="50" r="46" stroke="rgba(0,0,0,0.5)" stroke-width="2" fill="none"/>
+                    <circle cx="50" cy="50" r="35" stroke="rgba(0,0,0,0.5)" stroke-width="2" fill="none"/>
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="m50 0 l0 20 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="m50 25 l0 10 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="m0 50 l20 0 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="m25 50 l10 0 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="M80 50 l20 0 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="M65 50 l10 0 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="M50 80 l0 20 z" />
+                    <path stroke="rgba(0,0,0,0.5)" stroke-width="2" d="M50 65 l0 10 z" />
+                    <text x="20" y="51" style="fill:red;font-size:16;font-weight:bold;" transform="rotate(45 45,45)">人工置顶</text>
+                  </svg>
+                </span>
+                <% } %>
+              </article>
+            </li>
+            <% } %>
+          </ul>
+          <% if(blogs.length >= 10){%>
+          <div class="load-more-btn-div">
+            <div class="load-more-btn-div-cnt" id="load-more-btn-div-cnt">
+              <!--<span class="lode-more-shine load-more-shine-left"></span>-->
+              <span class="load-line"></span>
+              <a class="load-more-a" id="load-more-a">加载更多</a>
+              <span class="load-line"></span>
+              <!--<span class="lode-more-shine load-more-shine-right"></span>-->
+            </div>
+            <% include loading.html %>
+          </div>
+          <% } %>
+        </section>
+      </div>
+    </div>
+    <div class="img-view">
+      <h5></h5>
+      <div class="img-view-div">
+        <img />
+      </div>
+    </div>
+    <% include alert.html %>
+    <!--<% include tagsBg.html %>-->
+    <% include footer.html %> 
+    <script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+    <script src="/javascripts/libs/jquery.cookie.js"></script>
+    <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+    <script src="/javascripts/libs/jquery.pjax.js"></script>
+    <!--<script src="/javascripts/libs/tagcanvas.min.js"></script>-->
+    <script type="text/javascript" src="/dist/main.min.js"></script>
+    <!--<script src="/javascripts/front/tags.js"></script>-->
+  </body>
+</html>

@@ -3,24 +3,24 @@
     <a href="/">
       <img class="head_logo" id="head_logo" src="/images/pic/head.jpg">
     </a>
-    <div class="motto motto-l"><h5>线条凌乱</h5></div>
-    <div class="motto motto-r"><h5>手残无解</h5></div>
+    <div class="motto motto-l"><h5>千里之行</h5></div>
+    <div class="motto motto-r"><h5>始于足下</h5></div>
   </div>
 
   <div class="head_nav_div" id="head_nav_div">
       <nav class="head_nav">
-        <ul id="nav_ul">
+        <ul id="nav_ul" data-type="home">
             <a href="http://about.coolecho.net">
                 <li class="nav_ul_li">About</li>
             </a>
 			<a href="/friendslink" data-pjax="true"> 
-				<li class="nav_ul_li">Friends</li>
+				<li class="nav_ul_li nav_ul_btn nav_li_friends" data-type="friends">Friends</li>
 			</a>
             <a href="/messageboard" data-pjax="true"> 
-                <li class="nav_ul_li">Tucao</li>
+                <li class="nav_ul_li nav_ul_btn nav_li_tucao" data-type="tucao">Tucao</li>
             </a>
             <a href="/">
-                <li class="nav_li_on nav_ul_li">Home</li>
+                <li class="nav_ul_li nav_ul_btn nav_li_home" data-type="home">Home</li>
             </a>
         </ul>
      </nav>
@@ -42,20 +42,20 @@
     <div class="mobile-nav" id="mobile-nav">
         <div class="mobile-head-logo-div">
             <img class="mobile-head-logo" src="/images/pic/head.jpg">
-            <h5 class="motto-h5">线条凌乱,手残无解</h5>
+            <h5 class="motto-h5">千里之行,始于足下</h5>
         </div>
 
         <div class="mobile-head-nav-div">
             <nav class="mobile-head-nav">
-                <ul class="mobile-nav-ul">
+                <ul class="mobile-nav-ul" id="mobile_nav_ul" data-type="home">
                     <a href="/">
-                        <li class="nav_li_on nav_ul_li">Home</li>
+                        <li class="nav_li_on nav_ul_li mobile_nav_ul_btn mobile_nav_home" data-type="home">Home</li>
                     </a>
-                    <a href="/messageboard" data-pjax="true"> 
-                        <li class="nav_ul_li">Tucao</li>
+                    <a href="/messageboard" data-pjax="true">
+                        <li class="nav_ul_li mobile_nav_ul_btn mobile_nav_tucao" data-type="tucao">Tucao</li>
                     </a>
                     <a href="/friendslink" data-pjax="true"> 
-						<li class="nav_ul_li">Friends</li>
+						<li class="nav_ul_li mobile_nav_ul_btn mobile_nav_friends" data-type="friends">Friends</li>
 					</a>
                     <a href="http://about.coolecho.net">
                         <li class="nav_ul_li">About</li>
