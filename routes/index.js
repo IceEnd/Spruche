@@ -39,7 +39,7 @@ router.get('/start', async (req, res) => {
     }
   } catch (ex) {
     console.warn(err);
-    res.render('error', { message: '数据表创建失败，请联系作者' });
+    res.render('front/themes/default/start', { title: '初号机神经同步' });
   }
 });
 
