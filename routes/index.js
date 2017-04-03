@@ -19,7 +19,7 @@ const theme = require('../config').theme;
 const wbApp = require('../config').wbApp;
 
 /* website install */
-router.get('/start', async (req, res) => {
+router.get('/start', async function (req, res) {
   let start = false;
   try {
     await dbDao.createUsers();

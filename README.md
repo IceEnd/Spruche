@@ -126,6 +126,32 @@ In the location of the need to comment box embedded script:
 </div>
 ```
 
+Then You should add a connect page like :
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/icon/favicon.ico" />
+</head>
+<body>
+<div>
+    <h3>
+        Spruche 正在连接微博...
+    </h3>
+</div>
+<script src="/javascripts/libs/jquery-2.1.4.min.js"></script>
+<script src="/javascripts/libs/jquery.cookie.js"></script>
+<script src="/dist/comments.min.js"></script>
+<script>
+    var servant = new Servant();
+    servant.getThridToken();
+</script>
+</body>
+</html>
+```
+
 ### Options
 
 |field|type|default|note|

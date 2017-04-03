@@ -2,8 +2,8 @@
   "name": "spruche",
   "version": "0.1.0",
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node --harmony ./bin/www ",
+    "dev": "nodemon --harmony ./bin/www"
   },
   "repository": {
     "type": "git",
