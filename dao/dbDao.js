@@ -1,6 +1,11 @@
 'use strict';
 
 const dbQuery = require('../common/util').dbQuery;
+
+function showTables() {
+  return dbQuery('show tables');
+}
+
 /**
  * 获取全部标签
  */
@@ -196,6 +201,7 @@ function initClassify() {
 }
 
 module.exports = {
+  showTables: showTables,
   createUsers: createUsers,               // 用户表
   createClassify: createClassify,         // 分类
   createBlogs: createBlogs,

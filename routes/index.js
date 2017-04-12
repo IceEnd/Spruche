@@ -19,26 +19,31 @@ const theme = require('../config').theme;
 const wbApp = require('../config').wbApp;
 
 /* website install */
-router.get('/start', async function (req, res) {
+router.get('/start', async (req, res) => {
   let start = false;
   try {
-    await dbDao.createUsers();
-    await dbDao.createClassify();
-    await dbDao.createBlogs();
-    await dbDao.createTags();
-    await dbDao.createComments();
-    await dbDao.createWebsite();
-    await dbDao.createFriends();
-    await dbDao.initWebsite();
-    await dbDao.initClassify();
+    const tables = await dbDao.showTables();
+    if (tables.length === 0) {
+      await dbDao.createUsers();
+      await dbDao.createClassify();
+      await dbDao.createBlogs();
+      await dbDao.createTags();
+      await dbDao.createComments();
+      await dbDao.createUserLikeComments();
+      await dbDao.createUserHateComments();
+      await dbDao.createWebsite();
+      await dbDao.createFriends();
+      await dbDao.initWebsite();
+      await dbDao.initClassify();
+    }
     const website = await websiteDao.getWebSite();
     if (website[0].state === 0) {
       res.render('front/themes/default/start', { title: '初号机神经同步' });
     } else {
-      res.redirect('/', {website: website});
+      res.redirect('/');
     }
   } catch (ex) {
-    console.warn(err);
+    console.warn(ex);
     res.render('error', { message: '数据表创建失败，请联系作者' });
   }
 });
