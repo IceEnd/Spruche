@@ -126,7 +126,7 @@ In the location of the need to comment box embedded script:
 </div>
 ```
 
-Then You should add a connect page like :
+Then You should add ```connect.html``` in themes floder like :
 
 ```html
 <!DOCTYPE html>
