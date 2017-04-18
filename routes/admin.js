@@ -307,31 +307,20 @@ router.post('/write/notstickarticle', function (req, res) {
 });
 
 /*获取文章列表*/
-router.get('/allarticle', function (req, res) {
+router.get('/allarticle', async (req, res) => {
   let blogs;
-  if (req.cookies.uid && req.cookies.type == 0) {
-    usersDao.getUserById(req.cookies.uid)
-      .then(function (result) {
-        if (result != 0) {
-          return blogsDao.getAllBlogInfo();
-        }
-        else {
-          throw new Error('403');
-        }
-      })
-      .then(function (result) {
-        blogs = result;
-        return websiteDao.getWebSite();
-      })
-      .then(function (result) {
-        res.render('back/allarticle', { blogs: blogs, website: result[0] });
-      })
-      .catch(function (error) {
-        res.render('error', { message: 403, error: error });
-      });
-  }
-  else {
-    res.redirect('../login');
+  try {
+    blogs = await blogsDao.getAllBlogInfo();
+    const cvPromises = blogs.map(async blog => {
+      const commentsView = await commentsDao.getPageCommentsAcount(`/article/av${blog.id}`);
+      blog.commentsView = commentsView;
+      return blog;
+    });
+    blogs = await Promise.all(cvPromises);
+    const website = await websiteDao.getWebSite();
+    res.render('back/allarticle', { blogs: blogs, website: website[0] });
+  } catch (ex) {
+    res.render('error', { message: 500, error: ex });
   }
 });
 
