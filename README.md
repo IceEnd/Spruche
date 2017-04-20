@@ -15,10 +15,6 @@ Default Theme:
 
 ![Default Theme](./screenshot2.png)
 
-Mobile:
-
-![mobile](./screenshot3.png)
-
 WebSite Config:
 
 ![config](./screenshot1.png)
