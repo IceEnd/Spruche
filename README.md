@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 [中文教程](https://www.coolecho.net/article/av37)
-[自定义主题](https://www.coolecho.net/article/av37)
+[自定义主题](https://github.com/IceEnd/Spruche/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98)
 
 ## Get Started
 Spruche is a beautiful blog system,which is based on Node.js.Here you can go to check the system function--[https://www.coolecho.net](https://www.coolecho.net "绘枫和畅").
