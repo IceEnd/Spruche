@@ -1,9 +1,10 @@
 {
   "name": "spruche",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "start": "node --harmony ./bin/www ",
-    "dev": "nodemon --harmony ./bin/www"
+    "dev": "nodemon --harmony ./bin/www",
+    "build": "grunt"
   },
   "repository": {
     "type": "git",

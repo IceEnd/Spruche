@@ -44,7 +44,7 @@ router.get('/start', async (req, res) => {
     }
   } catch (ex) {
     console.warn(ex);
-    res.render('error', { message: '数据表创建失败，请联系作者' });
+    res.render('error', { message: '创建数据库失败，请先删除数据库，重新新建数据库再尝试' });
   }
 });
 
@@ -53,6 +53,10 @@ router.get('/', async (req, res) => {
   try {
     const result = await websiteDao.getWebSite();
     const website = result[0];
+    if (website.state === 0) { // 未开通站点
+      res.redirect('/start');
+      return false;
+    }
     const stick = await blogsDao.getStick();
     const blogList = await blogsDao.getBlogByPage(0, 10);
     let blogs = stick.concat(blogList);

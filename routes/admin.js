@@ -20,21 +20,42 @@ const upload = require('../common/upload');
 
 const packageInfo = require('../package.json');
 
-const blogImgUpload = upload.blogImgUpload.single('blogimg');
 const friendImgUpload = upload.friendImgUpload.single('friendhead');
 
-router.get('/*', function (req, res, next) {
-  usersDao.getUserToken(req.cookies.uid, req.cookies.token)
-    .then(function (result) {
-      if(result.length === 1 && result[0].type === 0 && new Date(result[0].expires) > new Date()) {
+const article = require('./article');
+
+router.get('/*', async (req, res, next) => {
+  try {
+    const result = await usersDao.getUserToken(req.cookies.uid, req.cookies.token);
+    if(result.length === 1 && result[0].type === 0 && new Date(result[0].expires) > new Date()) {
+      next();
+    } else {
+      res.redirect('../login');
+      res.end();
+    }
+  } catch (ex) {
+    res.redirect('../login');
+    res.end();
+  }
+});
+
+router.post('/*', async (req, res, next) => {
+  if(req.cookies.uid && req.cookies.type == 0) {
+    try {
+      const result = await usersDao.getUserToken(req.cookies.uid, req.cookies.token);
+      if (result.length == 1 && result[0].type === 0 && new Date(result[0].expires) > new Date()) {
         next();
       } else {
-        res.redirect('../login');
+        throw new Error('登陆态出错');
       }
-    })
-    .catch(function () {
-      res.redirect('../login');
-    });
+    } catch (ex) {
+      res.send({type:false});
+      res.end();
+    }
+  } else {
+    res.send({type:false});
+    res.end();
+  }
 });
 
 /* Get home page */
@@ -56,47 +77,6 @@ router.get('/index', async (req, res) => {
   }
 });
 
-/* 写博客 */
-router.get('/write', function (req, res) {
-  let user, classify;
-  classifyDao.getAllClassify()
-    .then(function (result) {
-      classify = result;
-      return usersDao.getUserById(req.cookies.uid);
-    })
-    .then(function (result) {
-      if (result.length !== 0 && result[0].type === 0) {
-        user = result[0];
-        res.render('back/write', { classify: classify, edit: false });
-      }
-      else {
-        res.redirect('../login');
-      }
-    })
-    .catch(function (error) {
-      res.redirect('error', '404');
-    });
-});
-
-router.post('/*', function (req, res, next) {
-  if(req.cookies.uid && req.cookies.type == 0) {
-    usersDao.getUserToken(req.cookies.uid, req.cookies.token)
-      .then(function (result) {
-        if (result.length == 1 && result[0].type === 0 && new Date(result[0].expires) > new Date()) {
-          next();
-        } else {
-          throw new Error('登陆态出错');
-        }
-      })
-      .catch(function () {
-        res.send({type:false});
-        res.end();
-      })
-  } else {
-    res.send({type:false});
-  }
-});
-
 router.post('/index/appInfo', function (req, res) {
   request.get("http://about.coolecho.net/appinfo/appInfo.json", {timeout: 2000}, function (err, response) {
     if(!err && response.statusCode == 200){
@@ -109,250 +89,38 @@ router.post('/index/appInfo', function (req, res) {
   });
 });
 
-router.post('/write/*', function (req, res, next){
-  usersDao.getUserById(req.cookies.uid)
-    .then(function (result) {
-      if (result.length != 0) {
-        next();
-      }
-      else {
-        res.send({type:false});
-      }
-    });
-});
+/* 写博客 */
+router.get('/write', article.getWrite);
 
 /* 删除文章 */
-router.post('/write/delarticle',function (req, res, next){
-  blogsDao.deleteBlog(req.body.id)
-    .then(function () {
-      res.send({ type: true });
-      res.end();
-    })
-    .catch(function () {
-      res.send({ type: false });
-      res.end();
-    });
-});
+router.post('/write/delarticle', article.delArticle);
 
 /* 保存发布 */
-router.post('/write/sblog', function (req, res, next) {
-  const blog = JSON.parse(req.body.blog);
-  blog.view_num = 0;
-  blog.publish_date = util.formatDate(new Date());
-  blog.user_id = req.cookies.uid;
-  let blog_id, tags = [];
-  blogsDao.saveBlog(blog)
-    .then(function (result) {
-      blog_id = result.insertId;
-      return tagsDao.getAllTags();
-    })
-    .then(function (result) {
-      if (result.length == 0) {
-        tags = blog.tags;
-      }
-      else {
-        for (let i = 0; i < blog.tags.length; i++) {
-          for (let j = 0; j < result.length; j++) {
-            if (blog.tags[i] == result[j].tags_name)
-              break;
-            if (j == result.length - 1) {
-              tags.push(blog.tags[i]);
-            }
-          }
-        }
-      }
-      return tagsDao.saveTags(tags, blog.publish_date);
-    })
-    .then(function () {
-      res.send({ type: true, blog: blog_id });
-      res.end();
-    })
-    .catch(function (error) {
-      console.warn(error);
-      res.send({ type: false });
-      res.end();
-    });
-});
+router.post('/write/saveartile', article.saveArticle);
 
 /* 修改文章 */
-router.post('/write/ablog', function (req, res, next) {
-  const blog = JSON.parse(req.body.blog);
-  let tags = [];
-  const date = util.formatDate(new Date());
-  blogsDao.alterBlog(blog)
-    .then(function () {
-      return tagsDao.getAllTags();
-    })
-    .then(function (result) {
-      if (result.length == 0) {
-        tags = blog.tags;
-      }
-      else {
-        for (let i = 0; i < blog.tags.length; i++) {
-          for (let j = 0; j < result.length; j++) {
-            if (blog.tags[i] == result[j].tags_name)
-              break;
-            if (j == result.length - 1) {
-              tags.push(blog.tags[i]);
-            }
-          }
-        }
-      }
-      return tagsDao.saveTags(tags, date);
-    })
-    .then(function (result) {
-      res.send({ type: true });
-      res.end();
-    })
-    .catch(function (error) {
-      console.log(error);
-      res.send({ type: false });
-      res.end();
-    });
-});
+router.post('/write/alterarticle', article.alterArticle);
 
 /* 添加文章分类 */
-router.post('/write/addclassify', function (req, res) {
-  classifyDao.addClassify(req.body.classify)
-    .then(function (result) {
-      res.send({ type: true, id: result.insertId });
-      res.end();
-    })
-    .catch(function () {
-      res.send({ type: false });
-      res.end();
-    });
-});
+router.post('/write/addclassify', article.addClassify);
 
 /* 上传特色图片 */
-router.post('/write/blogimgupload', function (req, res) {
-  blogImgUpload(req, res, function (err) {
-    if (err) {
-      res.send({ retCode: '500'});
-      res.end();
-    } else {
-      blogsDao.setImage(`/upload/img/blog/${req.file.filename}`, req.body.id)
-        .then(function () {
-          res.send({
-            retCode: '0',
-            retData: {
-              url: `/upload/img/blog/${req.file.filename}`
-            }
-          });
-        })
-        .catch(function () {
-          res.send({retCode: '500'});
-          res.end();
-        });
-    }
-  });
-});
+router.post('/write/artileimgupload', article.imgUpload);
 
 /* 设置特色图片 */
-router.post('/write/setblogimg', function (req, res) {
-  blogsDao.setImage(req.body.url, req.body.id)
-    .then(function () {
-      res.send({
-        retCode: '0',
-        retData: {
-          url: req.body.url
-        }
-      });
-    })
-    .catch(function () {
-      res.send({retCode: '500'});
-      res.end();
-    });
-});
+router.post('/write/setblogimg', article.setImg);
 
 /* 置顶文章 */
-router.post('/write/stickarticle', function (req, res) {
-  blogsDao.cleanStick()
-    .then(function (result) {
-      if (result) {
-        return blogsDao.setStick(req.body.id);
-      } else {
-        throw new Error('清除置顶失败');
-      }
-    })
-    .then(function (result) {
-      if (result) {
-        res.send({ type: true });
-        res.end();
-      } else {
-        throw new Error('设置置顶失败');
-      }
-    })
-    .catch(function () {
-      res.send({ type: false });
-      res.end();
-    });
-});
+router.post('/write/stickarticle', article.stickArticle);
 
 /* 取消置顶 */
-router.post('/write/notstickarticle', function (req, res) {
-  blogsDao.cleanStick()
-    .then(function (result) {
-      if (result) {
-        res.send({ type: true });
-        res.end();
-      } else {
-        throw new Error('清除置顶失败');
-      }
-    })
-    .catch(function () {
-      res.send({ type: false });
-      res.end();
-    });
-});
+router.post('/write/notstickarticle', article.notStickArticle);
 
 /*获取文章列表*/
-router.get('/allarticle', async (req, res) => {
-  let blogs;
-  try {
-    blogs = await blogsDao.getAllBlogInfo();
-    const cvPromises = blogs.map(async blog => {
-      const commentsView = await commentsDao.getPageCommentsAcount(`/article/av${blog.id}`);
-      blog.commentsView = commentsView;
-      return blog;
-    });
-    blogs = await Promise.all(cvPromises);
-    const website = await websiteDao.getWebSite();
-    res.render('back/allarticle', { blogs: blogs, website: website[0] });
-  } catch (ex) {
-    res.render('error', { message: 500, error: ex });
-  }
-});
-
+router.get('/allarticle', article.getAllarticle);
 
 /*修改文章页面*/
-router.get('/editarticle', function (req, res) {
-  let classify;
-  if (req.cookies.uid && req.cookies.type == 0) {
-    usersDao.getUserById(req.cookies.uid)
-      .then(function (result) {
-        if (result.length != 0 && result[0].type == 0) {
-          return classifyDao.getAllClassify();
-        }
-        else {
-          throw new Error('403');
-        }
-      })
-      .then(function (result) {
-        classify = result;
-        return blogsDao.getBlogByID(req.query.id,true);
-      })
-      .then(function (result) {
-        res.render('back/write', { classify: classify, edit: true, blog: result[0] });
-      })
-      .catch(function (error) {
-        res.render('error', { message: 403, error: error });
-      });
-  }
-  else {
-    res.redirect('../login');
-  }
-});
+router.get('/editarticle', article.editArticle);
 
 /*获取所有图片*/
 router.get('/media', function (req, res) {
@@ -399,11 +167,23 @@ router.get('/friendsconfig', function (req, res) {
     });
 });
 
+/**
+ * @description 新增友情链接
+ */
 router.post('/friendsconfig/addfriend', function (req, res) {
-  friendImgUpload(req, res, function (err) {
+  const floaderExists = util.mkdirsSync('./public/upload/img/friends', 0o777);
+  if (!floaderExists) { // 创建文件夹失败
+    res.send({
+      retCode: '500',
+      retMsg: '文件夹创建失败',
+    });
+    res.end();
+  }
+  friendImgUpload(req, res, async (err) => {
     if (err) {
       res.send({
-        retCode: '500'
+        retCode: '500',
+        retMsg: '图片上传失败',
       });
       res.end();
     } else {
@@ -414,25 +194,25 @@ router.post('/friendsconfig/addfriend', function (req, res) {
         description: req.body.friendDescription,
         head: `/upload/img/friends/${req.file.filename}`
       };
-      friendsDao.addFriend(friend)
-        .then(function () {
-          res.send({
-            retCode: '0',
-            retData: {
-              friend: friend
-            }
-          });
-        })
-        .catch(function () {
-          res.send({retCode: '500'});
-          res.end();
+      try {
+        await friendsDao.addFriend(friend);
+        res.send({
+          retCode: '0',
+          retData: {
+            friend: friend
+          }
         });
+        res.end();
+      } catch (ex) {
+        res.send({retCode: '500'});
+        res.end();
+      }
     }
   });
 });
 
 router.post('/friendsconfig/alterfriend', function (req, res) {
-  friendImgUpload(req, res, function (err) {
+  friendImgUpload(req, res, async (err) => {
     if (err) {
       res.send({retCode: '500'});
       res.end();
@@ -449,15 +229,14 @@ router.post('/friendsconfig/alterfriend', function (req, res) {
       } else {
         friend.head = `/upload/img/friends/${req.file.filename}`;
       }
-      friendsDao.alterFriend(friend)
-        .then(function () {
-          res.send({retCode: '0'});
-          res.end();
-        })
-        .catch(function () {
-          res.send({retCode: '500'});
-          res.end();
-        });
+      try {
+        await friendsDao.alterFriend(friend);
+        res.send({retCode: '0'});
+        res.end();
+      } catch (e) {
+        res.send({retCode: '500'});
+        res.end();
+      }
     }
   });
 });
@@ -469,7 +248,6 @@ router.post('/friendsconfig/delete', function (req, res) {
       res.end();
     })
     .catch(function (error) {
-      console.log(error);
       res.send({retCode: '500'});
       res.end();
     });
@@ -493,11 +271,11 @@ router.post('/wsc/updatews', function (req, res){
   const website = JSON.parse(req.body.website);
   websiteDao.updateInfo(website)
     .then(function () {
-      res.send({ type: true });
+        res.send({ type: true });
     })
     .catch(function (error) {
-      res.send({ type: false, error: error });
-      res.end();
+        res.send({ type: false, error: error });
+        res.end();
     });
 });
 

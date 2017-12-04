@@ -1,6 +1,6 @@
 # Spruche
 
-[![version](https://img.shields.io/badge/version-0.1.0-brightgreen.svg)](https://github.com/IceEnd/Spruche)
+[![version](https://img.shields.io/badge/version-0.1.1-brightgreen.svg)](https://github.com/IceEnd/Spruche)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/IceEnd/Spruche/blob/master/LICENSE)
 
 [中文教程](https://www.coolecho.net/article/av37)
