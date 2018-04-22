@@ -17,51 +17,44 @@
             myAlert('密码只能输入6-20个字母、数字、特殊字符');
             return false;
         }
-        if (!CAPTCHAOBJ.getValidate()){
-            myAlert('请滑动验证码！');
-            return false;
-        }
-        else {
-            const form = {
-                "email": $email.val(),
-                "password": $password.val(),
-                "remeber": $remember.is(':checked')
-            };
-            $.ajax({
-                type: 'POST',
-                url: '/ulogin',
-                dataType: 'json',
-                traditional: true,
-                data: {
-                    form: JSON.stringify(form)
-                },
-                success: function (data) {
-                    switch (data.type) {
-                        case 0:
-                            successLogin(data.user);
-                            break;
-                        case 1:
-                            myAlert('用户名或密码错误');  
-                            clearForm();                        
-                            break;
-                        case 2:
-                            myAlert('你是机器人吗？');
-                            clearForm();
-                            break;
-                    }
-                     
-                },
-                error: function (xhr, errorType, error) {
-                    myAlert('网络繁忙，请稍后再试...');
+        const form = {
+            "email": $email.val(),
+            "password": $password.val(),
+            "remeber": $remember.is(':checked')
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/ulogin',
+            dataType: 'json',
+            traditional: true,
+            data: {
+                form: JSON.stringify(form)
+            },
+            success: function (data) {
+                switch (data.type) {
+                    case 0:
+                        successLogin(data.user);
+                        break;
+                    case 1:
+                        myAlert('用户名或密码错误');  
+                        clearForm();                        
+                        break;
+                    case 2:
+                        myAlert('你是机器人吗？');
+                        clearForm();
+                        break;
                 }
-            });
-            return false;
-        }
+                 
+            },
+            error: function (xhr, errorType, error) {
+                myAlert('网络繁忙，请稍后再试...');
+            }
+        });
+        return false;
     });
 
     //清空表单
     function clearForm(){
-        CAPTCHAOBJ.refresh();
         $email.val('');
         $password.val('');
     }

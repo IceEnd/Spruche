@@ -1,9 +1,9 @@
 {
   "name": "spruche",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
-    "start": "node --harmony ./bin/www ",
-    "dev": "nodemon --harmony ./bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
     "build": "grunt"
   },
   "repository": {
@@ -14,33 +14,34 @@
     "blog",
     "express"
   ],
-  "author": "CNO",
+  "author": "Alchemy",
   "license": "MIT",
   "dependencies": {
     "body-parser": "~1.13.2",
     "cookie-parser": "~1.3.5",
-    "crypto": "latest",
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
-    "express-pjax":"latest",
+    "express-pjax": "latest",
     "formidable": "latest",
     "morgan": "~1.6.1",
     "multer": "~1.3.0",
     "mysql": "latest",
+    "nodemailer": "^4.6.4",
+    "request": "^2.54.0",
     "serve-favicon": "~2.3.0",
-    "ueditor": "latest",
-    "request": "^2.54.0"
+    "ueditor": "latest"
   },
   "devDependencies": {
     "grunt": "~1.0.1",
-    "grunt-contrib-jshint": "~1.1.0",
-    "grunt-contrib-concat": "~1.0.1",
-    "grunt-contrib-uglify": "~2.1.0",
-    "grunt-contrib-requirejs": "~1.0.0",
-    "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-copy": "~1.0.0",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-requirejs": "~1.0.0",
+    "grunt-contrib-uglify": "~2.1.0",
     "grunt-css": "~0.5.4",
-    "grunt-strip": "~0.2.1"
+    "grunt-strip": "~0.2.1",
+    "nodemon": "^1.17.3"
   }
 }

@@ -309,6 +309,31 @@
     display: none;
 }
 
+.spruche-comment .comm .sc-comment .comment-list .comments-split {
+    position: relative;
+}
+
+.spruche-comment .comm .sc-comment .comment-list .comments-split
+
+.spruche-comment .comm .sc-comment .comment-list .comments-ul.target-comments-ul {
+    margin-bottom: 20px;
+}
+
+.spruche-comment .comm .sc-comment .comment-list .hot-line {
+    text-align: center;
+    border-bottom: 1px solid #e5e9ef;
+    position: relative;
+    margin: 20px 0 20px 85px;
+    font-size: 12px;
+}
+
+.spruche-comment .comm .sc-comment .comment-list .hot-line span {
+    position: absolute;
+    top: -7px;
+    margin-left: -115px;
+    padding: 0 0.5em;
+}
+
 .spruche-comment .comm .sc-comment .comment-list .comments-ul .list-item .comment-send {
     display: none;
 }
@@ -327,6 +352,10 @@
     position: relative;
 }
 
+.spruche-comment .comm .sc-comment .comment-list .comments-ul .list-item .comment-send .user-face {
+    margin-top: 5px;
+}
+
 .spruche-comment .comm .sc-comment .comment-list .comments-ul .list-item .user-face img {
     width: 48px;
     height: 48px;
@@ -338,6 +367,10 @@
     margin-left: 85px;
     padding: 22px 0 14px;
     border-top: 1px solid #e5e9ef;
+}
+
+.spruche-comment .comm .sc-comment .comment-list .comments-ul .list-item .con.no-border {
+    border-top: none;
 }
 
 .spruche-comment .comm .sc-comment .comment-list .comments-ul .list-item .con .user {
@@ -503,7 +536,45 @@
     display: none;
 }
 
+.spruche-comment .comm .sc-comment .comment-send .comment-options {
+    height: 30px;
+    text-align: right;
+    padding-right: 80px;
+    color: #99a2aa;
+    line-height: 26px;
+    font-size: 12px;
+}
+
+.spruche-comment .comm .sc-comment .comment-send.no-login .comment-options {
+    display: none;
+}
+
+.spruche-comment .comm .sc-comment .comment-send .comment-options label {
+    margin-right: 0.5em;
+}
+
+.spruche-comment .comm .sc-comment .comment-send .comment-options .email-ipt {
+    font-size: 12px;
+    display: inline-block;
+    box-sizing: border-box;
+    background-color: #f4f5f7;
+    border: 1px solid #e5e9ef;
+    border-radius: 4px;
+    color: #555;
+    height: 30px;
+    transition: 0s;
+    line-height: 30px;
+    padding: 0 0.5em;
+    color: #99a2aa;
+}
+
 @media(max-width: 768px) {
+    .spruche-comment .comm .sc-comment .comment-list .hot-line {
+        margin-left: 50px;
+    }
+    .spruche-comment .comm .sc-comment .comment-list .hot-line span {
+        margin-left: -80px;
+    }
     .paging-box .prev, .paging-box .tcd-number, .paging-box .next, .paging-box .current .dian {
         margin: 0 2px;
     }

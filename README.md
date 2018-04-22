@@ -26,9 +26,10 @@ WebSite Config:
 - Duoshuo comment on import.
 - Support for weibo login, reply, praise, trample, reporting, and other functions of high level Servant comment box plug-in in appearance.
 - System upgrade to remind.
+- Email alerts.
 
 ### Environmental
-- Node.js >= 7.0
+- Node.js >= 7.6
 - mysql >= 5.5.3
 
 ## Install
@@ -50,6 +51,18 @@ module.exports = {
     database:'***',
     port: 3306,
     charset: 'utf8mb4'
+  },
+  email: {                                    // email config, only support SMTP
+    username: '邮件姬',                        // sender name, 发件人名称
+    options: {
+      host: '',                               // 邮箱主机地址
+      port: 25,                               // 端口 加密465
+      secure: false,                          // true for 465, false for other ports
+      auth: {
+        user: '',                             // 邮箱
+        pass: ''                              // 密码
+      },
+    },
   },
   wbApp: {                  // sina developer
     appKey: '***',

@@ -60,6 +60,10 @@ async function getPageCommentsAcount(threadKey) {
   }
 }
 
+function getSigleNoteComment(threadKey, id) {
+  return dbQuery(`SELECT a.*, b.username, b.email from comments as a left join users as b on (a.user_id = b.id) WHERE a.thread_key = '${threadKey}' AND a.state = 0 AND a.id = ${id} GROUP BY a.id DESC`);
+}
+
 /**
  * 获取页面评论
  */
@@ -67,6 +71,28 @@ async function getPageComments(threadKey, start, pageNumber, childrenNumber) {
   let comments = [];
   try {
     comments = await dbQuery(`select a.*, b.username, b.head_img, b.wb_id, b.url, count(c.id) like_amount, count(d.id) hate_amount from comments as a left join users as b on (a.user_id = b.id) left join user_like_comments as c on (a.id = c.comments_id AND c.state = 1) left join user_hate_comments as d on (a.id = d.comments_id AND d.state = 1) where a.thread_key = '${threadKey}' AND a.state = 0 AND a.parents = 0 GROUP by a.id DESC LIMIT ${start}, ${pageNumber}`);
+    const childrenPromises = comments.map(async comment => {
+      const children = await dbQuery(`select a.*, b.username, b.head_img, b.wb_id, b.url, count(c.id) like_amount from comments as a left join users as b on (a.user_id = b.id) left join user_like_comments as c on (a.id = c.comments_id AND c.state = 1) where a.parents = '${comment.id}' AND a.state = 0 GROUP by a.id ASC LIMIT 0, 3`);
+      comment.children = children;
+      return comment;
+    });
+    comments = await Promise.all(childrenPromises);
+    const childrenAmountPromises = comments.map(async comment => {
+      const cAmount = await dbQuery(`SELECT COUNT(*) FROM comments where parents = ${comment.id} AND state = 0`);
+      comment.childrenAmount = cAmount[0]['COUNT(*)'];
+      return comment
+    });
+    comments = await Promise.all(childrenAmountPromises);
+    return Promise.resolve(comments);
+  } catch (ex) {
+    return Promise.reject(ex);
+  }
+}
+
+async function getPageCommentsById(threadKey, id) {
+  let comments = [];
+  try {
+    comments = await dbQuery(`select a.*, b.username, b.head_img, b.wb_id, b.url, count(c.id) like_amount, count(d.id) hate_amount from comments as a left join users as b on (a.user_id = b.id) left join user_like_comments as c on (a.id = c.comments_id AND c.state = 1) left join user_hate_comments as d on (a.id = d.comments_id AND d.state = 1) where a.thread_key = '${threadKey}' AND a.state = 0 AND a.id = ${id} GROUP by a.id DESC`);
     const childrenPromises = comments.map(async comment => {
       const children = await dbQuery(`select a.*, b.username, b.head_img, b.wb_id, b.url, count(c.id) like_amount from comments as a left join users as b on (a.user_id = b.id) left join user_like_comments as c on (a.id = c.comments_id AND c.state = 1) where a.parents = '${comment.id}' AND a.state = 0 GROUP by a.id ASC LIMIT 0, 3`);
       comment.children = children;
@@ -196,4 +222,6 @@ module.exports = {
   getChildren: getChildren,                          // 获取子级评论
   likeAction: likeAction,                            // 点赞操作
   hateAction: hateAction,                            // 踩操作
+  getSigleNoteComment,
+  getPageCommentsById,
 };

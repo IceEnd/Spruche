@@ -36,6 +36,13 @@ function getUserById(id) {
 }
 
 /**
+ * 获取管理员信息
+ */
+function getAdmin() {
+  return dbQuery('SELECT * FROM users WHERE state = 0 AND type = 0');
+}
+
+/**
  * 判断用户登录状态
  */
 function getUserToken(uid, token) {
@@ -55,7 +62,7 @@ function getWBUser(wbUid) {
 }
 
 // 注册微博用户
-function registWBUser(user) {
+function registerWBUser(user) {
   let wbVerfied = 2;
   if (user.info.verified) {
     wbVerfied = 1;
@@ -97,14 +104,20 @@ function updateWBUserInfo(user) {
   return dbQuery(`UPDATE users set username = '${name}', head_img = '${avatar_large}', location = '${location}', url = '${url}', description = '${description}', gender = '${gender}', token = '${access_token}', expires = '${expiresDate}', latest_time = '${lasted}', wb_verfied = ${wbVerfied} where wb_id = '${idstr}'`);
 }
 
+function updateEmail(id, email) {
+  return dbQuery(`UPDATE users set email = '${email}' WHERE id = ${id}`);
+}
+
 module.exports = {
-  regUser: regUser,                     //  注册用户
-  login: login,                         //  用户登录
-  loginDate: loginDate,                 //  更新最近登陆日期
-  getUserById: getUserById,             //  查询用户信息
-  getUserToken: getUserToken,           //  获取登录态
-  updateInfo: updateInfo,               //  更新用户信息
-  getWBUser: getWBUser,                 //  获取微博用户
-  registerWBUser: registWBUser,         //  注册微博用户
-  updateWBUserInfo: updateWBUserInfo,   //  更新微博用户信息
+  regUser,
+  login,
+  loginDate,
+  getUserById,
+  getAdmin,
+  getUserToken,
+  updateInfo,
+  getWBUser,
+  registerWBUser,
+  updateWBUserInfo,
+  updateEmail,
 }
