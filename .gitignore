@@ -6,3 +6,4 @@
 .DS_Store
 .ftpconfig
 npm-debug.log
+package-lock.json
