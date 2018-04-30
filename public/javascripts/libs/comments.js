@@ -65,6 +65,10 @@
                 '<div class="textarea-container">' + baffle +
                   '<textarea class="comment-textarea" cols="80" name="msg" rows="5" placeholder="'+this.options.placeholder+'" class="ipt-txt"></textarea><button type="submit" class="comment-submit" data-status="ready" data-rid="0" data-pid="0" data-type="parents">发表评论</button>' +
                 '</div>' +
+                '<div class="comment-options no-login">' +
+                  '<label>e-mail:</label>' +
+                  '<input class="email-ipt" placeholder="请输入联系邮箱"/>' +
+                '</div>' +
                 // '<div class="comment-emoji">' +
                 //   '<i class="face"></i><span class="text">表情</span>' +
                 // '</div>' +
@@ -75,7 +79,7 @@
           '<div class="tips-container"></div>' +
         '</div>';
       this.$container.html(html);
-      this.getComments();
+      this.getComments(true);
       this.getUserInfo();
     },
 
@@ -115,11 +119,15 @@
           if (httpReg.test(headImg)) {
             headImg = headImg.replace(/^http/g,'https');
           }
-          user.head_img = headImg;
           _container.find('.user-face .user-head').attr('src', headImg);
           isLogin = true;
           _container.find('.comment-send').removeClass('no-login');
-          user = response.retData;
+          if (user.type === 0) { // admin
+            _container.find('.comment-send .comment-options').remove();
+          } else {
+            _container.find('.comment-send .email-ipt').val(user.email);
+          }
+          user.head_img = headImg;
         } else {
           // to do something
         }
@@ -134,12 +142,16 @@
       return result[1];
     },
 
-    getComments: function () {
+    getComments: function (needGetTarget) {
       var form = {
         threadKey: this.options.threadKey,
         pageNumber: this.options.pageNumber,
         childrenNumber: this.options.childrenNumber
       };
+      if (needGetTarget) {
+        var cpid = this.getQueryStringByName('cpid') || 0;
+        form.cpid = cpid;
+      }
       var _container = this.$container;
       var _this = this;
       this.ajaxFunc('/comments/getcomments', form, function (response) {
@@ -148,7 +160,13 @@
           _container.find('.comment-list .comment-list-status').html('英灵召唤失败，再来一次十连抽(・ω・)');
         } else {
           _container.find('.comment-list').attr('data-status', 'success');
-          var html = _this.renderCommentsHtml(response.retData.comments);
+          var targetHtml = '';
+          var firstNoBorder = false;
+          if (needGetTarget && response.retData.targetComments) {
+            targetHtml = _this.renderCommentsHtml(response.retData.targetComments, true);
+            firstNoBorder = true;
+          }
+          var html = targetHtml + _this.renderCommentsHtml(response.retData.comments, false, firstNoBorder);
           _container.find('.comment-list').html(html);
           _container.find('.sc-head .sc-head-t.result').text(response.retData.page.count);
           var pagesNumber = Math.ceil(response.retData.page.amount / _this.options.pageNumber);
@@ -183,10 +201,26 @@
       });
     },
 
-    renderCommentsHtml: function (comments) {
+    renderCommentsHtml: function (comments, isTargetComments, firstNoBorder) {
       var html = '<ul class="comments-ul">';
+      if (isTargetComments) {
+        var html = '<ul class="comments-ul target-comments-ul">';
+      }
+      var email = '';
+      var emailDiv = '';
+      if (user.type !== 0) {
+        email = user.email;
+        emailDiv = '<div class="comment-options">' +
+          '<label>e-mail:</label>' +
+          '<input class="email-ipt" value="' + email +'" placeholder="请输入联系邮箱" />' +
+        '</div>';
+      }
       // var httpReg = /^http:\/\//g;
       for (var i = 0; i < comments.length; i++) {
+        var noBorder= '';
+        if (i === 0 && firstNoBorder) {
+          noBorder = 'no-border';
+        }
         var childrenHtml = '<ul class="reply-box" data-amount="' + comments[i].childrenAmount +'">';
         childrenHtml += this.renderChildrenHtml(comments[i].children);
         if (comments[i].childrenAmount > 3) {
@@ -218,7 +252,7 @@
             '<div class="user-face" data-usercard-mid="'+ comments[i].id +'">' +
               '<a ' + wbUrl + '><img src="' + headimg + '" alt=""></a>' +
             '</div>' +
-            '<div class="con no-border">' +
+            '<div class="con ' + noBorder +'">' +
               '<div class="user">' +
                 '<a data-usercard-mid="' + comments[i].user_id +'" class="name " ' + wbUrl + '>' + username +'</a>' +
               '</div>' +
@@ -238,13 +272,16 @@
                 '<div class="textarea-container">' +
                   '<textarea class="comment-textarea" cols="80" name="msg" rows="5" placeholder="' + this.options.placeholder + '" class="ipt-txt"></textarea>' +
                   '<button type="submit" class="comment-submit" data-rid="" data-pid="" data-status="ready" data-type="children">发表评论</button>' +
-                '</div>' +
+                '</div>' + emailDiv +
                 // '<div class="comment-emoji"><i class="face"></i><span class="text">表情</span></div>' +
               '</div>' +
             '</div>' +
           '</li>';
       }
       html += '</ul>'
+      if (isTargetComments && comments.length > 0) {
+        html += '<div class="hot-line"><span>以上为回复评论</span></div>';
+      }
       return html;
     },
 
@@ -409,6 +446,12 @@
       }, 1500);
     },
 
+    // 判断邮箱格式是否合理
+    checkEmail: function(email) {
+      var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+      return reg.test(email);
+    },
+
     bindEvents: function () {
       var _ajaxFunc = this.ajaxFunc;
       var _container = this.$container;
@@ -482,6 +525,12 @@
 
       _container.on('click', '.comment-submit', function () {
         var $textarea = $(this).prev('.comment-textarea');
+        var email = '';
+        if (user.type === 0) {
+          email = user.email;
+        } else {
+          var email = $(this).parents('.comment-send').find('.comment-options .email-ipt').val();
+        }
         if (!_options.commentAble) {
           _this.showTips('主人还不准你调戏评论框～');
           return ;
@@ -499,8 +548,16 @@
           _this.showTips('1000字以内，乌螺塞 (╬￣皿￣)凸');
           return ;
         }
+        if (!email) {
+          _this.showTips('输入邮箱才能发表评论哦～');
+          return;
+        }
+        if (!_this.checkEmail(email)) {
+          _this.showTips('邮箱格式不正确！');
+          return;
+        }
         if ($(this).attr('data-status') !== 'ready') {
-          _this.showTips('正在发送，骚年 (╬￣皿￣)凸');
+          _this.showTips('正在发送，稍安勿躁 (╬￣皿￣)凸');
           return ;
         }
         $(this).attr('data-status', 'sending');
@@ -513,7 +570,8 @@
           title: _options.title,
           userAgent: navigator.userAgent,
           pid: parents,
-          rid: parseInt($(this).attr('data-rid'))
+          rid: parseInt($(this).attr('data-rid')),
+          email: email,
         };
         _ajaxFunc('/comments/sendComments', form, function (response) {
           if (response.retCode === 0) {
